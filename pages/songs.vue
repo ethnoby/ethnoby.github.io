@@ -1,6 +1,18 @@
 <template>
   <div class="songs">
     <h1>Спіс песень</h1>
+    <v-chip-group>
+      <v-chip class="ma-2" close>
+        Бяседныя песні
+      </v-chip>
+      <v-chip class="ma-2" close>
+        Калядыня песні
+      </v-chip>
+      <v-chip class="ma-2" close>
+        Веснавыя песні
+      </v-chip>
+    </v-chip-group>
+
     <v-list>
       <template v-for="(item, i) in items">
         <v-list-item
@@ -9,12 +21,15 @@
           router
           exact
         >
+          <v-list-item-icon>
+            <v-icon>mdi-play</v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
             <v-list-item-subtitle>{{ item.location }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-divider :key="i" />
+        <v-divider :key="100+i" />
       </template>
     </v-list>
   </div>
@@ -22,6 +37,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   data () {
     return {
       items: [

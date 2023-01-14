@@ -45,6 +45,29 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    ['@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: 'AIzaSyA4ztBwG6EThS8jK1r0vgZXaab7VeLuOy8',
+          authDomain: 'vue-firebase-auth-f4de9.firebaseapp.com',
+          databaseURL: 'https://vue-firebase-auth-f4de9.firebaseio.com',
+          projectId: 'vue-firebase-auth-f4de9',
+          storageBucket: 'vue-firebase-auth-f4de9.appspot.com',
+          messagingSenderId: '826543119473',
+          appId: '1:826543119473:web:baadccd4006005e2250fd0',
+          measurementId: 'G-ZW5DG7RT3J'
+        },
+        services: {
+          auth: {
+            initialize: {
+              onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION'
+              // onAuthStateChangedAction: 'onAuthStateChangedAction'
+            }
+          }
+        }
+      }
+    ],
+
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
@@ -62,7 +85,8 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'en',
+      background_color: '#600'
     }
   },
 
@@ -76,7 +100,7 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: colors.red.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
