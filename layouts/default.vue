@@ -7,6 +7,7 @@
       fixed
       app
     >
+      <v-img contain max-height="60" src="https://ethno.by/assets/images/ethno.by-logo-c-tr.png" alt="" />
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -35,18 +36,6 @@
         @click.stop="miniVariant = !miniVariant"
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
@@ -80,10 +69,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-footer
-      :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; Ethno.by {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -94,24 +82,34 @@ export default {
   data () {
     return {
       clipped: false,
-      drawer: false,
+      drawer: true,
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-home',
+          title: 'Пачатак',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-playlist-music',
+          title: 'Песні',
+          to: '/songs'
+        },
+        {
+          icon: 'mdi-violin',
+          title: 'Найгрышы',
+          to: '/tunes'
+        },
+        {
+          icon: 'mdi-dance-ballroom',
+          title: 'Танцы',
+          to: '/dances'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Ethnoby'
     }
   }
 }
