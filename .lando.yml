@@ -1,16 +1,26 @@
-name: ethnoby_nuxt
+name: ethnoby-nuxt
 proxy:
   appserver:
-    - ethnoby_nuxt.lndo.site
+    - ethnoby-nuxt.lndo.site
 services:
   appserver:
     type: node:16
-    command: "yarn dev --hostname 0.0.0.0 --port 80"
-    # install_dependencies_as_me:
-    #   - yarn install
-# events:
-#   pre-start:
-#     - yarn install
+    ssl: true
+    build_as_root:
+      - yarn install
 
-exclude:
-  - node_modules
+tooling:
+  yarn:
+    service: appserver
+  dev:
+    description: Start serving the project in development mode
+    service: appserver
+    cmd:
+      - echo "============ Starting server for development... ==========="
+      - yarn dev --hostname 0.0.0.0 --port 80
+  build:
+    description: Building the project into static
+    service: appserver
+    cmd:
+      - echo "============ Building project... ==========="
+      - yarn build
