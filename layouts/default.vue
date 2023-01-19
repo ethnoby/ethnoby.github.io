@@ -10,8 +10,42 @@
       <v-img contain max-height="60" src="https://ethno.by/assets/images/ethno.by-logo-c-tr.png" alt="" />
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          to="/"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Уваход</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider />
+        <v-subheader>
+          Абраныя раздзелы
+        </v-subheader>
+        <v-list-item
+          v-for="(item, i) in favoriteItems"
           :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider />
+        <v-subheader>
+          Усе раздзелы
+        </v-subheader>
+        <v-list-item
+          v-for="(item, i) in allItems"
+          :key="20+i"
           :to="item.to"
           router
           exact
@@ -35,15 +69,24 @@
       <v-spacer />
       <v-btn
         icon
+        @click.prevent="$vuetify.theme.dark = !$vuetify.theme.dark"
+      >
+        <v-icon>mdi-theme-light-dark</v-icon>
+      </v-btn>
+      <v-btn
+        icon
         @click.stop="rightDrawer = !rightDrawer"
       >
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
+      <v-btn
+        icon
+      >
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
     <v-navigation-drawer
       v-model="rightDrawer"
@@ -78,12 +121,7 @@ export default {
       clipped: false,
       drawer: true,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-home',
-          title: 'Пачатак',
-          to: '/'
-        },
+      favoriteItems: [
         {
           icon: 'mdi-playlist-music',
           title: 'Песні',
@@ -95,9 +133,37 @@ export default {
           to: '/tunes'
         },
         {
-          icon: 'mdi-dance-ballroom',
+          // icon: 'mdi-dance-ballroom',
+          icon: 'mdi-shoe-print',
           title: 'Танцы',
           to: '/dances'
+        }
+      ],
+      allItems: [
+        {
+          icon: 'mdi-music-box-multiple',
+          title: 'Аўдыётэка',
+          to: '/audio'
+        },
+        {
+          icon: 'mdi-filmstrip-box-multiple',
+          title: 'Відэатэка',
+          to: '/video'
+        },
+        {
+          icon: 'mdi-image-multiple',
+          title: 'Фотатэка',
+          to: '/pictures'
+        },
+        {
+          icon: 'mdi-bookshelf',
+          title: 'Кнігі',
+          to: '/books'
+        },
+        {
+          icon: 'mdi-newspaper-variant-multiple',
+          title: 'Прэса',
+          to: '/press'
         }
       ],
       miniVariant: false,

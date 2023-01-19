@@ -1,5 +1,5 @@
 <template>
-  <div class="songs">
+  <v-container fluid class="songs">
     <h1>Спіс песень</h1>
     <v-chip-group>
       <v-chip class="ma-2" close>
@@ -32,7 +32,7 @@
         <v-divider :key="100+i" />
       </template>
     </v-list>
-  </div>
+  </v-container>
 </template>
 
 <script>
