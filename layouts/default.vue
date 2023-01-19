@@ -18,7 +18,7 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Уваход</v-list-item-title>
+            <v-list-item-title>Галоўная</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider />
@@ -38,6 +38,11 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
+          <v-list-item-action v-if="!currentUser">
+            <v-icon color="grey" title="Залагіньцеся каб пабачыць змест раздзела">
+              mdi-lock
+            </v-icon>
+          </v-list-item-action>
         </v-list-item>
         <v-divider />
         <v-subheader>
@@ -79,11 +84,74 @@
       >
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
-      <v-btn
-        icon
-      >
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <template #activator="{ on }">
+          <v-btn
+            icon
+            color="primary"
+            dark
+            v-on="on"
+          >
+            <v-avatar
+              v-if="currentUser"
+              size="32"
+            >
+              <img
+                :src="currentUser.avatar"
+                :alt="currentUser.displayName"
+                :title="currentUser.displayName"
+              >
+            </v-avatar>
+            <v-icon v-else>
+              mdi-account
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <v-list v-if="currentUser">
+          <v-list-item two-line>
+            <v-list-item-avatar>
+              <img
+                :src="currentUser.avatar"
+                :alt="currentUser.displayName"
+                :title="currentUser.displayName"
+              >
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ currentUser.displayName }}</v-list-item-title>
+              <v-list-item-subtitle>{{ currentUser.email }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/">
+            <v-list-item-icon>
+              <v-icon>mdi-notebook-heart-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Упадабанае</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/">
+            <v-list-item-icon>
+              <v-icon>mdi-bookmark-box-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Мае калекцыі</v-list-item-title>
+          </v-list-item>
+          <v-divider />
+          <!-- <v-subheader>SETTINGS</v-subheader> -->
+          <v-list-item @click.prevent="signOut">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Выйсці</v-list-item-title>
+          </v-list-item>
+        </v-list>
+        <v-list v-else>
+          <v-list-item to="/login">
+            <v-list-item-icon>
+              <v-icon>mdi-login</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Увайсці</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -170,6 +238,19 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Ethnoby'
+    }
+  },
+
+  computed: {
+    currentUser () {
+      return this.$store.state.user
+    }
+  },
+
+  methods: {
+    signOut () {
+      this.$fire.auth.signOut()
+      window.location = '/login'
     }
   }
 }

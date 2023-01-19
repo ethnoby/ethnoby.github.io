@@ -7,29 +7,21 @@
         :src="item"
       />
     </v-carousel>
-    <v-row justify="center" align="center">
-      <v-col cols="12" sm="8" md="6">
-        <v-card>
-          <v-card-title class="headline" center>
-            Вітаем<span v-if="currentUser">, {{ currentUser.displayName }}</span>
-          </v-card-title>
-          <v-card-text elevcation="2" class="pa-5">
-            <SignIn v-if="!currentUser" />
-            <v-btn v-else color="primary" @click="signOut()">
-              Выйсці
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <div class="cards d-flex flex-wrap align-start align-self-start">
+      <v-skeleton-loader
+        v-for="i in 20"
+        :key="i"
+        class="ma-2"
+        width="220"
+        type="card"
+      />
+    </div>
   </v-container>
 </template>
 
 <script>
-import SignIn from '../components/SignInBlock.vue'
 export default {
   name: 'IndexPage',
-  components: { SignIn },
   data: () => ({
     model: 0,
     carouselItems: [
@@ -37,18 +29,6 @@ export default {
       'https://picsum.photos/800/250',
       'https://picsum.photos/801/250'
     ]
-  }),
-  computed: {
-    currentUser () {
-      return this.$store.state.user
-    }
-  },
-  methods: {
-    signOut () {
-      // eslint-disable-next-line no-console
-      console.log('Signed Out')
-      this.$fire.auth.signOut()
-    }
-  }
+  })
 }
 </script>
