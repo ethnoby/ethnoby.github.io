@@ -74,6 +74,12 @@
       <v-spacer />
       <v-btn
         icon
+        to="/search"
+      >
+        <v-icon>mdi-text-search</v-icon>
+      </v-btn>
+      <v-btn
+        icon
         @click.prevent="$vuetify.theme.dark = !$vuetify.theme.dark"
       >
         <v-icon>mdi-theme-light-dark</v-icon>
