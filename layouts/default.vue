@@ -150,7 +150,7 @@
           </v-list-item>
         </v-list>
         <v-list v-else>
-          <v-list-item to="/login">
+          <v-list-item to="/signin">
             <v-list-item-icon>
               <v-icon>mdi-login</v-icon>
             </v-list-item-icon>
