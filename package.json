@@ -22,7 +22,10 @@
     "firebaseui": "^6.0.2",
     "md5": "^2.3.0",
     "nuxt": "^2.15.8",
+    "typesense": "^1.4.4",
+    "typesense-instantsearch-adapter": "^2.4.2",
     "vue": "^2.7.10",
+    "vue-instantsearch": "^4.7.2",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
     "vuetify": "^2.6.10"
