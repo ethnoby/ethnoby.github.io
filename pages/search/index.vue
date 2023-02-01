@@ -77,7 +77,7 @@
             />
 
             <div v-if="item.performer" class="caption text-left">
-              <strong class="text--secondary">Выканаўцы: {{ query }} </strong>
+              <strong class="text--secondary">Выканаўцы:</strong>
               <ais-highlight attribute="performer" :hit="item" />
             </div>
 
