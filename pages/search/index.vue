@@ -5,7 +5,7 @@
       index-name="songs"
     >
       <ais-search-box>
-        <template #default="{ currentRefinement, isSearchStalled, refine }">
+        <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
           <v-text-field
             ref="searchbox"
             filled
@@ -15,7 +15,14 @@
             :value="currentRefinement"
             @input="refine($event)"
           />
-          <span :hidden="!isSearchStalled">Loading...</span>
+          <template v-if="isSearchStalled">
+            <v-skeleton-loader
+              v-for="i in hitsPerPage"
+              :key="i"
+              class="ma-2"
+              type="article"
+            />
+          </template>
         </template>
       </ais-search-box>
 
@@ -30,15 +37,24 @@
         <template
           #default="{
             nbPages,
+            nbHits,
             refine
           }"
         >
           <v-pagination
+            v-if="nbHits"
             v-model="currentPage"
             :length="nbPages"
             :total-visible="7"
             @input="refine(currentPage-1)"
           />
+          <v-banner
+            v-else
+            icon="mdi-magnify-expand"
+            icon-color="error"
+          >
+            Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас ніц няма, спрабуйце іначай
+          </v-banner>
         </template>
       </ais-pagination>
 
@@ -54,14 +70,14 @@
               v-if="item.audio_url"
               class="mt-2 mb-2"
               width="100%"
-              height="120"
               scrolling="no"
               frameborder="no"
-              :src="`https://w.soundcloud.com/player/?url=${item.audio_url}&color=%238d1802&inverse=true&auto_play=false&show_user=false`"
+              :height="$vuetify.breakpoint.mobile ? 20 : 120"
+              :src="`https://w.soundcloud.com/player/?url=${item.audio_url}&color=%238d1802&inverse=${ $vuetify.theme.dark }&auto_play=false&show_user=false&hide_related=true&show_comments=true&show_reposts=false&show_teaser=false`"
             />
 
             <div v-if="item.performer" class="caption text-left">
-              <strong class="text--secondary">Выканаўцы:</strong>
+              <strong class="text--secondary">Выканаўцы: {{ query }} </strong>
               <ais-highlight attribute="performer" :hit="item" />
             </div>
 
@@ -95,7 +111,7 @@
                 small
               >
                 <ais-highlight
-                  :attribute="'location.' + location_index"
+                  :attribute="`location.${location_index}`"
                   :hit="item"
                 />
               </v-chip>
