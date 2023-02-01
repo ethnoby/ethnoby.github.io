@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <h1>Песні</h1>
     <SearchBlock
       collection="songs"
     />
