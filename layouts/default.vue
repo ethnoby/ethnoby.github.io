@@ -210,7 +210,7 @@ export default {
           // icon: 'mdi-dance-ballroom',
           icon: 'mdi-shoe-print',
           title: 'Танцы',
-          to: '/dances'
+          to: '/tunes'
         }
       ],
       allItems: [
