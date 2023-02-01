@@ -13,6 +13,8 @@ import SearchBlock from '~/components/search/SearchBlock'
 export default {
   components: {
     SearchBlock
-  }
+  },
+
+  middleware: 'auth'
 }
 </script>
