@@ -12,7 +12,7 @@
     </div>
 
     <v-list v-else>
-      <template v-for="(item, i) in items">
+      <template v-for="(item, i) in itemsJSON">
         <v-list-item
           :key="i"
           :to="`songs/${item.id || item.document.id }`"
@@ -24,7 +24,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ item.name || item.document.name }}</v-list-item-title>
-            <v-list-item-subtitle>{{ item.location ? item.location[0] :  item.document.location[0] }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ item.location ? item.location[0] : item.document.location[0] }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider :key="100+i" />
