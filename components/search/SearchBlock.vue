@@ -62,7 +62,9 @@
         <div v-for="item in items" :key="item.objectID">
           <h4 class="h4">
             {{ item.__position }}.
-            <ais-highlight attribute="name" :hit="item" />
+            <nuxt-link :to="`songs/${item.id}`">
+              <ais-highlight attribute="name" :hit="item" />
+            </nuxt-link>
           </h4>
 
           <iframe
