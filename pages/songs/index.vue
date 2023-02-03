@@ -57,11 +57,25 @@ import client from '~/components/search/client.js'
 export default {
   name: 'IndexPage',
   middleware: 'auth',
+
+  async asyncData () {
+    return {
+      itemsJSON: await client.collections('songs')
+        .documents()
+        .export({
+          include_fields: 'name, id, location'
+        })
+        .then((res) => {
+          return JSON.parse(`[${res}]`.replace(/\n/g, ','))
+        })
+    }
+  },
+
   data: () => ({
     model: 0,
     items: [],
     jsonl: '',
-    itemsJSON: [],
+    // itemsJSON: [],
     carouselItems: [
       'https://picsum.photos/750/250',
       'https://picsum.photos/800/250',
@@ -69,32 +83,32 @@ export default {
     ]
   }),
 
-  async fetch () {
-    const searchParameters = {
-      q: '*',
-      // sort_by: 'name:desc',
-      query_by: 'name'
-    }
-    await client.collections('songs')
-      .documents()
-      .search(searchParameters)
-      .then((results) => {
-        this.items = results.hits
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error)
-      })
+  // async fetch () {
+  //   const searchParameters = {
+  //     q: '*',
+  //     // sort_by: 'name:desc',
+  //     query_by: 'name'
+  //   }
+  //   await client.collections('songs')
+  //     .documents()
+  //     .search(searchParameters)
+  //     .then((results) => {
+  //       this.items = results.hits
+  //     })
+  //     .catch((error) => {
+  //       // eslint-disable-next-line no-console
+  //       console.log(error)
+  //     })
 
-    this.jsonl = await client.collections('songs')
-      .documents()
-      .export({
-        include_fields: 'name, id, location'
-      })
+  //   this.jsonl = await client.collections('songs')
+  //     .documents()
+  //     .export({
+  //       include_fields: 'name, id, location'
+  //     })
 
-    this.jsonl = `[${this.jsonl}]`.replace(/\n/g, ',') // add brackets and commas
-    this.itemsJSON = JSON.parse(this.jsonl)
-  },
+  //   this.jsonl = `[${this.jsonl}]`.replace(/\n/g, ',') // add brackets and commas
+  //   this.itemsJSON = JSON.parse(this.jsonl)
+  // },
 
   computed: {
     // items () {
