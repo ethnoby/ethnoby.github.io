@@ -25,6 +25,7 @@ export default {
   },
 
   router: {
+    prefetchLinks: true,
     base: '/ethnoby-nuxt-test/'
   },
 
@@ -107,8 +108,9 @@ export default {
     color: '#8d1802',
     height: '5px'
   },
+
   loadingIndicator: {
-    name: 'circle',
+    name: 'pulse',
     color: '#8d1802',
     background: '#121212'
   },
@@ -117,6 +119,7 @@ export default {
   pwa: {
     manifest: {
       name: 'Ethnoby App',
+      display: 'standalone',
       lang: 'en',
       background_color: '#121212'
     }
