@@ -65,14 +65,17 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
       fixed
       app
+      :clipped-left="clipped"
+      :color="$vuetify.breakpoint.mobile ? '#8d1802' : false"
+      :dark="$vuetify.breakpoint.mobile"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
       <v-btn
+        v-if="!$vuetify.breakpoint.mobile"
         icon
         to="/search"
       >
@@ -85,12 +88,13 @@
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
       <v-btn
+        v-if="!$vuetify.breakpoint.mobile"
         icon
         @click.stop="rightDrawer = !rightDrawer"
       >
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
-      <v-menu offset-y>
+      <v-menu v-if="!$vuetify.breakpoint.mobile" offset-y>
         <template #activator="{ on }">
           <v-btn
             icon
@@ -179,6 +183,44 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
+    <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
+      <v-btn to="/songs">
+        <span>Песні</span>
+
+        <v-icon>mdi-playlist-music</v-icon>
+      </v-btn>
+
+      <v-btn to="/search">
+        <span>Пошук</span>
+
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <!-- <v-btn @click.stop="rightDrawer = !rightDrawer">
+        <span>Абранае</span>
+
+        <v-icon>mdi-heart</v-icon>
+      </v-btn> -->
+
+      <v-btn to="/signin">
+        <span>Профіль</span>
+        <v-avatar
+          v-if="currentUser"
+          size="24"
+        >
+          <img
+            :src="currentUser.avatar"
+            :alt="currentUser.displayName"
+            :title="currentUser.displayName"
+          >
+        </v-avatar>
+        <v-icon v-else>
+          mdi-account
+        </v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+
     <!-- <v-footer
       app
     >

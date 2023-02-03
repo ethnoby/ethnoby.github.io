@@ -121,6 +121,7 @@ export default {
       name: 'Ethnoby App',
       display: 'standalone',
       lang: 'en',
+      theme_color: '#8d1802',
       background_color: '#121212'
     }
   },
