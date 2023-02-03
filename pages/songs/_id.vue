@@ -12,7 +12,7 @@
     <!-- <p>Path: {{ $route.path }}</p> -->
     <v-card>
       <iframe
-        v-if="item.audio_url"
+        v-if="item.audio_url && $store.state.user"
         class="mt-2 mb-2"
         width="100%"
         scrolling="no"

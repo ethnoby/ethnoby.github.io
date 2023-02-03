@@ -62,13 +62,13 @@
         <div v-for="item in items" :key="item.objectID">
           <h4 class="h4">
             {{ item.__position }}.
-            <nuxt-link :to="`songs/${item.id}`">
+            <nuxt-link :to="`songs/${item.id}/`">
               <ais-highlight attribute="name" :hit="item" />
             </nuxt-link>
           </h4>
 
           <iframe
-            v-if="item.audio_url"
+            v-if="false && item.audio_url"
             class="mt-2 mb-2"
             width="100%"
             scrolling="no"

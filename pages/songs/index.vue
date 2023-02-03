@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <h1>Песні: {{ itemsJSON.length }}</h1>
-    <div v-if="$fetchState.pending" class="cards d-flex flex-wrap align-start align-self-start">
+    <!-- <div v-if="$fetchState.pending" class="cards d-flex flex-wrap align-start align-self-start">
       <v-skeleton-loader
         v-for="i in 5"
         :key="i"
@@ -9,13 +9,13 @@
         width="220"
         type="card"
       />
-    </div>
+    </div> -->
 
-    <v-list v-else>
+    <v-list>
       <template v-for="(item, i) in itemsJSON">
         <v-list-item
           :key="i"
-          :to="`songs/${item.id || item.document.id }`"
+          :to="`songs/${item.id || item.document.id }/`"
           router
           exact
         >
@@ -56,7 +56,7 @@ import client from '~/components/search/client.js'
 
 export default {
   name: 'IndexPage',
-  middleware: 'auth',
+  // middleware: 'auth',
 
   async asyncData () {
     return {
@@ -74,13 +74,8 @@ export default {
   data: () => ({
     model: 0,
     items: [],
-    jsonl: '',
+    jsonl: ''
     // itemsJSON: [],
-    carouselItems: [
-      'https://picsum.photos/750/250',
-      'https://picsum.photos/800/250',
-      'https://picsum.photos/801/250'
-    ]
   }),
 
   // async fetch () {

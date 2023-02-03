@@ -2,12 +2,21 @@ name: ethnoby-nuxt
 proxy:
   appserver:
     - ethnoby-nuxt.lndo.site
+  webserver:
+    - ethnoby-build.lndo.site
 services:
   appserver:
     type: node:16
     ssl: true
     build_as_root:
       - yarn install
+  webserver:
+    type: apache
+    webroot: dist
+    ssl: true
+    # build_as_root:
+    #   - yarn generate
+
 
 tooling:
   yarn:

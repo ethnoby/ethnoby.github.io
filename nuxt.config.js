@@ -18,7 +18,7 @@ export default {
         .then((res) => {
           const items = JSON.parse(`[${res}]`.replace(/\n/g, ','))
           return items.map((item) => {
-            return '/songs/' + item.id
+            return `/songs/${item.id}/`
           })
         })
     }
@@ -103,11 +103,22 @@ export default {
     baseURL: '/'
   },
 
+  loading: {
+    color: '#8d1802',
+    height: '5px'
+  },
+  loadingIndicator: {
+    name: 'circle',
+    color: '#8d1802',
+    background: '#121212'
+  },
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
+      name: 'Ethnoby App',
       lang: 'en',
-      background_color: '#600'
+      background_color: '#121212'
     }
   },
 

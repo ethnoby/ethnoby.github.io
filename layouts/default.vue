@@ -256,7 +256,7 @@ export default {
   methods: {
     signOut () {
       this.$fire.auth.signOut()
-      window.location = '/login'
+      window.location = '/signin'
     }
   }
 }
