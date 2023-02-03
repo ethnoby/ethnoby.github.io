@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import client from './components/search/client.js'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -6,6 +7,22 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+
+  generate: {
+    routes () {
+      return client.collections('songs')
+        .documents()
+        .export({
+          include_fields: 'id'
+        })
+        .then((res) => {
+          const items = JSON.parse(`[${res}]`.replace(/\n/g, ','))
+          return items.map((item) => {
+            return '/songs/' + item.id
+          })
+        })
+    }
+  },
 
   router: {
     base: '/ethnoby-nuxt-test/'

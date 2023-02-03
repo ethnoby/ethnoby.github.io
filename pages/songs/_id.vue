@@ -48,7 +48,6 @@
 import client from '~/components/search/client.js'
 
 export default {
-
   async asyncData ({ params, redirect }) {
     return {
       // section: 'songs',
@@ -63,6 +62,12 @@ export default {
         slug: 'songs',
         caption: 'Песні'
       }
+    }
+  },
+
+  head () {
+    return {
+      title: this.item.name
     }
   }
 }
