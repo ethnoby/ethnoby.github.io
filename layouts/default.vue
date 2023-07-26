@@ -186,7 +186,13 @@
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
       <v-btn to="/songs">
-        <span>Песні</span>
+        <span>Песні!!</span>
+
+        <v-icon>mdi-playlist-music</v-icon>
+      </v-btn>
+
+      <v-btn to="/songs/ceremony">
+        <span>Абрадавыя Песні</span>
 
         <v-icon>mdi-playlist-music</v-icon>
       </v-btn>
@@ -242,6 +248,11 @@ export default {
           icon: 'mdi-playlist-music',
           title: 'Песні',
           to: '/songs'
+        },
+        {
+          icon: 'mdi-playlist-music',
+          title: 'Абрадавыя Песні',
+          to: '/songs/ceremony'
         },
         {
           icon: 'mdi-violin',

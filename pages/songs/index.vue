@@ -1,6 +1,8 @@
 <template>
   <v-container fluid>
-    <h1>Песні: {{ itemsJSON.length }}</h1>
+
+    <!--    <h1>Песні: {{ itemsJSON.length }}</h1>-->
+    <song-list :song-list="itemsJSON" />
     <!-- <div v-if="$fetchState.pending" class="cards d-flex flex-wrap align-start align-self-start">
       <v-skeleton-loader
         v-for="i in 5"
@@ -8,28 +10,29 @@
         class="ma-2"
         width="220"
         type="card"
+
       />
     </div> -->
 
-    <v-list>
-      <template v-for="(item, i) in itemsJSON">
-        <v-list-item
-          :key="i"
-          :to="`songs/${item.id || item.document.id }/`"
-          router
-          exact
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-play</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.name || item.document.name }}</v-list-item-title>
-            <v-list-item-subtitle>{{ item.location ? item.location[0] : item.document.location[0] }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider :key="100+i" />
-      </template>
-    </v-list>
+    <!--    <v-list>-->
+    <!--      <template v-for="(item, i) in itemsJSON">-->
+    <!--        <v-list-item-->
+    <!--          :key="i"-->
+    <!--          :to="`songs/${item.id || item.document.id }/`"-->
+    <!--          router-->
+    <!--          exact-->
+    <!--        >-->
+    <!--          <v-list-item-icon>-->
+    <!--            <v-icon>mdi-play</v-icon>-->
+    <!--          </v-list-item-icon>-->
+    <!--          <v-list-item-content>-->
+    <!--            <v-list-item-title>{{ item.name || item.document.name }}</v-list-item-title>-->
+    <!--            <v-list-item-subtitle>{{ item.location ? item.location[0] : item.document.location[0] }}</v-list-item-subtitle>-->
+    <!--          </v-list-item-content>-->
+    <!--        </v-list-item>-->
+    <!--        <v-divider :key="100+i" />-->
+    <!--      </template>-->
+    <!--    </v-list>-->
 
     <!-- <div v-else class="cards d-flex flex-wrap align-start align-self-start">
       <v-card
@@ -53,16 +56,26 @@
 
 <script>
 import client from '~/components/search/client.js'
+import songList from '~/components/SongList'
 
 export default {
   name: 'IndexPage',
+  components: {
+    songList
+  },
   // middleware: 'auth',
 
   async asyncData () {
     return {
       itemsJSON: await client.collections('songs')
         .documents()
+        // .search({
+        //   q: '*',
+        //   filter_by: 'tags:=песні абрадавыя'
+        // }
+        // )
         .export({
+          // filter_by: 'tags:=песні абрадавыя',
           include_fields: 'name, id, location'
         })
         .then((res) => {
@@ -74,7 +87,8 @@ export default {
   data: () => ({
     model: 0,
     items: [],
-    jsonl: ''
+    jsonl: '',
+    count: 67
     // itemsJSON: [],
   }),
 

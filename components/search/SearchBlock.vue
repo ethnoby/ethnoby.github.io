@@ -25,6 +25,22 @@
       </template>
     </ais-search-box>
 
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-header>
+          Фільтр Лакацый
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ais-hierarchical-menu
+            :attributes="['country', 'region', 'district']"
+            :class-names="{
+              'ais-HierarchicalMenu-link--selected': 'text--secondary'
+            }"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
       <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
         <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
@@ -57,69 +73,42 @@
       </template>
     </ais-pagination>
 
-    <ais-hits>
+    <ais-hits :escapeHTML="false">
       <template #default="{ items }">
+
         <div v-for="item in items" :key="item.objectID">
-          <h4 class="h4">
-            {{ item.__position }}.
-            <nuxt-link :to="`songs/${item.id}/`">
-              <ais-highlight attribute="name" :hit="item" />
-            </nuxt-link>
-          </h4>
-
-          <iframe
-            v-if="false && item.audio_url"
-            class="mt-2 mb-2"
-            width="100%"
-            scrolling="no"
-            frameborder="no"
-            :height="$vuetify.breakpoint.mobile ? 20 : 120"
-            :src="`https://w.soundcloud.com/player/?url=${item.audio_url}&color=%238d1802&inverse=${ $vuetify.theme.dark }&auto_play=false&show_user=false&hide_related=true&show_comments=true&show_reposts=false&show_teaser=false`"
-          />
-
-          <div v-if="item.performer" class="caption text-left">
-            <strong class="text--secondary">Выканаўцы:</strong>
-            <ais-highlight attribute="performer" :hit="item" />
-          </div>
-
-          <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption">
-            <strong class="text--secondary">Знойдзена ў тэксце:</strong>
-            <ais-snippet attribute="content" :hit="item" />
-          </div>
-
-          <v-expansion-panels v-if="item.content" flat accordion>
-            <v-expansion-panel>
-              <v-expansion-panel-header hide-actions>
-                <v-icon>
-                  mdi-text-box-check-outline
-                </v-icon>
+          <v-expansion-panels>
+            <v-expansion-panel v-if="item.content" flat accordion>
+              <v-expansion-panel-header>
+                <div v-on:click.stop>
+                  <div class="text-h5 text-center">
+                    <nuxt-link :to="`songs/${item.id}/`" class="text--primary">
+                      <ais-highlight attribute="name" :hit="item" class="text-h6 text-center text--primary"/>
+                    </nuxt-link>
+                  </div>
+                  <div v-if="item.location_uni" class="text-center mt-1 text--secondary">
+<!--                    <span v-for="loc in item.location_uni" :key=loc>-->
+                      <span>{{ item.location_uni.join(', ') }}</span>
+<!--                    </span>-->
+                  </div>
+                </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <!-- eslint-disable-next-line vue/no-v-html -->
-                <div v-html="item.content" />
+                <div v-html="item._highlightResult.content.value" class="text--primary"/>
+                <div v-if="item.performer" class="caption text-center">
+                  <strong class="text--secondary">Выканаўцы:</strong>
+                  <ais-highlight attribute="performer" :hit="item"/>
+                </div>
               </v-expansion-panel-content>
             </v-expansion-panel>
+          <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption">
+            <strong class="text--secondary">Знойдзена ў тэксце:</strong>
+            <ais-snippet attribute="content" :hit="item"/>
+          </div>
           </v-expansion-panels>
-
-          <v-chip-group
-            v-if="item.location"
-            active-class="primary--text"
-            column
-          >
-            <v-chip
-              v-for="(location, location_index) in item.location"
-              :key="location_index"
-              small
-              @click.prevent="updateQuery(location)"
-            >
-              <ais-highlight
-                :attribute="`location.${location_index}`"
-                :hit="item"
-              />
-            </v-chip>
-          </v-chip-group>
-
-          <v-divider class="mt-2 mb-2" />
+          <v-divider :thickness="2"
+                     color="grey"
+          />
         </div>
       </template>
     </ais-hits>
@@ -128,13 +117,14 @@
 
 <script>
 import {
+  AisHierarchicalMenu,
   AisHighlight,
+  AisHits,
   AisInstantSearch,
-  AisSearchBox,
   AisPagination,
+  AisSearchBox,
   AisSnippet,
-  AisStats,
-  AisHits
+  AisStats
 } from 'vue-instantsearch'
 import typesenseInstantsearchAdapter from './typesense'
 
@@ -146,7 +136,8 @@ export default {
     AisSearchBox,
     AisSnippet,
     AisStats,
-    AisHits
+    AisHits,
+    AisHierarchicalMenu
   },
 
   props: {
@@ -163,7 +154,7 @@ export default {
 
   computed: {
 
-    searchQuery () {
+    searchQuer () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.currentPage = 1
       return this.$refs.searchbox.value
