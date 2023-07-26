@@ -25,10 +25,10 @@
       </template>
     </ais-search-box>
 
-    <v-expansion-panels>
+    <v-expansion-panels class="mt-3">
       <v-expansion-panel>
         <v-expansion-panel-header>
-          Фільтр Лакацый
+          <span class="text-h5 text--accent-2">Фільтр Лакацый</span>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <ais-hierarchical-menu
@@ -74,37 +74,39 @@
     </ais-pagination>
 
     <ais-hits :escapeHTML="false">
-      <template #default="{ items }">
-
+       <template #default="{ items }">
         <div v-for="item in items" :key="item.objectID">
           <v-expansion-panels>
             <v-expansion-panel v-if="item.content" flat accordion>
               <v-expansion-panel-header>
-                <div v-on:click.stop>
-                  <div class="text-h5 text-center">
-                    <nuxt-link :to="`songs/${item.id}/`" class="text--primary">
-                      <ais-highlight attribute="name" :hit="item" class="text-h6 text-center text--primary"/>
-                    </nuxt-link>
-                  </div>
-                  <div v-if="item.location_uni" class="text-center mt-1 text--secondary">
-<!--                    <span v-for="loc in item.location_uni" :key=loc>-->
-                      <span>{{ item.location_uni.join(', ') }}</span>
-<!--                    </span>-->
+                <div class="text-left">
+                <div v-on:click.stop class="d-flex text-left">
+                <nuxt-link :to="`songs/${item.id}/`" class="text--secondary">
+                       <ais-highlight attribute="name" :hit="item" class="text-center text-body-1 text--primary"/>
+                </nuxt-link>
+                </div>
+                <div class="text-left mt-1 text-body-2">
+                  <span class="text--secondary">
+                  {{
+                    item.location ? item.location[0] : item.document.location[0]
+                  }}
+                  </span>
+                </div>
+                  <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption mt-3">
+                    <strong class="text--secondary">Знойдзена ў тэксце:</strong>
+                    <ais-snippet attribute="content" :hit="item"/>
                   </div>
                 </div>
               </v-expansion-panel-header>
+
               <v-expansion-panel-content>
                 <div v-html="item._highlightResult.content.value" class="text--primary"/>
-                <div v-if="item.performer" class="caption text-center">
+                <div v-if="item.performer" class="caption text-left">
                   <strong class="text--secondary">Выканаўцы:</strong>
                   <ais-highlight attribute="performer" :hit="item"/>
                 </div>
               </v-expansion-panel-content>
             </v-expansion-panel>
-          <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption">
-            <strong class="text--secondary">Знойдзена ў тэксце:</strong>
-            <ais-snippet attribute="content" :hit="item"/>
-          </div>
           </v-expansion-panels>
           <v-divider :thickness="2"
                      color="grey"
@@ -154,7 +156,7 @@ export default {
 
   computed: {
 
-    searchQuer () {
+    searchQuery () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.currentPage = 1
       return this.$refs.searchbox.value
