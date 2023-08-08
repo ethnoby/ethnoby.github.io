@@ -24,6 +24,7 @@
         </template>
       </template>
     </ais-search-box>
+    <ais-refinement-list attribute="tags" :transform-items="removeUseless" />
 
     <v-expansion-panels class="mt-3">
       <v-expansion-panel>
@@ -73,43 +74,44 @@
       </template>
     </ais-pagination>
 
-    <ais-hits :escapeHTML="false">
-       <template #default="{ items }">
+    <ais-hits :escape-h-t-m-l="false">
+      <template #default="{ items }">
         <div v-for="item in items" :key="item.objectID">
           <v-expansion-panels>
             <v-expansion-panel v-if="item.content" flat accordion>
               <v-expansion-panel-header>
                 <div class="text-left">
-                <div v-on:click.stop class="d-flex text-left">
-                <nuxt-link :to="`songs/${item.id}/`" class="text--secondary">
-                       <ais-highlight attribute="name" :hit="item" class="text-center text-body-1 text--primary"/>
-                </nuxt-link>
-                </div>
-                <div class="text-left mt-1 text-body-2">
-                  <span class="text--secondary">
-                  {{
-                    item.location ? item.location[0] : item.document.location[0]
-                  }}
-                  </span>
-                </div>
+                  <div class="d-flex text-left" @click.stop>
+                    <nuxt-link :to="`songs/${item.id}/`" class="text--secondary">
+                      <ais-highlight attribute="name" :hit="item" class="text-center text-body-1 text--primary" />
+                    </nuxt-link>
+                  </div>
+                  <div class="text-left mt-1 text-body-2">
+                    <span class="text--secondary">
+                      {{
+                        item.location ? item.location[0] : item.document.location[0]
+                      }}
+                    </span>
+                  </div>
                   <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption mt-3">
                     <strong class="text--secondary">Знойдзена ў тэксце:</strong>
-                    <ais-snippet attribute="content" :hit="item"/>
+                    <ais-snippet attribute="content" :hit="item" />
                   </div>
                 </div>
               </v-expansion-panel-header>
 
               <v-expansion-panel-content>
-                <div v-html="item._highlightResult.content.value" class="text--primary"/>
+                <div class="text--primary" v-html="item._highlightResult.content.value" />
                 <div v-if="item.performer" class="caption text-left">
                   <strong class="text--secondary">Выканаўцы:</strong>
-                  <ais-highlight attribute="performer" :hit="item"/>
+                  <ais-highlight attribute="performer" :hit="item" />
                 </div>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
-          <v-divider :thickness="2"
-                     color="grey"
+          <v-divider
+            :thickness="2"
+            color="grey"
           />
         </div>
       </template>
@@ -123,7 +125,7 @@ import {
   AisHighlight,
   AisHits,
   AisInstantSearch,
-  AisPagination,
+  AisPagination, AisRefinementList,
   AisSearchBox,
   AisSnippet,
   AisStats
@@ -139,7 +141,8 @@ export default {
     AisSnippet,
     AisStats,
     AisHits,
-    AisHierarchicalMenu
+    AisHierarchicalMenu,
+    AisRefinementList
   },
 
   props: {
@@ -169,6 +172,13 @@ export default {
       // this.$refs.searchbox.value = query
       // console.log(this.$refs.searchbox)
       // this.$refs.searchbox.keypress()
+    },
+
+    removeUseless (items) {
+      return items.map(item => ({
+        ...item,
+        label: item.label.toUpperCase()
+      }))
     }
   }
 
