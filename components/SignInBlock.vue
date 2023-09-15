@@ -47,8 +47,8 @@ export default {
           // window.location = '/'
         },
         uiShown: function () {
-        // The widget is rendered.
-        // Hide the loader.
+          // The widget is rendered.
+          // Hide the loader.
           document.getElementById('loader').style.display = 'none'
         }
       }

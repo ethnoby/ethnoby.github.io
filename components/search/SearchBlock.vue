@@ -24,7 +24,38 @@
         </template>
       </template>
     </ais-search-box>
-    <ais-refinement-list attribute="tags" :transform-items="removeUseless" />
+    <v-card class="mt-3 mb-2 pb-3">
+      <v-card-title class="text--secondary">
+        Лакацыі
+      </v-card-title>
+      <ais-hierarchical-menu
+        :attributes="['country', 'region', 'district']"
+        :class-names="{
+          // 'ais-HierarchicalMenu-link': 'text--secondary',
+          'ais-HierarchicalMenu-link--selected': 'text--secondary',
+          'ais-HierarchicalMenu-list': 'mb-2'
+        }"
+      />
+    </v-card>
+    <v-card class="mt-3 mb-2 pb-3">
+      <v-card-title class="text--secondary">
+        Жанры
+      </v-card-title>
+
+      <ais-refinement-list
+        class="mb-2"
+        show-more
+        attribute="tags"
+        :class-names="{
+          'ais-RefinementList-item' : 'text--secondary',
+          'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
+        }"
+      >
+        <template #showMoreLabel="{ isShowingMore }">
+          {{ !isShowingMore ? 'Разгарнуць' : 'Згарнуць' }}
+        </template>
+      </ais-refinement-list>
+    </v-card>
 
     <v-expansion-panels class="mt-3">
       <v-expansion-panel>
@@ -172,14 +203,8 @@ export default {
       // this.$refs.searchbox.value = query
       // console.log(this.$refs.searchbox)
       // this.$refs.searchbox.keypress()
-    },
-
-    removeUseless (items) {
-      return items.map(item => ({
-        ...item,
-        label: item.label.toUpperCase()
-      }))
     }
+
   }
 
 }

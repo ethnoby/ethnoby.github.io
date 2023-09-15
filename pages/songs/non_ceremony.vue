@@ -9,7 +9,7 @@ import client from '~/components/search/client.js'
 import songList from '~/components/SongList'
 
 export default {
-  name: 'IndexPage',
+  name: 'CeremonySongsPage',
   components: {
     songList
   },
@@ -20,6 +20,7 @@ export default {
       itemsJSON: await client.collections('songs')
         .documents()
         .export({
+          filter_by: 'tags:=песні пазаабрадавыя',
           include_fields: 'name, id, location, content, performer'
         })
         .then((res) => {
@@ -70,9 +71,5 @@ export default {
     // }
   }
 
-  // mounted () {
-  //   console.log('mounted!!!')
-  //   this.items = client.collections('songs').documents().export()
-  // }
 }
 </script>
