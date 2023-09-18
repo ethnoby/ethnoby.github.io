@@ -50,10 +50,6 @@ export default {
     songList: Array
   }
 
-  // ,
-  // data: () => ({
-  //   songList: []
-  // })
 }
 
 </script>
