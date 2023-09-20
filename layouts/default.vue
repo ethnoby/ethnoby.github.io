@@ -192,13 +192,14 @@
       <!--      </v-btn>-->
 
       <v-btn to="/songs/ceremony">
-        <span>Абрадавыя</span>
-
+        <span style="word-break: normal !important;">Песні</span>
+        <span style="word-break: normal !important;">Абрадавыя</span>
         <v-icon>mdi-playlist-music</v-icon>
       </v-btn>
 
       <v-btn to="/songs/non_ceremony">
-        <span>Пазаабрадавыя</span>
+        <span style="word-break: normal !important;">Песні</span>
+        <span style="word-break: normal !important;">Пазаабрадавыя</span>
 
         <v-icon>mdi-playlist-music</v-icon>
       </v-btn>
