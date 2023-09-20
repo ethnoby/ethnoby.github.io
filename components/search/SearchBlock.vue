@@ -57,22 +57,6 @@
       </ais-refinement-list>
     </v-card>
 
-    <v-expansion-panels class="mt-3">
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <span class="text-h5 text--accent-2">Фільтр Лакацый</span>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <ais-hierarchical-menu
-            :attributes="['country', 'region', 'district']"
-            :class-names="{
-              'ais-HierarchicalMenu-link--selected': 'text--secondary'
-            }"
-          />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-
     <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
       <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
         <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
@@ -124,14 +108,16 @@
                       }}
                     </span>
                   </div>
-                  <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption mt-3">
+                  <div>{{ item._highlightResult.content_nohtml.matchedWords }}</div>
+                  <div v-if="false || item.content && searchQuery && item.content_nohtml.includes(item._highlightResult.content_nohtml.matchedWords[0])" class="caption mt-3">
                     <strong class="text--secondary">Знойдзена ў тэксце:</strong>
-                    <ais-snippet attribute="content" :hit="item" />
+                    <ais-snippet attribute="content_nohtml" :hit="item" />
                   </div>
                 </div>
               </v-expansion-panel-header>
 
               <v-expansion-panel-content>
+                <!--                {{ item._highlightResult }}-->
                 <div class="text--primary" v-html="item._highlightResult.content.value" />
                 <div v-if="item.performer" class="caption text-left">
                   <strong class="text--secondary">Выканаўцы:</strong>

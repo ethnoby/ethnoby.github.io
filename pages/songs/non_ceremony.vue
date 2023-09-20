@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
-    <song-list :song-list="itemsJSON" />
+    <song-list
+      :song-list="itemsJSON"
+      :title="title"
+    />
   </v-container>
 </template>
 
@@ -33,12 +36,43 @@ export default {
     model: 0,
     items: [],
     jsonl: '',
-    count: 67
+    count: 67,
+    title: 'Пазабрадывая песні'
     // itemsJSON: [],
   }),
 
-  computed: {
+  // async fetch () {
+  //   const searchParameters = {
+  //     q: '*',
+  //     // sort_by: 'name:desc',
+  //     query_by: 'name'
+  //   }
+  //   await client.collections('songs')
+  //     .documents()
+  //     .search(searchParameters)
+  //     .then((results) => {
+  //       this.items = results.hits
+  //     })
+  //     .catch((error) => {
+  //       // eslint-disable-next-line no-console
+  //       console.log(error)
+  //     })
 
+  //   this.jsonl = await client.collections('songs')
+  //     .documents()
+  //     .export({
+  //       include_fields: 'name, id, location'
+  //     })
+
+  //   this.jsonl = `[${this.jsonl}]`.replace(/\n/g, ',') // add brackets and commas
+  //   this.itemsJSON = JSON.parse(this.jsonl)
+  // },
+
+  computed: {
+    // items () {
+    //   console.log(this.itemsString)
+    //   return JSON.parse(this.itemsString)
+    // }
   }
 
 }

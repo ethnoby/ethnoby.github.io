@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Песні: {{ songList.length }}</h1>
+    <h1>{{ title }}: {{ songList.length }}</h1>
     <song-list-pagination />
   </v-container>
 </template>
@@ -13,7 +13,8 @@ export default {
     SongListPagination
   },
   props: {
-    songList: Array
+    songList: Array,
+    title: String
   }
 }
 

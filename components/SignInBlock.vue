@@ -31,7 +31,7 @@ export default {
       firebaseui.auth.AuthUI.getInstance() ||
       new firebaseui.auth.AuthUI(this.$fire.auth)
     const uiConfig = {
-      // signInFlow: 'popup',
+      signInFlow: 'popup',
       signInOptions: [
         this.$fireModule.auth.EmailAuthProvider.PROVIDER_ID,
         this.$fireModule.auth.FacebookAuthProvider.PROVIDER_ID,

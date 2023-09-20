@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
-    <song-list :song-list="itemsJSON" />
+    <song-list
+      :song-list="itemsJSON"
+      :title="title"
+    />
   </v-container>
 </template>
 
@@ -32,7 +35,8 @@ export default {
     model: 0,
     items: [],
     jsonl: '',
-    count: 67
+    count: 67,
+    title: 'Песні'
     // itemsJSON: [],
   }),
 
