@@ -9,7 +9,7 @@
     >
       <v-img contain max-height="60" src="https://ethno.by/assets/images/ethno.by-logo-c-tr.png" alt="" />
       <v-list>
-        <v-list-item
+        <!--        <v-list-item
           to="/"
           router
           exact
@@ -20,11 +20,11 @@
           <v-list-item-content>
             <v-list-item-title>Галоўная</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
-        <v-divider />
+        </v-list-item>-->
+        <!--        <v-divider />
         <v-subheader>
           Абраныя раздзелы
-        </v-subheader>
+        </v-subheader>-->
         <v-list-item
           v-for="(item, i) in favoriteItems"
           :key="i"
@@ -44,11 +44,11 @@
             </v-icon>
           </v-list-item-action>
         </v-list-item>
-        <v-divider />
+        <!--        <v-divider />
         <v-subheader>
           Усе раздзелы
-        </v-subheader>
-        <v-list-item
+        </v-subheader>-->
+        <!--        <v-list-item
           v-for="(item, i) in allItems"
           :key="20+i"
           :to="item.to"
@@ -61,7 +61,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item>-->
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
@@ -87,13 +87,13 @@
       >
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
-      <v-btn
-        v-if="!$vuetify.breakpoint.mobile"
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-heart-outline</v-icon>
-      </v-btn>
+      <!--      <v-btn-->
+      <!--        v-if="!$vuetify.breakpoint.mobile"-->
+      <!--        icon-->
+      <!--        @click.stop="rightDrawer = !rightDrawer"-->
+      <!--      >-->
+      <!--        <v-icon>mdi-heart-outline</v-icon>-->
+      <!--      </v-btn>-->
       <v-menu v-if="!$vuetify.breakpoint.mobile" offset-y>
         <template #activator="{ on }">
           <v-btn
@@ -132,18 +132,18 @@
               <v-list-item-subtitle>{{ currentUser.email }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/">
-            <v-list-item-icon>
-              <v-icon>mdi-notebook-heart-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Упадабанае</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/">
-            <v-list-item-icon>
-              <v-icon>mdi-bookmark-box-multiple</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Мае калекцыі</v-list-item-title>
-          </v-list-item>
+          <!--          <v-list-item to="/">-->
+          <!--            <v-list-item-icon>-->
+          <!--              <v-icon>mdi-notebook-heart-outline</v-icon>-->
+          <!--            </v-list-item-icon>-->
+          <!--            <v-list-item-title>Упадабанае</v-list-item-title>-->
+          <!--          </v-list-item>-->
+          <!--          <v-list-item to="/">-->
+          <!--            <v-list-item-icon>-->
+          <!--              <v-icon>mdi-bookmark-box-multiple</v-icon>-->
+          <!--            </v-list-item-icon>-->
+          <!--            <v-list-item-title>Мае калекцыі</v-list-item-title>-->
+          <!--          </v-list-item>-->
           <v-divider />
           <!-- <v-subheader>SETTINGS</v-subheader> -->
           <v-list-item @click.prevent="signOut">
@@ -185,8 +185,21 @@
     </v-navigation-drawer>
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
-      <v-btn to="/songs">
-        <span>Песні</span>
+      <!--      <v-btn to="/songs">-->
+      <!--        <span>Песні</span>-->
+
+      <!--        <v-icon>mdi-playlist-music</v-icon>-->
+      <!--      </v-btn>-->
+
+      <v-btn to="/songs/ceremony">
+        <span style="word-break: normal !important;">Песні</span>
+        <span style="word-break: normal !important;">Абрадавыя</span>
+        <v-icon>mdi-playlist-music</v-icon>
+      </v-btn>
+
+      <v-btn to="/songs/non_ceremony">
+        <span style="word-break: normal !important;">Песні</span>
+        <span style="word-break: normal !important;">Пазаабрадавыя</span>
 
         <v-icon>mdi-playlist-music</v-icon>
       </v-btn>
@@ -244,16 +257,27 @@ export default {
           to: '/songs'
         },
         {
-          icon: 'mdi-violin',
-          title: 'Найгрышы',
-          to: '/tunes'
+          icon: 'mdi-playlist-music',
+          title: 'Абрадавыя Песні',
+          to: '/songs/ceremony'
         },
         {
-          // icon: 'mdi-dance-ballroom',
-          icon: 'mdi-shoe-print',
-          title: 'Танцы',
-          to: '/tunes'
+          icon: 'mdi-playlist-music',
+          title: 'Пазаабрадавыя Песні',
+          to: '/songs/non_ceremony'
         }
+        // ,
+        // {
+        //   icon: 'mdi-violin',
+        //   title: 'Найгрышы',
+        //   to: '/tunes'
+        // },
+        // {
+        //   // icon: 'mdi-dance-ballroom',
+        //   icon: 'mdi-shoe-print',
+        //   title: 'Танцы',
+        //   to: '/tunes'
+        // }
       ],
       allItems: [
         {

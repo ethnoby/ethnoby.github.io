@@ -24,6 +24,38 @@
         </template>
       </template>
     </ais-search-box>
+    <v-card class="mt-3 mb-2 pb-3">
+      <v-card-title class="text--secondary">
+        Лакацыі
+      </v-card-title>
+      <ais-hierarchical-menu
+        :attributes="['country', 'region', 'district']"
+        :class-names="{
+          // 'ais-HierarchicalMenu-link': 'text--secondary',
+          'ais-HierarchicalMenu-link--selected': 'text--secondary',
+          'ais-HierarchicalMenu-list': 'mb-2'
+        }"
+      />
+    </v-card>
+    <v-card class="mt-3 mb-2 pb-3">
+      <v-card-title class="text--secondary">
+        Жанры
+      </v-card-title>
+
+      <ais-refinement-list
+        class="mb-2"
+        show-more
+        attribute="tags"
+        :class-names="{
+          'ais-RefinementList-item' : 'text--secondary',
+          'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
+        }"
+      >
+        <template #showMoreLabel="{ isShowingMore }">
+          {{ !isShowingMore ? 'Разгарнуць' : 'Згарнуць' }}
+        </template>
+      </ais-refinement-list>
+    </v-card>
 
     <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
       <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
@@ -57,69 +89,47 @@
       </template>
     </ais-pagination>
 
-    <ais-hits>
+    <ais-hits :escape-h-t-m-l="false">
       <template #default="{ items }">
         <div v-for="item in items" :key="item.objectID">
-          <h4 class="h4">
-            {{ item.__position }}.
-            <nuxt-link :to="`songs/${item.id}/`">
-              <ais-highlight attribute="name" :hit="item" />
-            </nuxt-link>
-          </h4>
-
-          <iframe
-            v-if="false && item.audio_url"
-            class="mt-2 mb-2"
-            width="100%"
-            scrolling="no"
-            frameborder="no"
-            :height="$vuetify.breakpoint.mobile ? 20 : 120"
-            :src="`https://w.soundcloud.com/player/?url=${item.audio_url}&color=%238d1802&inverse=${ $vuetify.theme.dark }&auto_play=false&show_user=false&hide_related=true&show_comments=true&show_reposts=false&show_teaser=false`"
-          />
-
-          <div v-if="item.performer" class="caption text-left">
-            <strong class="text--secondary">Выканаўцы:</strong>
-            <ais-highlight attribute="performer" :hit="item" />
-          </div>
-
-          <div v-if="false || item.content && searchQuery && item.content.includes(searchQuery)" class="caption">
-            <strong class="text--secondary">Знойдзена ў тэксце:</strong>
-            <ais-snippet attribute="content" :hit="item" />
-          </div>
-
-          <v-expansion-panels v-if="item.content" flat accordion>
-            <v-expansion-panel>
-              <v-expansion-panel-header hide-actions>
-                <v-icon>
-                  mdi-text-box-check-outline
-                </v-icon>
+          <v-expansion-panels>
+            <v-expansion-panel v-if="item.content" flat accordion>
+              <v-expansion-panel-header>
+                <div class="text-left">
+                  <div class="d-flex text-left" @click.stop>
+                    <nuxt-link :to="`songs/${item.id}/`" class="text--secondary">
+                      <ais-highlight attribute="name" :hit="item" class="text-center text-body-1 text--primary" />
+                    </nuxt-link>
+                  </div>
+                  <div class="text-left mt-1 text-body-2">
+                    <span class="text--secondary">
+                      {{
+                        item.location ? item.location[0] : item.document.location[0]
+                      }}
+                    </span>
+                  </div>
+                  <div>{{ item._highlightResult.content_nohtml.matchedWords }}</div>
+                  <div v-if="false || item.content && searchQuery && item.content_nohtml.includes(item._highlightResult.content_nohtml.matchedWords[0])" class="caption mt-3">
+                    <strong class="text--secondary">Знойдзена ў тэксце:</strong>
+                    <ais-snippet attribute="content_nohtml" :hit="item" />
+                  </div>
+                </div>
               </v-expansion-panel-header>
+
               <v-expansion-panel-content>
-                <!-- eslint-disable-next-line vue/no-v-html -->
-                <div v-html="item.content" />
+                <!--                {{ item._highlightResult }}-->
+                <div class="text--primary" v-html="item._highlightResult.content.value" />
+                <div v-if="item.performer" class="caption text-left">
+                  <strong class="text--secondary">Выканаўцы:</strong>
+                  <ais-highlight attribute="performer" :hit="item" />
+                </div>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
-
-          <v-chip-group
-            v-if="item.location"
-            active-class="primary--text"
-            column
-          >
-            <v-chip
-              v-for="(location, location_index) in item.location"
-              :key="location_index"
-              small
-              @click.prevent="updateQuery(location)"
-            >
-              <ais-highlight
-                :attribute="`location.${location_index}`"
-                :hit="item"
-              />
-            </v-chip>
-          </v-chip-group>
-
-          <v-divider class="mt-2 mb-2" />
+          <v-divider
+            :thickness="2"
+            color="grey"
+          />
         </div>
       </template>
     </ais-hits>
@@ -128,13 +138,14 @@
 
 <script>
 import {
+  AisHierarchicalMenu,
   AisHighlight,
+  AisHits,
   AisInstantSearch,
+  AisPagination, AisRefinementList,
   AisSearchBox,
-  AisPagination,
   AisSnippet,
-  AisStats,
-  AisHits
+  AisStats
 } from 'vue-instantsearch'
 import typesenseInstantsearchAdapter from './typesense'
 
@@ -146,7 +157,9 @@ export default {
     AisSearchBox,
     AisSnippet,
     AisStats,
-    AisHits
+    AisHits,
+    AisHierarchicalMenu,
+    AisRefinementList
   },
 
   props: {
@@ -177,6 +190,7 @@ export default {
       // console.log(this.$refs.searchbox)
       // this.$refs.searchbox.keypress()
     }
+
   }
 
 }

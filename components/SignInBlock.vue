@@ -31,7 +31,7 @@ export default {
       firebaseui.auth.AuthUI.getInstance() ||
       new firebaseui.auth.AuthUI(this.$fire.auth)
     const uiConfig = {
-      // signInFlow: 'popup',
+      signInFlow: 'popup',
       signInOptions: [
         this.$fireModule.auth.EmailAuthProvider.PROVIDER_ID,
         this.$fireModule.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -47,8 +47,8 @@ export default {
           // window.location = '/'
         },
         uiShown: function () {
-        // The widget is rendered.
-        // Hide the loader.
+          // The widget is rendered.
+          // Hide the loader.
           document.getElementById('loader').style.display = 'none'
         }
       }
