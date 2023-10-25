@@ -8,9 +8,18 @@
       {{ item.name }}
     </span>
 
-    <h1>{{ item.name }}</h1>
     <!-- <p>Path: {{ $route.path }}</p> -->
     <v-card>
+      <v-card-title>
+        <h1>{{ item.name }}</h1>
+      </v-card-title>
+
+      <v-img
+        v-if="item.thumbnail_url"
+        :src="item.thumbnail_url"
+        aspect-ratio="1"
+      />
+
       <v-card-text>
         <!-- eslint-disable vue/no-v-html -->
         <div class="text--primary" v-html="item.content" />
@@ -125,8 +134,8 @@ export default {
           '&color=%238d1802' +
           '&visual=false' +
           '&hide_related=false' +
-          '&inverse=false' +
-          '&show_artwork=true' +
+          '&inverse=' + (this.$vuetify.theme.dark ? 'true' : 'false') +
+          '&show_artwork=false' +
           '&show_comments=false' +
           '&show_reposts=false' +
           '&show_teaser=false' +
@@ -141,7 +150,7 @@ export default {
     },
 
     embedHeight () {
-      return this.$vuetify.breakpoint.mobile ? 120 : 120
+      return this.$vuetify.breakpoint.mobile ? 20 : 120
     }
   }
 }
