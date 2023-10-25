@@ -12,16 +12,16 @@
     <!-- <p>Path: {{ $route.path }}</p> -->
     <v-card>
       <v-card-text>
-        <!-- eslint-disable-next-line vue/no-v-html -->
+        <!-- eslint-disable vue/no-v-html -->
         <div class="text--primary" v-html="item.content" />
 
         <div
           v-if="item.audio_url && $store.state.user"
           class="mt-4 mb-2"
-          :height="$vuetify.breakpoint.mobile ? 120 : 120"
-
-          v-html="item.audio_embed"
+          :height="embedHeight"
+          v-html="embedCode"
         />
+        <!-- eslint-enable vue/no-v-html -->
       </v-card-text>
       <v-divider />
 
@@ -113,6 +113,35 @@ export default {
   head () {
     return {
       title: this.item.name
+    }
+  },
+
+  computed: {
+    embedCode () {
+      if (this.item.sc_secret_token && this.item.sc_track_id) {
+        return '<iframe width="100%" height="' + this.embedHeight + '" scrolling="no" frameborder="no" ' +
+        'src="https://w.soundcloud.com/player/?' +
+          'maxheight=' + this.embedHeight +
+          '&color=%238d1802' +
+          '&visual=false' +
+          '&hide_related=false' +
+          '&inverse=false' +
+          '&show_artwork=true' +
+          '&show_comments=false' +
+          '&show_reposts=false' +
+          '&show_teaser=false' +
+          '&show_user=false' +
+          '&auto_play=false' +
+          '&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F' + this.item.sc_track_id +
+          '&secret_token=' + this.item.sc_secret_token +
+        '"></iframe>'
+      } else {
+        return this.item.audio_embed
+      }
+    },
+
+    embedHeight () {
+      return this.$vuetify.breakpoint.mobile ? 120 : 120
     }
   }
 }
