@@ -112,7 +112,8 @@ export default {
   loadingIndicator: {
     name: 'pulse',
     color: '#8d1802',
-    background: '#121212'
+    background: '#fff'
+    // background: '#121212'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -133,7 +134,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.red.darken2,

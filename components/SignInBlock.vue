@@ -33,9 +33,9 @@ export default {
     const uiConfig = {
       signInFlow: 'popup',
       signInOptions: [
-        this.$fireModule.auth.EmailAuthProvider.PROVIDER_ID,
-        this.$fireModule.auth.FacebookAuthProvider.PROVIDER_ID,
-        this.$fireModule.auth.GoogleAuthProvider.PROVIDER_ID
+        this.$fireModule.auth.GoogleAuthProvider.PROVIDER_ID,
+        // this.$fireModule.auth.EmailAuthProvider.PROVIDER_ID,
+        this.$fireModule.auth.FacebookAuthProvider.PROVIDER_ID
       ],
       signInSuccessUrl: '/',
       tosUrl: '/', // Terms of service url.
