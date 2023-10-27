@@ -100,6 +100,18 @@
             </div>
           </v-card-text>
 
+          <div id="map-wrap" style="height: 300px;">
+            <client-only>
+              <l-map :zoom="6" :center="geoArray">
+                <l-tile-layer
+                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                  attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+                />
+                <l-marker :lat-lng="geoArray" />
+              </l-map>
+            </client-only>
+          </div>
+
           <v-img
             v-if="item.geo && item.geo.length"
             :src="`https://maps.googleapis.com/maps/api/staticmap?\
@@ -197,6 +209,11 @@ export default {
 
     isMobile () {
       return this.$vuetify.breakpoint.mobile
+    },
+
+    geoArray () {
+      const coords = this.item.geo.split(',')
+      return [coords[0], coords[1]]
     }
   }
 }

@@ -90,6 +90,8 @@ export default {
       }
     ],
 
+    'nuxt-leaflet',
+
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
