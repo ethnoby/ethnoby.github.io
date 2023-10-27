@@ -123,6 +123,31 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="6">
+          <ais-pagination class="mb-2">
+            <template
+              #default="{
+                nbPages,
+                nbHits,
+                refine
+              }"
+            >
+              <v-pagination
+                v-if="nbHits"
+                v-model="currentPage"
+                :length="nbPages"
+                :total-visible="7"
+                @input="refine(currentPage-1)"
+              />
+              <v-banner
+                v-else
+                icon="mdi-magnify-expand"
+                icon-color="error"
+              >
+                Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас ніц няма, спрабуйце іначай
+              </v-banner>
+            </template>
+          </ais-pagination>
+
           <ais-hits :escape-h-t-m-l="false">
             <template #default="{ items }">
               <div v-for="item in items" :key="item.objectID">
@@ -188,19 +213,12 @@
                 :total-visible="7"
                 @input="refine(currentPage-1)"
               />
-              <v-banner
-                v-else
-                icon="mdi-magnify-expand"
-                icon-color="error"
-              >
-                Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас ніц няма, спрабуйце іначай
-              </v-banner>
             </template>
           </ais-pagination>
         </v-col>
 
-        <v-col v-if="nbHits" cols="12" md="6">
-          <v-responsive aspect-ratio="1">
+        <v-col cols="12" md="6">
+          <v-responsive height="75vh">
             <client-only>
               <l-map :zoom="6" :center="[53.893009, 27.567444]">
                 <l-tile-layer
