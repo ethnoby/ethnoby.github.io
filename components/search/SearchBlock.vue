@@ -104,23 +104,28 @@
           </ais-hierarchical-menu>
         </v-col>
       </v-row>
-    </v-container>
 
-    <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
-      <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
-        <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
-        Старонка {{ page + 1 }}/{{ nbPages }}, па {{ hitsPerPage }} .
-      </template>
-    </ais-stats>
-    <ais-hits-per-page
-      :items="[
-        { label: '10 hits per page', value: 10, default: true },
-        { label: '25 hits per page', value: 25 },
-        { label: '50 hits per page', value: 50 },
-        { label: '100 hits per page', value: 100 },
-      ]"
-    />
-    <v-container fluid>
+      <v-row>
+        <v-col cols="12" md="8">
+          <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
+            <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
+              <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
+              Старонка {{ page + 1 }}/{{ nbPages }}, па {{ hitsPerPage }} .
+            </template>
+          </ais-stats>
+        </v-col>
+        <v-col cols="12" md="4">
+          <ais-hits-per-page
+            :items="[
+              { label: '10 hits per page', value: 10, default: true },
+              { label: '25 hits per page', value: 25 },
+              { label: '50 hits per page', value: 50 },
+              { label: '100 hits per page', value: 100 },
+            ]"
+          />
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col cols="12" md="6">
           <ais-pagination class="mb-2">
