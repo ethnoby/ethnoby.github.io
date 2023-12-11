@@ -248,10 +248,6 @@ export default {
 
     tags () {
       return this.items
-    },
-
-    currentRefinement () {
-      return 'kalyna'
     }
 
   },
