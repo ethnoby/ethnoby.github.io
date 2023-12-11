@@ -4,8 +4,6 @@
     :index-name="collection"
     :initial-ui-state="initialUiState"
   >
-    <ais-configure :hits-per-page="24" :filters="algoliaFilters" />
-
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="4">
@@ -48,7 +46,7 @@
               }"
             >
               <v-select
-                v-model="selected"
+                v-model="selectedTags"
                 :items="items"
                 label="Жанры"
                 multiple
@@ -232,11 +230,11 @@ export default {
           query: this.$route.query.q,
           // query_by: 'name, content, performer, location, content_nohtml',
           refinementList: {
-            tags: [this.$route.query.tag]
+            ...(this.$route.query.tag && { tags: this.$route.query.tag })
           }
         }
       },
-      selected: this.$route.query.tag
+      selectedTags: this.$route.query.tag
     }
   },
 

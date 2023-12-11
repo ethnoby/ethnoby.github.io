@@ -1,12 +1,28 @@
 <template>
   <v-container fluid>
     <div>
-      <v-text-field v-model="text" />
-      <nuxt-link
-        :to="{ path: '/search', query: { q: text, tag: 'песні веснавыя' } }"
-      >
-        Search
-      </nuxt-link>
+      <div>
+        <v-text-field v-model="text" />
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['песні калядныя', 'калядоўшчыкі']} }"
+        >
+          Калядныя
+        </nuxt-link>
+      </div>
+      <div>
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['песні жніўныя']} }"
+        >
+          Жніво
+        </nuxt-link>
+      </div>
+      <div>
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['купалле']} }"
+        >
+          Купалле
+        </nuxt-link>
+      </div>
     </div>
     <song-list
       :song-list="itemsJSON"
