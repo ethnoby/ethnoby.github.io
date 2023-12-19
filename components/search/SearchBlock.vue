@@ -55,7 +55,7 @@
                 clearable
                 deletable-chips
                 prepend-icon="mdi-playlist-music"
-                @change="performSearch($event, refine, 'tag')"
+                @change="performSearch($event, refine, 'tags')"
               >
                 <template #item="{ item }">
                   {{ item.value }}
