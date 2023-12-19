@@ -16,7 +16,7 @@
                 clearable
                 prepend-icon="mdi-text-search"
                 :value="currentRefinement"
-                @input="refine($event)"
+                @input="performSearch($event, refine, 'q')"
               />
               <template v-if="isSearchStalled">
                 <v-skeleton-loader
@@ -55,7 +55,7 @@
                 clearable
                 deletable-chips
                 prepend-icon="mdi-playlist-music"
-                @change="refine($event)"
+                @change="performSearch($event, refine, 'tags')"
               >
                 <template #item="{ item }">
                   {{ item.value }}
@@ -253,6 +253,22 @@ export default {
   },
 
   methods: {
+    performSearch (event, refineFunction, queryParamName) {
+      if (event === null) {
+        const currentRoute = this.$route
+        const currentQuery = { ...this.$router.query }
+        delete currentQuery[queryParamName]
+        this.$router.push({
+          path: currentRoute.path,
+          query: currentQuery
+        })
+        refineFunction()
+      } else {
+        this.$router.push({ query: { [queryParamName]: event } })
+        refineFunction(event)
+      }
+    },
+
     updateQuery (query) {
       // this.$refs.searchbox.value = query
       // console.log(this.$refs.searchbox)
