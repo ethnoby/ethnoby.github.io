@@ -55,7 +55,7 @@
                 clearable
                 deletable-chips
                 prepend-icon="mdi-playlist-music"
-                @change="performSearch($event, refine, 'tags')"
+                @change="performSearch($event, refine, 'tag')"
               >
                 <template #item="{ item }">
                   {{ item.value }}
@@ -254,17 +254,21 @@ export default {
 
   methods: {
     performSearch (event, refineFunction, queryParamName) {
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
       if (event === null) {
-        const currentRoute = this.$route
-        const currentQuery = { ...this.$router.query }
-        delete currentQuery[queryParamName]
+        delete updatedQuery[queryParamName]
         this.$router.push({
           path: currentRoute.path,
-          query: currentQuery
+          query: updatedQuery
         })
         refineFunction()
       } else {
-        this.$router.push({ query: { [queryParamName]: event } })
+        updatedQuery[queryParamName] = event
+        this.$router.push({
+          path: currentRoute.path,
+          query: updatedQuery
+        })
         refineFunction(event)
       }
     },
