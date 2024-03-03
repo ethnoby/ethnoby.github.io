@@ -104,6 +104,16 @@
           </ais-hierarchical-menu>
         </v-col>
       </v-row>
+      <v-row>
+        <ais-hierarchical-menu
+          :attributes="[
+            'tag_lvl0',
+            'tag_lvl1',
+            'tag_lvl2',
+            'tag_lvl3',
+          ]"
+        />
+      </v-row>
 
       <v-row>
         <v-col cols="12" md="8">

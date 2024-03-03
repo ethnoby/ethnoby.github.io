@@ -20,7 +20,7 @@ export default {
 
   async asyncData () {
     return {
-      itemsJSON: await client.collections('songs')
+      itemsJSON: await client.collections('songs_test')
         .documents()
         .export({
           include_fields: 'name, id, location, content, performer'

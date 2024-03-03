@@ -159,7 +159,7 @@ export default {
   async asyncData ({ params, redirect }) {
     return {
       // section: 'songs',
-      item: await client.collections('songs').documents(params.id).retrieve()
+      item: await client.collections('songs_test').documents(params.id).retrieve()
     }
   },
 
