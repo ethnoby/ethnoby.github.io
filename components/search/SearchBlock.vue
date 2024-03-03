@@ -106,6 +106,7 @@
       </v-row>
       <v-row>
         <ais-hierarchical-menu
+          :limit="100"
           :attributes="[
             'tag_lvl0',
             'tag_lvl1',
@@ -243,7 +244,7 @@
                 <ais-hits :escape-h-t-m-l="false">
                   <template #default="{ items }">
                     <template v-for="item in items">
-                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="geoToArray(item.geo)">
+                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="item.geo">
                         <l-popup>
                           {{ item.location ? item.location[0] : item.document.location[0] }}
                         </l-popup>

@@ -159,7 +159,7 @@ export default {
   async asyncData ({ params, redirect }) {
     return {
       // section: 'songs',
-      item: await client.collections('songs_test').documents(params.id).retrieve()
+      item: await client.collections('songs').documents(params.id).retrieve()
     }
   },
 
@@ -212,8 +212,7 @@ export default {
     },
 
     geoArray () {
-      const coords = this.item.geo.split(',')
-      return [coords[0], coords[1]]
+      return this.item.geo
     }
   }
 }

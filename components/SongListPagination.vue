@@ -87,7 +87,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      collection: 'songs_test',
+      collection: 'songs',
       searchClient: typesenseInstantsearchAdapter.searchClient
     }
   }
