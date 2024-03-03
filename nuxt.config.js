@@ -10,7 +10,7 @@ export default {
 
   generate: {
     routes () {
-      return client.collections('songs_test')
+      return client.collections('songs')
         .documents()
         .export({
           include_fields: 'id'
