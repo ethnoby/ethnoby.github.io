@@ -104,25 +104,65 @@
           </ais-hierarchical-menu>
         </v-col>
       </v-row>
-    </v-container>
+      <v-row>
+        <ais-hierarchical-menu
+          :attributes="[
+            'tag_lvl0',
+            'tag_lvl1',
+            'tag_lvl2',
+            'tag_lvl3',
+          ]"
+        />
+      </v-row>
 
-    <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
-      <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
-        <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
-        Старонка {{ page + 1 }}/{{ nbPages }}, па {{ hitsPerPage }} .
-      </template>
-    </ais-stats>
-    <ais-hits-per-page
-      :items="[
-        { label: '10 hits per page', value: 10, default: true },
-        { label: '25 hits per page', value: 25 },
-        { label: '50 hits per page', value: 50 },
-        { label: '100 hits per page', value: 100 },
-      ]"
-    />
-    <v-container fluid>
+      <v-row>
+        <v-col cols="12" md="8">
+          <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
+            <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
+              <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
+              Старонка {{ page + 1 }}/{{ nbPages }}, па {{ hitsPerPage }} .
+            </template>
+          </ais-stats>
+        </v-col>
+        <v-col cols="12" md="4">
+          <ais-hits-per-page
+            :items="[
+              { label: '10 hits per page', value: 10, default: true },
+              { label: '25 hits per page', value: 25 },
+              { label: '50 hits per page', value: 50 },
+              { label: '100 hits per page', value: 100 },
+            ]"
+          />
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col cols="12" md="6">
+          <ais-pagination class="mb-2">
+            <template
+              #default="{
+                nbPages,
+                nbHits,
+                refine
+              }"
+            >
+              <v-pagination
+                v-if="nbHits"
+                v-model="currentPage"
+                :length="nbPages"
+                :total-visible="7"
+                @input="refine(currentPage-1)"
+              />
+              <v-banner
+                v-else
+                icon="mdi-magnify-expand"
+                icon-color="error"
+              >
+                Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас ніц няма, спрабуйце іначай
+              </v-banner>
+            </template>
+          </ais-pagination>
+
           <ais-hits :escape-h-t-m-l="false">
             <template #default="{ items }">
               <div v-for="item in items" :key="item.objectID">
@@ -188,19 +228,12 @@
                 :total-visible="7"
                 @input="refine(currentPage-1)"
               />
-              <v-banner
-                v-else
-                icon="mdi-magnify-expand"
-                icon-color="error"
-              >
-                Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас ніц няма, спрабуйце іначай
-              </v-banner>
             </template>
           </ais-pagination>
         </v-col>
 
-        <v-col v-if="nbHits" cols="12" md="6">
-          <v-responsive aspect-ratio="1">
+        <v-col cols="12" md="6">
+          <v-responsive height="75vh">
             <client-only>
               <l-map :zoom="6" :center="[53.893009, 27.567444]">
                 <l-tile-layer
