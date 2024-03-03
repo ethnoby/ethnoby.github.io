@@ -113,6 +113,10 @@
             'tag_lvl2',
             'tag_lvl3',
           ]"
+          :class-names="{
+            'ais-HierarchicalMenu-link--selected': 'text--secondary',
+            'ais-HierarchicalMenu-list': 'mb-2'
+          }"
         />
       </v-row>
 
