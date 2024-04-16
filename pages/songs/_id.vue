@@ -141,10 +141,6 @@
           <youtube :video-id="item.video_id" />
         </v-card>
 
-        <!--        <div>-->
-        <!--          <youtube :video-id="'6Y1wwZZN6a8'" />-->
-        <!--        </div>-->
-
       <!-- eslint-enable vue/no-v-html -->
       </v-col>
 
