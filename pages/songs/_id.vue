@@ -137,6 +137,14 @@
           :height="embedHeight"
           v-html="embedCode"
         />
+        <v-card v-if="item.video_url && $store.state.user">
+          <youtube :video-id="item.video_id" />
+        </v-card>
+
+        <!--        <div>-->
+        <!--          <youtube :video-id="'6Y1wwZZN6a8'" />-->
+        <!--        </div>-->
+
       <!-- eslint-enable vue/no-v-html -->
       </v-col>
 
@@ -154,7 +162,6 @@
 </template>
 <script>
 import client from '~/components/search/client.js'
-
 export default {
   async asyncData ({ params, redirect }) {
     return {
