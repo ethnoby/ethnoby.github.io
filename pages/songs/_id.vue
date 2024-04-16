@@ -102,12 +102,12 @@
 
           <div id="map-wrap" style="height: 300px;">
             <client-only>
-              <l-map :zoom="6" :center="geoArray">
+              <l-map :zoom="6" :center="item.geo">
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                   attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
                 />
-                <l-marker :lat-lng="geoArray" />
+                <l-marker :lat-lng="item.geo" />
               </l-map>
             </client-only>
           </div>
@@ -214,6 +214,7 @@ export default {
     geoArray () {
       return this.item.geo
     }
+
   }
 }
 </script>

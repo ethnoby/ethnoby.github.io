@@ -23,6 +23,13 @@
           Купалле
         </nuxt-link>
       </div>
+      <div>
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['playlist_kalyna-malyna']} }"
+        >
+          Калына-малына
+        </nuxt-link>
+      </div>
     </div>
     <song-list
       :song-list="itemsJSON"

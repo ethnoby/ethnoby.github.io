@@ -34,6 +34,7 @@
           <ais-refinement-list
             class="mb-2"
             attribute="tags"
+            :transform-items="excludeCustomPlaylist"
             :class-names="{
               'ais-RefinementList-item' : 'text--secondary',
               'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
@@ -305,9 +306,8 @@ export default {
       initialUiState: {
         songs: {
           query: this.$route.query.q,
-          // query_by: 'name, content, performer, location, content_nohtml',
           refinementList: {
-            ...(this.$route.query.tag && { tags: this.$route.query.tag })
+            ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() })
           }
         }
       },
@@ -350,8 +350,12 @@ export default {
       }
     },
 
+    excludeCustomPlaylist (items) {
+      return items.filter(item => !item.label.match(/^playlist*/))
+    },
+
     geoToArray (geo) {
-      return geo.split(',')
+      return geo
     },
 
     updateQuery (query) {
