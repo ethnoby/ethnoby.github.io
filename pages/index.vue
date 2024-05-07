@@ -45,13 +45,14 @@
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex" :lg="card.lg">
         <v-card>
           <nuxt-link
+            class="text-decoration-none"
             :to="{ path: '/search', query: { q: text, tag: card.tags} }"
           >
             <v-img
               :src="card.src"
               class="align-end"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
+              :height="card.height ? card.height : '200px'"
               cover
             >
               <v-card-title
@@ -68,7 +69,11 @@
 </template>
 
 <script>
-import imageSpring from '../assets/img/tree-3353617_640.jpg'
+import imageSpring from '../assets/img/category/gukanne.png'
+import imgVialikden from '../assets/img/category/vyalikden.png'
+import imgYurya from '../assets/img/category/yurya.png'
+import imgKupale from '../assets/img/category/kupalle.png'
+import imgVyaselle from '../assets/img/category/vyaselle.png'
 export default {
   data: () => ({
     cards: [
@@ -77,31 +82,35 @@ export default {
         src: imageSpring,
         flex: 6,
         lg: 3,
-        tags: ['песні калядныя', 'калядоўшчыкі']
+        tags: ['песні гукальныя', 'гуканне вясны', 'загуканні']
       },
       {
         title: 'Вялікдзень',
-        src: '',
+        src: imgVialikden,
         flex: 6,
-        lg: 3
+        lg: 3,
+        tags: ['вялікдзень', 'валачобнікі']
       },
       {
         title: 'Юр\'я',
-        src: '',
+        src: imgYurya,
         flex: 6,
-        lg: 3
+        lg: 3,
+        tags: ['Юр\'я']
       },
       {
         title: 'Купалле',
-        src: '',
+        src: imgKupale,
         flex: 6,
         lg: 3,
         tags: ['купалле']
       },
       {
         title: 'Вяселле',
-        src: '',
-        lg: 6
+        src: imgVyaselle,
+        lg: 6,
+        tags: ['песні вясельныя'],
+        height: '400px'
       }
     ]
   })
