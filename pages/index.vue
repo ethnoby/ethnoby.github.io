@@ -40,41 +40,28 @@
     </div>&ndash;&gt;
   </v-container>-->
 
-  <v-container fluid>
-    <v-row dense>
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex" :lg="card.lg">
-        <v-card>
-          <nuxt-link
-            class="text-decoration-none"
-            :to="{ path: '/search', query: { q: text, tag: card.tags} }"
-          >
-            <v-img
-              :src="card.src"
-              class="align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              :height="card.height ? card.height : '200px'"
-              cover
-            >
-              <v-card-title
-                class="white--text"
-              >
-                {{ card.title }}
-              </v-card-title>
-            </v-img>
-          </nuxt-link>
-        </v-card>
-      </v-col>
-    </v-row>
+  <v-container>
+    <category-list :cards="cards" />
+
+    <category-list :title="locationTitle" :cards="locationCards" />
   </v-container>
 </template>
 
 <script>
+import imgPazaabrad from 'assets/img/category/pazaabrad.png'
 import imageSpring from '../assets/img/category/gukanne.png'
 import imgVialikden from '../assets/img/category/vyalikden.png'
 import imgYurya from '../assets/img/category/yurya.png'
 import imgKupale from '../assets/img/category/kupalle.png'
 import imgVyaselle from '../assets/img/category/vyaselle.png'
+import imgZhart from '../assets/img/category/zhart.png'
+import imgKalyna from '../assets/img/category/kalyna_malyna.png'
+import imgLirica from '../assets/img/category/lirica.png'
+import imgSirota from '../assets/img/category/sirota.png'
+import categoryList from '@/components/CategoryList.vue'
 export default {
+  components: categoryList,
+
   data: () => ({
     cards: [
       {
@@ -82,35 +69,88 @@ export default {
         src: imageSpring,
         flex: 6,
         lg: 3,
-        tags: ['песні гукальныя', 'гуканне вясны', 'загуканні']
+        toLink: { path: '/search', query: { tag: ['песні гукальныя', 'гуканне вясны', 'загуканні'] } }
+
       },
       {
         title: 'Вялікдзень',
         src: imgVialikden,
         flex: 6,
         lg: 3,
-        tags: ['вялікдзень', 'валачобнікі']
+        toLink: { path: '/search', query: { tag: ['вялікдзень', 'валачобнікі'] } }
+
       },
       {
         title: 'Юр\'я',
         src: imgYurya,
         flex: 6,
         lg: 3,
-        tags: ['Юр\'я']
+        toLink: { path: '/search', query: { tag: ['Юр\'я'] } }
       },
       {
         title: 'Купалле',
         src: imgKupale,
         flex: 6,
         lg: 3,
-        tags: ['купалле']
+        toLink: { path: '/search', query: { tag: ['купалле'] } }
       },
       {
         title: 'Вяселле',
         src: imgVyaselle,
         lg: 6,
-        tags: ['песні вясельныя'],
+        toLink: { path: '/search', query: { tag: ['песні вясельныя'] } },
         height: '400px'
+      },
+      {
+        title: 'Пазаабрадавыя песні',
+        src: imgPazaabrad,
+        lg: 6,
+        toLink: { path: '/search', query: { tag: ['песні пазаабрадавыя'] } },
+        height: '400px'
+      },
+      {
+        title: 'Жартоўныя',
+        src: imgZhart,
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tag: ['песні жартоўныя'] } },
+        tags: ['песні жартоўныя']
+      },
+      {
+        title: 'Калына-малына',
+        src: imgKalyna,
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tag: ['playlist_kalyna-malyna'] } },
+        tags: ['playlist_kalyna-malyna']
+      },
+      {
+        title: 'Лірычныя',
+        src: imgLirica,
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tag: ['песні лірычныя'] } },
+        tags: ['песні лірычныя']
+      },
+      {
+        title: 'Сіроцкія',
+        src: imgSirota,
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tag: ['песні лірычныя'] } },
+        tags: ['песні сіроцкія']
+      }
+
+    ],
+    locationTitle: 'Выбраныя лакацыі',
+    locationCards: [
+      {
+        title: '',
+        src: imageSpring,
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tag: ['песні гукальныя', 'гуканне вясны', 'загуканні'] } }
+
       }
     ]
   })

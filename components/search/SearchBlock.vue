@@ -77,6 +77,7 @@
 
         <v-col cols="12" sm="6" md="4">
           <ais-hierarchical-menu
+            :limit="100"
             :attributes="['country', 'region', 'district']"
             :class-names="{
               // 'ais-HierarchicalMenu-link': 'text--secondary',
@@ -84,24 +85,24 @@
               'ais-HierarchicalMenu-list': 'mb-2'
             }"
           >
-            <template
-              #default="{
-                items,
-                refine,
-              }"
-            >
-              <v-select
-                :items="items"
-                label="Лакацыі"
-                multiple
-                chips
-                dense
-                clearable
-                deletable-chips
-                prepend-icon="mdi-map-marker"
-                @select.prevent="refine(item.value)"
-              />
-            </template>
+            <!--            <template-->
+            <!--              #default="{-->
+            <!--                items,-->
+            <!--                refine,-->
+            <!--              }"-->
+            <!--            >-->
+            <!--              <v-select-->
+            <!--                :items="items"-->
+            <!--                label="Лакацыі"-->
+            <!--                multiple-->
+            <!--                chips-->
+            <!--                dense-->
+            <!--                clearable-->
+            <!--                deletable-chips-->
+            <!--                prepend-icon="mdi-map-marker"-->
+            <!--                @select.prevent="refine(item.value)"-->
+            <!--              />-->
+            <!--            </template>-->
           </ais-hierarchical-menu>
         </v-col>
       </v-row>
@@ -308,6 +309,12 @@ export default {
           query: this.$route.query.q,
           refinementList: {
             ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() })
+
+          },
+          hierarchicalMenu: {
+            region: [
+              'Беларусь > Гомельская вобласць'
+            ]
           }
         }
       },
