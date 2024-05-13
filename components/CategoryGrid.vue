@@ -20,12 +20,14 @@
               cover
             >
               <v-card-title
-                class="white--text"
+                class="white--text subtitle-1"
               >
-                {{ card.title }}
+                <div>
+                  {{ card.title }}
+                </div>
               </v-card-title>
             </v-img>
-            <v-card-text v-if="card.text" class="text-body-2">
+            <v-card-text v-if="card.text" class="text-body-2 fill-height text-no-wrap">
               {{ card.text }}
             </v-card-text>
           </nuxt-link>
