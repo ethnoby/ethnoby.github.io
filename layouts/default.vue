@@ -9,18 +9,6 @@
     >
       <v-img contain max-height="60" src="https://ethno.by/assets/images/ethno.by-logo-c-tr.png" alt="" />
       <v-list>
-        <!--        <v-list-item
-          to="/"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Галоўная</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>-->
         <!--        <v-divider />
         <v-subheader>
           Абраныя раздзелы
@@ -73,6 +61,16 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-btn
+        class="ml-3"
+        icon
+        to="/"
+        router
+        exact
+      >
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+
       <v-spacer />
       <v-btn
         v-if="!$vuetify.breakpoint.mobile"
@@ -162,6 +160,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      </v-bt>
     </v-app-bar>
     <v-main>
       <Nuxt />
