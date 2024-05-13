@@ -106,21 +106,21 @@
           </ais-hierarchical-menu>
         </v-col>
       </v-row>
-      <v-row>
-        <ais-hierarchical-menu
-          :limit="100"
-          :attributes="[
-            'tag_lvl0',
-            'tag_lvl1',
-            'tag_lvl2',
-            'tag_lvl3',
-          ]"
-          :class-names="{
-            'ais-HierarchicalMenu-link--selected': 'text--secondary',
-            'ais-HierarchicalMenu-list': 'mb-2'
-          }"
-        />
-      </v-row>
+      <!--      <v-row>-->
+      <!--        <ais-hierarchical-menu-->
+      <!--          :limit="100"-->
+      <!--          :attributes="[-->
+      <!--            'tag_lvl0',-->
+      <!--            'tag_lvl1',-->
+      <!--            'tag_lvl2',-->
+      <!--            'tag_lvl3',-->
+      <!--          ]"-->
+      <!--          :class-names="{-->
+      <!--            'ais-HierarchicalMenu-link&#45;&#45;selected': 'text&#45;&#45;secondary',-->
+      <!--            'ais-HierarchicalMenu-list': 'mb-2'-->
+      <!--          }"-->
+      <!--        />-->
+      <!--      </v-row>-->
 
       <v-row>
         <v-col cols="12" md="8">
@@ -312,9 +312,10 @@ export default {
 
           },
           hierarchicalMenu: {
-            region: [
-              'Беларусь > Гомельская вобласць'
-            ]
+            ...(this.$route.query.loc && { country: [this.$route.query.loc].flat() })
+            // country: [
+            //   'Беларусь > Гомельская вобласць > Лельчыцкі раён'
+            // ]
           }
         }
       },

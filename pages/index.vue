@@ -1,72 +1,20 @@
 <template>
-  <!--  <v-container fluid>
-    <v-row no-gutters>
-      <v-col cols="3">
-        <v-card>
-          <v-card-text>Калына малына</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="3">
-        <v-card>
-          <v-card-text>Калына малына</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="3">
-        <v-card>
-          <v-card-text>Калына малына</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="3">
-        <v-card>
-          <v-card-text>Калына малына</v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    &lt;!&ndash;    <v-carousel v-model="model">
-      <v-carousel-item
-        v-for="(item, i) in carouselItems"
-        :key="i"
-        :src="item"
-      />
-    </v-carousel>
-    <div class="cards d-flex flex-wrap align-start align-self-start">
-      <v-skeleton-loader
-        v-for="i in 20"
-        :key="i"
-        class="ma-2"
-        width="220"
-        type="card"
-      />
-    </div>&ndash;&gt;
-  </v-container>-->
-
-  <v-container>
-    <category-list :cards="cards" />
-
-    <category-list :title="locationTitle" :cards="locationCards" />
+  <v-container fluid>
+    <category-grid :cards="cards" />
+    <category-grid :title="locationTitle" :cards="locationCards" />
   </v-container>
 </template>
 
 <script>
-import imgPazaabrad from 'assets/img/category/pazaabrad.png'
-import imageSpring from '../assets/img/category/gukanne.png'
-import imgVialikden from '../assets/img/category/vyalikden.png'
-import imgYurya from '../assets/img/category/yurya.png'
-import imgKupale from '../assets/img/category/kupalle.png'
-import imgVyaselle from '../assets/img/category/vyaselle.png'
-import imgZhart from '../assets/img/category/zhart.png'
-import imgKalyna from '../assets/img/category/kalyna_malyna.png'
-import imgLirica from '../assets/img/category/lirica.png'
-import imgSirota from '../assets/img/category/sirota.png'
-import categoryList from '@/components/CategoryList.vue'
+import categoryGrid from '@/components/CategoryGrid.vue'
 export default {
-  components: categoryList,
+  components: categoryGrid,
 
   data: () => ({
     cards: [
       {
         title: 'Гуканне Вясны',
-        src: imageSpring,
+        src: require('@/assets/img/category/gukanne.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['песні гукальныя', 'гуканне вясны', 'загуканні'] } }
@@ -74,7 +22,7 @@ export default {
       },
       {
         title: 'Вялікдзень',
-        src: imgVialikden,
+        src: require('@/assets/img/category/vyalikden.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['вялікдзень', 'валачобнікі'] } }
@@ -82,35 +30,35 @@ export default {
       },
       {
         title: 'Юр\'я',
-        src: imgYurya,
+        src: require('@/assets/img/category/yurya.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['Юр\'я'] } }
       },
       {
         title: 'Купалле',
-        src: imgKupale,
+        src: require('@/assets/img/category/yurya.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['купалле'] } }
       },
       {
         title: 'Вяселле',
-        src: imgVyaselle,
+        src: require('@/assets/img/category/vyaselle.png'),
         lg: 6,
         toLink: { path: '/search', query: { tag: ['песні вясельныя'] } },
         height: '400px'
       },
       {
         title: 'Пазаабрадавыя песні',
-        src: imgPazaabrad,
+        src: require('@/assets/img/category/pazaabrad.png'),
         lg: 6,
         toLink: { path: '/search', query: { tag: ['песні пазаабрадавыя'] } },
         height: '400px'
       },
       {
         title: 'Жартоўныя',
-        src: imgZhart,
+        src: require('@/assets/img/category/zhart.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['песні жартоўныя'] } },
@@ -118,7 +66,7 @@ export default {
       },
       {
         title: 'Калына-малына',
-        src: imgKalyna,
+        src: require('@/assets/img/category/kalyna_malyna.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['playlist_kalyna-malyna'] } },
@@ -126,7 +74,7 @@ export default {
       },
       {
         title: 'Лірычныя',
-        src: imgLirica,
+        src: require('@/assets/img/category/lirica.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['песні лірычныя'] } },
@@ -134,7 +82,7 @@ export default {
       },
       {
         title: 'Сіроцкія',
-        src: imgSirota,
+        src: require('@/assets/img/category/sirota.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['песні лірычныя'] } },
@@ -146,11 +94,51 @@ export default {
     locationCards: [
       {
         title: '',
-        src: imageSpring,
+        src: require('@/assets/img/category/locations/zhitkavitski.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['песні гукальныя', 'гуканне вясны', 'загуканні'] } }
-
+        toLink: { path: '/search', query: { loc: 'Беларусь > Гомельская вобласць > Жыткавіцкі раён' } },
+        text: 'Жыткавіцкі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/lelchistki.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Беларусь > Гомельская вобласць > Лельчыцкі раён' } },
+        text: 'Лельчыцкі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/pinski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Беларусь > Брэсцкая вобласць > Пінскі раён' } },
+        text: 'Пінскі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/smargon.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Беларусь > Гродзенская вобласць > Смаргонскі раён' } },
+        text: 'Смаргонскі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/garadotski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Беларусь > Віцебская вобласць > Гарадоцкі раён' } },
+        text: 'Гарадоцкі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/krasnapolski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Беларусь > Магілёўская вобласць > Краснапольскі раён' } },
+        text: 'Краснапольскі раён'
       }
     ]
   })

@@ -25,6 +25,9 @@
                 {{ card.title }}
               </v-card-title>
             </v-img>
+            <v-card-text v-if="card.text" class="text-body-2">
+              {{ card.text }}
+            </v-card-text>
           </nuxt-link>
         </v-card>
       </v-col>
@@ -35,7 +38,7 @@
 <script>
 
 export default {
-  name: 'CategoryList',
+  name: 'CategoryGrid',
   props: {
     cards: {
       type: Array,
