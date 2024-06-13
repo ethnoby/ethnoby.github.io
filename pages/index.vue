@@ -97,7 +97,7 @@ export default {
         src: require('@/assets/img/category/locations/zhitkavitski.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { loc: 'Беларусь > Гомельская вобласць > Жыткавіцкі раён' } },
+        toLink: { path: '/search', query: { loc: 'Жыткавіцкі раён' } },
         text: 'Жыткавіцкі раён'
       },
       {
@@ -105,7 +105,7 @@ export default {
         src: require('@/assets/img/category/locations/lelchistki.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { loc: 'Беларусь > Гомельская вобласць > Лельчыцкі раён' } },
+        toLink: { path: '/search', query: { loc: 'Лельчыцкі раён' } },
         text: 'Лельчыцкі раён'
       },
       {
@@ -113,7 +113,7 @@ export default {
         src: require('@/assets/img/category/locations/pinski.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { loc: 'Беларусь > Брэсцкая вобласць > Пінскі раён' } },
+        toLink: { path: '/search', query: { loc: 'Пінскі раён' } },
         text: 'Пінскі раён'
       },
       {
@@ -121,7 +121,7 @@ export default {
         src: require('@/assets/img/category/locations/smargon.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { loc: 'Беларусь > Гродзенская вобласць > Смаргонскі раён' } },
+        toLink: { path: '/search', query: { loc: 'Смаргонскі раён' } },
         text: 'Смаргонскі раён'
       },
       {
@@ -129,7 +129,7 @@ export default {
         src: require('@/assets/img/category/locations/garadotski.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { loc: 'Беларусь > Віцебская вобласць > Гарадоцкі раён' } },
+        toLink: { path: '/search', query: { loc: 'Гарадоцкі раён' } },
         text: 'Гарадоцкі раён'
       },
       {
@@ -137,7 +137,7 @@ export default {
         src: require('@/assets/img/category/locations/krasnapolski.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { loc: 'Беларусь > Магілёўская вобласць > Краснапольскі раён' } },
+        toLink: { path: '/search', query: { loc: 'Краснапольскі раён' } },
         text: 'Краснапольскі раён'
       }
     ]

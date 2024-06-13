@@ -22,7 +22,6 @@
                 <v-skeleton-loader
                   v-for="i in hitsPerPage"
                   :key="i"
-                  class="ma-2"
                   type="article"
                 />
               </template>
@@ -32,8 +31,8 @@
 
         <v-col cols="12" sm="6" md="4">
           <ais-refinement-list
-            class="mb-2"
             attribute="tags"
+            :limit="300"
             :transform-items="excludeCustomPlaylist"
             :class-names="{
               'ais-RefinementList-item' : 'text--secondary',
@@ -43,7 +42,7 @@
             <template
               #default="{
                 items,
-                refine,
+                refine
               }"
             >
               <v-select
@@ -57,6 +56,7 @@
                 deletable-chips
                 prepend-icon="mdi-playlist-music"
                 @change="performSearch($event, refine, 'tags')"
+                @click:clear="toggleAll(items, refine, 'tags' )"
               >
                 <template #item="{ item }">
                   {{ item.value }}
@@ -76,51 +76,54 @@
         </v-col>
 
         <v-col cols="12" sm="6" md="4">
-          <ais-hierarchical-menu
-            :limit="100"
-            :attributes="['country', 'region', 'district']"
+          <ais-refinement-list
+            attribute="location_uni"
+            :limit="300"
+            :searchable="true"
             :class-names="{
-              // 'ais-HierarchicalMenu-link': 'text--secondary',
-              'ais-HierarchicalMenu-link--selected': 'text--secondary',
-              'ais-HierarchicalMenu-list': 'mb-2'
+              'ais-RefinementList-item' : 'text--secondary',
+              'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
             }"
           >
-            <!--            <template-->
-            <!--              #default="{-->
-            <!--                items,-->
-            <!--                refine,-->
-            <!--              }"-->
-            <!--            >-->
-            <!--              <v-select-->
-            <!--                :items="items"-->
-            <!--                label="Лакацыі"-->
-            <!--                multiple-->
-            <!--                chips-->
-            <!--                dense-->
-            <!--                clearable-->
-            <!--                deletable-chips-->
-            <!--                prepend-icon="mdi-map-marker"-->
-            <!--                @select.prevent="refine(item.value)"-->
-            <!--              />-->
-            <!--            </template>-->
-          </ais-hierarchical-menu>
+            <template
+              #default="{
+                items,
+                refine
+
+              }"
+            >
+              <v-autocomplete
+                v-model="selectedLoc"
+                :items="items"
+                :search-input.sync="locationSearchInput"
+                label="Лакацыі"
+                no-data-text="Лакацыі не знойдзена"
+                item-text="label"
+                item-value="label"
+                clearable
+                chips
+                dense
+                deletable-chips
+                prepend-icon="mdi-map-marker"
+                @change="performSearch($event, refine, 'loc')"
+                @click:clear="clearSearch(selectedLoc, refine, 'loc' )"
+              >
+                <template #item="{ item }">
+                  <span v-html="highlightSearchTerm(item.label)" />
+                  <v-chip x-small>
+                    {{ item.count }}
+                  </v-chip>
+                </template>
+                <template #selection="{ item }">
+                  <v-chip>
+                    <span>{{ item.value }}</span>
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </template>
+          </ais-refinement-list>
         </v-col>
       </v-row>
-      <!--      <v-row>-->
-      <!--        <ais-hierarchical-menu-->
-      <!--          :limit="100"-->
-      <!--          :attributes="[-->
-      <!--            'tag_lvl0',-->
-      <!--            'tag_lvl1',-->
-      <!--            'tag_lvl2',-->
-      <!--            'tag_lvl3',-->
-      <!--          ]"-->
-      <!--          :class-names="{-->
-      <!--            'ais-HierarchicalMenu-link&#45;&#45;selected': 'text&#45;&#45;secondary',-->
-      <!--            'ais-HierarchicalMenu-list': 'mb-2'-->
-      <!--          }"-->
-      <!--        />-->
-      <!--      </v-row>-->
 
       <v-row>
         <v-col cols="12" md="8">
@@ -130,16 +133,6 @@
               Старонка {{ page + 1 }}/{{ nbPages }}, па {{ hitsPerPage }} .
             </template>
           </ais-stats>
-        </v-col>
-        <v-col cols="12" md="4">
-          <ais-hits-per-page
-            :items="[
-              { label: '10 hits per page', value: 10, default: true },
-              { label: '25 hits per page', value: 25 },
-              { label: '50 hits per page', value: 50 },
-              { label: '100 hits per page', value: 100 },
-            ]"
-          />
         </v-col>
       </v-row>
 
@@ -269,10 +262,9 @@
 
 <script>
 import {
-  AisHierarchicalMenu,
+  // AisHierarchicalMenu,
   AisHighlight,
   AisHits,
-  AisHitsPerPage,
   AisInstantSearch,
   AisPagination, AisRefinementList,
   AisSearchBox,
@@ -283,10 +275,9 @@ import typesenseInstantsearchAdapter from './typesense'
 
 export default {
   components: {
-    AisHierarchicalMenu,
+    // AisHierarchicalMenu,
     AisHighlight,
     AisHits,
-    AisHitsPerPage,
     AisInstantSearch,
     AisPagination,
     AisRefinementList,
@@ -308,18 +299,21 @@ export default {
         songs: {
           query: this.$route.query.q,
           refinementList: {
-            ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() })
-
-          },
-          hierarchicalMenu: {
-            ...(this.$route.query.loc && { country: [this.$route.query.loc].flat() })
-            // country: [
-            //   'Беларусь > Гомельская вобласць > Лельчыцкі раён'
-            // ]
+            ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() }),
+            ...(this.$route.query.loc && { location_uni: [this.$route.query.loc].flat() })
           }
+          // ,
+          // hierarchicalMenu: {
+          //   ...(this.$route.query.loc && { country: [this.$route.query.loc].flat() })
+          // country: [
+          //   'Беларусь > Гомельская вобласць > Лельчыцкі раён'
+          // ]
+          // }
         }
       },
-      selectedTags: this.$route.query.tag
+      selectedTags: this.$route.query.tag,
+      selectedLoc: this.$route.query.loc,
+      locationSearchInput: this.$route.query.loc
     }
   },
 
@@ -341,25 +335,62 @@ export default {
     performSearch (event, refineFunction, queryParamName) {
       const currentRoute = this.$route
       const updatedQuery = { ...currentRoute.query }
-      if (event === null) {
-        delete updatedQuery[queryParamName]
-        this.$router.push({
-          path: currentRoute.path,
-          query: updatedQuery
-        })
-        refineFunction()
-      } else {
+      if (event !== null && (!Array.isArray(event) || event.length !== 0)) {
+        let refineValue
+        if (Array.isArray(event)) {
+          refineValue = event[event.length - 1]
+        } else {
+          refineValue = event
+        }
         updatedQuery[queryParamName] = event
         this.$router.push({
           path: currentRoute.path,
           query: updatedQuery
         })
-        refineFunction(event)
+        refineFunction(refineValue)
       }
+    },
+
+    clearSearch (valueToRemove, refineFunction, queryParamName) {
+      console.log('valueToRemove: ')
+      console.log(valueToRemove)
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      delete updatedQuery[queryParamName]
+      this.$router.push({
+        path: currentRoute.path,
+        query: updatedQuery
+      })
+
+      refineFunction(valueToRemove)
+    },
+
+    toggleAll (items, refine, queryParamName) {
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      delete updatedQuery[queryParamName]
+      this.$router.push({
+        path: currentRoute.path,
+        query: updatedQuery
+      })
+      items.forEach((item) => {
+        if (item.isRefined) {
+          refine(item.value)
+        }
+      })
     },
 
     excludeCustomPlaylist (items) {
       return items.filter(item => !item.label.match(/^playlist*/))
+    },
+
+    highlightSearchTerm (item) {
+      if (!this.locationSearchInput) { return item }
+
+      const re = new RegExp(`(${this.locationSearchInput})`, 'gi')
+      const highlighted = item.replace(re, '<span class="v-list-item__mask">$1</span>')
+
+      return highlighted
     },
 
     geoToArray (geo) {
