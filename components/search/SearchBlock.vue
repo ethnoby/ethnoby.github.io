@@ -352,8 +352,6 @@ export default {
     },
 
     clearSearch (valueToRemove, refineFunction, queryParamName) {
-      console.log('valueToRemove: ')
-      console.log(valueToRemove)
       const currentRoute = this.$route
       const updatedQuery = { ...currentRoute.query }
       delete updatedQuery[queryParamName]
