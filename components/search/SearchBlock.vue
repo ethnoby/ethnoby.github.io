@@ -7,7 +7,9 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="4">
-          <ais-search-box>
+          <ais-search-box
+            ignore-composition-events="true"
+          >
             <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
               <v-text-field
                 ref="searchbox"
@@ -16,7 +18,8 @@
                 clearable
                 prepend-icon="mdi-text-search"
                 :value="currentRefinement"
-                @input="performSearch($event, refine, 'q')"
+                @input="refineSearch($event, refine, 'q')"
+                @click:clear="clearSearch(currentRefinement,refins, 'q')"
               />
               <template v-if="isSearchStalled">
                 <v-skeleton-loader
@@ -188,9 +191,6 @@
                             }}
                           </span>
                         </div>
-                        <div v-if="item._highlightResult.content_nohtml.matchedWords.length">
-                          {{ item._highlightResult.content_nohtml.matchedWords }}
-                        </div>
                         <div v-if="item.content && searchQuery && item.content_nohtml.includes(item._highlightResult.content_nohtml.matchedWords[0])" class="caption mt-3">
                           <strong class="text--secondary">Знойдзена ў тэксце:</strong>
                           <ais-snippet attribute="content_nohtml" :hit="item" />
@@ -271,6 +271,7 @@ import {
   AisSnippet,
   AisStats
 } from 'vue-instantsearch'
+import { debounce } from 'lodash'
 import typesenseInstantsearchAdapter from './typesense'
 
 export default {
@@ -332,6 +333,27 @@ export default {
   },
 
   methods: {
+    refineSearch:
+      debounce(function (event, refineFunction, queryParamName) {
+        const currentRoute = this.$route
+        const updatedQuery = { ...currentRoute.query }
+        if (event !== null && (!Array.isArray(event) || event.length !== 0)) {
+          let refineValue
+          if (Array.isArray(event)) {
+            refineValue = event[event.length - 1]
+          } else {
+            refineValue = event
+          }
+          updatedQuery[queryParamName] = event
+          this.$router.push({
+            path: currentRoute.path,
+            query: updatedQuery
+          })
+          refineFunction(refineValue)
+        }
+      }, 600
+      ),
+
     performSearch (event, refineFunction, queryParamName) {
       const currentRoute = this.$route
       const updatedQuery = { ...currentRoute.query }
