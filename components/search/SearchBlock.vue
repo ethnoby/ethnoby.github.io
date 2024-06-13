@@ -19,7 +19,7 @@
                 prepend-icon="mdi-text-search"
                 :value="currentRefinement"
                 @input="refineSearch($event, refine, 'q')"
-                @click:clear="clearSearch(currentRefinement,refins, 'q')"
+                @click:clear="clearSearch(currentRefinement, refine, 'q')"
               />
               <template v-if="isSearchStalled">
                 <v-skeleton-loader
