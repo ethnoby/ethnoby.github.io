@@ -352,7 +352,7 @@ export default {
           })
           refineFunction(refineValue)
         }
-      }, 500
+      }, 2000
       ),
 
     performSearch (event, refineFunction, queryParamName) {
