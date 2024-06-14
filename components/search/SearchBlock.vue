@@ -7,9 +7,7 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="4">
-          <ais-search-box
-            ignore-composition-events="true"
-          >
+          <ais-search-box>
             <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
               <v-text-field
                 ref="searchbox"
@@ -19,7 +17,7 @@
                 prepend-icon="mdi-text-search"
                 :value="currentRefinement"
                 @input="refineSearch($event, refine, 'q')"
-                @click:clear="clearSearch(currentRefinement, refine, 'q')"
+                @click:clear="clearSearch('', refine,'q')"
               />
               <template v-if="isSearchStalled">
                 <v-skeleton-loader
@@ -191,6 +189,9 @@
                             }}
                           </span>
                         </div>
+                        <div v-if="item._highlightResult.content_nohtml.matchedWords.length">
+                          {{ item._highlightResult.content_nohtml.matchedWords }}
+                        </div>
                         <div v-if="item.content && searchQuery && item.content_nohtml.includes(item._highlightResult.content_nohtml.matchedWords[0])" class="caption mt-3">
                           <strong class="text--secondary">Знойдзена ў тэксце:</strong>
                           <ais-snippet attribute="content_nohtml" :hit="item" />
@@ -351,7 +352,7 @@ export default {
           })
           refineFunction(refineValue)
         }
-      }, 600
+      }, 500
       ),
 
     performSearch (event, refineFunction, queryParamName) {
@@ -373,7 +374,7 @@ export default {
       }
     },
 
-    clearSearch (valueToRemove, refineFunction, queryParamName) {
+    clearSearch (valueToClearRefine, refineFunction, queryParamName) {
       const currentRoute = this.$route
       const updatedQuery = { ...currentRoute.query }
       delete updatedQuery[queryParamName]
@@ -382,7 +383,7 @@ export default {
         query: updatedQuery
       })
 
-      refineFunction(valueToRemove)
+      refineFunction(valueToClearRefine)
     },
 
     toggleAll (items, refine, queryParamName) {
