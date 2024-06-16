@@ -4,7 +4,19 @@
     :index-name="collection"
     :initial-ui-state="initialUiState"
   >
-    <v-container fluid>
+    <!--    <v-card> {{ title }}</v-card>-->
+    <v-container fluid class="ma-0 pa-0">
+      <v-card
+        v-if="title"
+        flat
+        class="ma-0 pa-0 "
+      >
+        <v-card-text class="ma-0 pa-0">
+          Плейліст
+          <span class="text-h5 pl-1">  {{ title }} </span>
+        </v-card-text>
+      </v-card>
+
       <v-row>
         <v-col cols="12" md="4">
           <ais-search-box>
@@ -315,7 +327,8 @@ export default {
       },
       selectedTags: this.$route.query.tag,
       selectedLoc: this.$route.query.loc,
-      locationSearchInput: this.$route.query.loc
+      locationSearchInput: this.$route.query.loc,
+      title: this.$route.query.t
     }
   },
 
