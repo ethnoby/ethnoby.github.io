@@ -10,7 +10,7 @@
       </h1>
 
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" class="pb-0 pa-0 pl-3 pr-3">
           <ais-search-box>
             <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
               <v-text-field
@@ -34,7 +34,7 @@
           </ais-search-box>
         </v-col>
 
-        <v-col cols="12" sm="6" md="4">
+        <v-col cols="12" sm="6" md="4" class="pb-0 pa-0 pl-3 pr-3">
           <ais-refinement-list
             attribute="tags"
             :limit="300"
@@ -61,7 +61,7 @@
                 deletable-chips
                 prepend-icon="mdi-playlist-music"
                 @change="performSearch($event, refine, 'tags')"
-                @click:clear="toggleAll(items, refine, 'tags' )"
+                @click:clear="toggleAll(items, refine, 'tags')"
               >
                 <template #item="{ item }">
                   {{ item.value }}
@@ -80,7 +80,7 @@
           </ais-refinement-list>
         </v-col>
 
-        <v-col cols="12" sm="6" md="4">
+        <v-col cols="12" sm="6" md="4" class="pb-0 pa-0 pl-3 pr-3">
           <ais-refinement-list
             attribute="location_uni"
             :limit="300"
@@ -131,7 +131,7 @@
       </v-row>
 
       <v-row>
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="8" class="pb-0 pa-0 pl-3 pr-3">
           <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
             <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
               <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
@@ -141,8 +141,8 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12" md="6">
+      <v-row class="ma-0">
+        <v-col cols="12" md="6" class="pb-0 pa-0 pl-3 pr-3">
           <ais-pagination class="mb-2">
             <template
               #default="{
@@ -218,7 +218,7 @@
             </template>
           </ais-hits>
 
-          <ais-pagination class="mt-6">
+          <ais-pagination class="mt-4">
             <template
               #default="{
                 nbPages,
@@ -237,29 +237,29 @@
           </ais-pagination>
         </v-col>
 
-        <v-col cols="12" md="6">
-          <v-responsive height="75vh">
-            <client-only>
-              <l-map :zoom="6" :center="[53.893009, 27.567444]">
-                <l-tile-layer
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                  attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-                />
-                <ais-hits :escape-h-t-m-l="false">
-                  <template #default="{ items }">
-                    <template v-for="item in items">
-                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="item.geo">
-                        <l-popup>
-                          {{ item.location ? item.location[0] : item.document.location[0] }}
-                        </l-popup>
-                      </l-marker>
-                    </template>
-                  </template>
-                </ais-hits>
-              </l-map>
-            </client-only>
-          </v-responsive>
-        </v-col>
+        <!--        <v-col cols="12" md="6">-->
+        <!--          <v-responsive height="75vh">-->
+        <!--            <client-only>-->
+        <!--              <l-map :zoom="6" :center="[53.893009, 27.567444]">-->
+        <!--                <l-tile-layer-->
+        <!--                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"-->
+        <!--                  attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"-->
+        <!--                />-->
+        <!--                <ais-hits :escape-h-t-m-l="false">-->
+        <!--                  <template #default="{ items }">-->
+        <!--                    <template v-for="item in items">-->
+        <!--                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="item.geo">-->
+        <!--                        <l-popup>-->
+        <!--                          {{ item.location ? item.location[0] : item.document.location[0] }}-->
+        <!--                        </l-popup>-->
+        <!--                      </l-marker>-->
+        <!--                    </template>-->
+        <!--                  </template>-->
+        <!--                </ais-hits>-->
+        <!--              </l-map>-->
+        <!--            </client-only>-->
+        <!--          </v-responsive>-->
+        <!--        </v-col>-->
       </v-row>
     </v-container>
   </ais-instant-search>
@@ -357,7 +357,7 @@ export default {
           })
           refineFunction(refineValue)
         }
-      }, 2000
+      }, 1000
       ),
 
     performSearch (event, refineFunction, queryParamName) {
@@ -380,6 +380,7 @@ export default {
     },
 
     clearSearch (valueToClearRefine, refineFunction, queryParamName) {
+      // remove query param
       const currentRoute = this.$route
       const updatedQuery = { ...currentRoute.query }
       delete updatedQuery[queryParamName]
@@ -388,6 +389,7 @@ export default {
         query: updatedQuery
       })
 
+      // clear refinement
       refineFunction(valueToClearRefine)
     },
 

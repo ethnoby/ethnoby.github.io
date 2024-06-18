@@ -137,9 +137,9 @@
           :height="embedHeight"
           v-html="embedCode"
         />
-        <v-card v-if="item.video_url && $store.state.user">
+        <div v-if="item.video_url && $store.state.user">
           <youtube :video-id="item.video_id" />
-        </v-card>
+        </div>
 
       <!-- eslint-enable vue/no-v-html -->
       </v-col>
