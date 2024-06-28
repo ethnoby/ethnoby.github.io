@@ -172,17 +172,23 @@
             <template #default="{ items }">
               <div v-for="item in items" :key="item.objectID">
                 <v-expansion-panels>
-                  <v-expansion-panel v-if="item.content" flat accordion>
-                    <v-expansion-panel-header>
+                  <v-expansion-panel v-if="item.content" flat accordion class="rounded-0">
+                    <v-expansion-panel-header class="pb-1 pa-1">
                       <v-img
                         v-if="item.thumbnail_url"
                         :src="item.thumbnail_url"
-                        class="mr-6"
-                        max-width="60px"
+                        class="mr-6 ml-1 "
+                        max-width="50px"
                       />
+                      <!--                      <v-img-->
+                      <!--                        v-else-->
+                      <!--                        :src="require('@/assets/img/empty.png')"-->
+                      <!--                        class="mr-6 ml-1"-->
+                      <!--                        max-width="50px"-->
+                      <!--                      />-->
                       <div class="text-left">
                         <div class="d-flex text-left" @click.stop>
-                          <nuxt-link :to="`songs/${item.id}/`" class="text--secondary">
+                          <nuxt-link :to="`songs/${item.id}/`" class="text--secondary text-decoration-none">
                             <ais-highlight attribute="name" :hit="item" class="text-center text-body-1 text--primary" />
                           </nuxt-link>
                         </div>
@@ -192,9 +198,6 @@
                               item.location ? item.location[0] : item.document.location[0]
                             }}
                           </span>
-                        </div>
-                        <div v-if="item._highlightResult.content_nohtml.matchedWords.length">
-                          {{ item._highlightResult.content_nohtml.matchedWords }}
                         </div>
                         <div v-if="item.content && searchQuery && item.content_nohtml.includes(item._highlightResult.content_nohtml.matchedWords[0])" class="caption mt-3">
                           <strong class="text--secondary">Знойдзена ў тэксце:</strong>
