@@ -1,13 +1,13 @@
 <template>
-  <v-container fluid>
+  <div>
     <v-row>
       <v-col cols="12">
         <div><h1>{{ title }}</h1></div>
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex" :lg="card.lg">
-        <v-card>
+      <v-col v-for="card in cards" :key="card.title" :cols="card.flex" :lg="card.lg" class="pa-1 pb-1">
+        <v-card class="rounded-0">
           <nuxt-link
             class="text-decoration-none"
             :to="card.toLink"
@@ -34,7 +34,7 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>

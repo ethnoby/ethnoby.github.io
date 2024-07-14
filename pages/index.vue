@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <category-grid :cards="cards" />
+    <category-grid :title="title" :cards="cards" />
     <category-grid :title="locationTitle" :cards="locationCards" />
   </v-container>
 </template>
@@ -11,6 +11,7 @@ export default {
   components: categoryGrid,
 
   data: () => ({
+    title: 'Актуальныя катэгорыі',
     cards: [
       {
         title: 'Гуканне Вясны',
@@ -37,7 +38,7 @@ export default {
       },
       {
         title: 'Купалле',
-        src: require('@/assets/img/category/yurya.png'),
+        src: require('@/assets/img/category/kupalle.png'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tag: ['купалле'], t: 'Купалле' } }
