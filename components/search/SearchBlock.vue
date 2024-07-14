@@ -173,19 +173,13 @@
               <div v-for="item in items" :key="item.objectID">
                 <v-expansion-panels>
                   <v-expansion-panel v-if="item.content" flat accordion class="rounded-0">
-                    <v-expansion-panel-header class="pb-1 pa-1">
+                    <v-expansion-panel-header class="pa-1">
                       <v-img
                         v-if="item.thumbnail_url"
                         :src="item.thumbnail_url"
-                        class="mr-6 ml-1 "
-                        max-width="50px"
+                        class="fixed-size-img mr-5 ml-1"
                       />
-                      <!--                      <v-img-->
-                      <!--                        v-else-->
-                      <!--                        :src="require('@/assets/img/empty.png')"-->
-                      <!--                        class="mr-6 ml-1"-->
-                      <!--                        max-width="50px"-->
-                      <!--                      />-->
+                      <div v-else class="placeholder fixed-size-img mr-5 ml-1" />
                       <div class="text-left">
                         <div class="d-flex text-left" @click.stop>
                           <nuxt-link :to="`songs/${item.id}/`" class="text--secondary text-decoration-none">
@@ -442,3 +436,20 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.fixed-size-img {
+  max-width: 60px;
+  max-height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.placeholder {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
