@@ -16,6 +16,7 @@
           :to="item.to"
           router
           exact
+          :disabled="item.disabled"
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -160,26 +161,9 @@
     </v-navigation-drawer>
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
-      <!--      <v-btn to="/songs/ceremony">-->
-      <!--        <span style="word-break: normal !important;">Песні</span>-->
-      <!--        <span style="word-break: normal !important;">Абрадавыя</span>-->
-      <!--        <v-icon>mdi-playlist-music</v-icon>-->
-      <!--      </v-btn>-->
-
       <v-btn @click="goBack">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-
-      <!--      <v-btn-->
-      <!--        v-if="!$vuetify.breakpoint.mobile"-->
-      <!--        class="ml-3"-->
-      <!--        icon-->
-      <!--        to="/search"-->
-      <!--        router-->
-      <!--        exact-->
-      <!--      >-->
-      <!--        <v-icon>mdi-heart</v-icon>-->
-      <!--      </v-btn>-->
 
       <v-btn
         class="ml-3"
@@ -229,30 +213,23 @@ export default {
         {
           icon: 'mdi-playlist-music',
           title: 'Песні',
-          to: '/songs'
+          to: '/',
+          disabled: false
+        },
+
+        {
+          icon: 'mdi-violin',
+          title: 'Найгрышы',
+          to: '/nopage',
+          disabled: true
         },
         {
-          icon: 'mdi-playlist-music',
-          title: 'Абрадавыя Песні',
-          to: '/songs/ceremony'
-        },
-        {
-          icon: 'mdi-playlist-music',
-          title: 'Пазаабрадавыя Песні',
-          to: '/songs/non_ceremony'
+          // icon: 'mdi-dance-ballroom',
+          icon: 'mdi-shoe-print',
+          title: 'Танцы',
+          to: '/nopage',
+          disabled: true
         }
-        // ,
-        // {
-        //   icon: 'mdi-violin',
-        //   title: 'Найгрышы',
-        //   to: '/tunes'
-        // },
-        // {
-        //   // icon: 'mdi-dance-ballroom',
-        //   icon: 'mdi-shoe-print',
-        //   title: 'Танцы',
-        //   to: '/tunes'
-        // }
       ],
       allItems: [
         {
