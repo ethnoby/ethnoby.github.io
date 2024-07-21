@@ -303,12 +303,12 @@ export default {
           query: this.$route.query.q,
           page: this.$route.query.p ? parseInt(this.$route.query.p) : 0,
           refinementList: {
-            ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() }),
+            ...(this.$route.query.tags && { tags: [this.$route.query.tags].flat() }),
             ...(this.$route.query.loc && { location_uni: [this.$route.query.loc].flat() })
           }
         }
       },
-      selectedTags: this.$route.query.tag,
+      selectedTags: this.$route.query.tags,
       selectedLoc: this.$route.query.loc,
       locationSearchInput: this.$route.query.loc,
       title: this.$route.query.t

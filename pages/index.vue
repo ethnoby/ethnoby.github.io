@@ -18,7 +18,7 @@ export default {
         src: require('@/assets/img/category/gukanne.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['песні гукальныя', 'гуканне вясны', 'загуканні'], t: 'Гуканне Вясны' } }
+        toLink: { path: '/search', query: { tags: ['песні гукальныя', 'гуканне вясны', 'загуканні'], t: 'Гуканне Вясны' } }
 
       },
       {
@@ -26,7 +26,7 @@ export default {
         src: require('@/assets/img/category/vyalikden.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['вялікдзень', 'валачобнікі'], t: 'Вялікдзень' } }
+        toLink: { path: '/search', query: { tags: ['вялікдзень', 'валачобнікі'], t: 'Вялікдзень' } }
 
       },
       {
@@ -34,27 +34,27 @@ export default {
         src: require('@/assets/img/category/yurya.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['Юр\'я'], t: 'Юр\'я' } }
+        toLink: { path: '/search', query: { tags: ['Юр\'я'], t: 'Юр\'я' } }
       },
       {
         title: 'Купалле',
         src: require('@/assets/img/category/kupalle.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['купалле'], t: 'Купалле' } }
+        toLink: { path: '/search', query: { tags: ['купалле'], t: 'Купалле' } }
       },
       {
         title: 'Вяселле',
         src: require('@/assets/img/category/vyaselle.png'),
         lg: 6,
-        toLink: { path: '/search', query: { tag: ['песні вясельныя'], t: 'Вяселле' } },
+        toLink: { path: '/search', query: { tags: ['песні вясельныя'], t: 'Вяселле' } },
         height: '400px'
       },
       {
         title: 'Пазаабрадавыя песні',
         src: require('@/assets/img/category/pazaabrad.png'),
         lg: 6,
-        toLink: { path: '/search', query: { tag: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },
+        toLink: { path: '/search', query: { tags: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },
         height: '400px'
       },
       {
@@ -62,7 +62,7 @@ export default {
         src: require('@/assets/img/category/zhart.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['песні жартоўныя'], t: 'Жартоўныя' } },
+        toLink: { path: '/search', query: { tags: ['песні жартоўныя'], t: 'Жартоўныя' } },
         tags: ['песні жартоўныя']
       },
       {
@@ -70,7 +70,7 @@ export default {
         src: require('@/assets/img/category/kalyna_malyna.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['playlist_kalyna-malyna'], t: 'Калына-малына' } },
+        toLink: { path: '/search', query: { tags: ['playlist_kalyna-malyna'], t: 'Калына-малына' } },
         tags: ['playlist_kalyna-malyna']
       },
       {
@@ -78,7 +78,7 @@ export default {
         src: require('@/assets/img/category/lirica.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['песні лірычныя'], t: 'Лірычныя' } },
+        toLink: { path: '/search', query: { tags: ['песні лірычныя'], t: 'Лірычныя' } },
         tags: ['песні лірычныя']
       },
       {
@@ -86,7 +86,7 @@ export default {
         src: require('@/assets/img/category/sirota.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tag: ['песні лірычныя'], t: 'Сіроцкія' } },
+        toLink: { path: '/search', query: { tags: ['песні сіроцкія'], t: 'Сіроцкія' } },
         tags: ['песні сіроцкія']
       }
 
