@@ -20,7 +20,7 @@
                 clearable
                 prepend-icon="mdi-text-search"
                 :value="currentRefinement"
-                @input="refineSearch($event, refine, 'q')"
+                @input="debouncedSearch($event, refine, 'q')"
                 @click:clear="clearSearch('', refine,'q')"
               />
               <template v-if="isSearchStalled">
@@ -151,12 +151,13 @@
                 refine
               }"
             >
+              <!--               // typesense pagination start with 0; v-pagination starts with 1-->
               <v-pagination
                 v-if="nbHits"
                 v-model="currentPage"
                 :length="nbPages"
                 :total-visible="7"
-                @input="refine(currentPage-1)"
+                @input="performPagination(currentPage, refine)"
               />
               <v-banner
                 v-else
@@ -296,22 +297,17 @@ export default {
 
   data () {
     return {
-      currentPage: 5,
+      currentPage: this.$route.query.p ? parseInt(this.$route.query.p) : 1,
       searchClient: typesenseInstantsearchAdapter.searchClient,
       initialUiState: {
         songs: {
           query: this.$route.query.q,
+          // typesense pagination start with 0; v-pagination starts with 1
+          page: this.$route.query.p ? parseInt(this.$route.query.p) : 0,
           refinementList: {
             ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() }),
             ...(this.$route.query.loc && { location_uni: [this.$route.query.loc].flat() })
           }
-          // ,
-          // hierarchicalMenu: {
-          //   ...(this.$route.query.loc && { country: [this.$route.query.loc].flat() })
-          // country: [
-          //   'Беларусь > Гомельская вобласць > Лельчыцкі раён'
-          // ]
-          // }
         }
       },
       selectedTags: this.$route.query.tag,
@@ -325,7 +321,6 @@ export default {
 
     searchQuery () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.currentPage = 1
       return this.$refs.searchbox.value
     },
 
@@ -336,24 +331,9 @@ export default {
   },
 
   methods: {
-    refineSearch:
+    debouncedSearch:
       debounce(function (event, refineFunction, queryParamName) {
-        const currentRoute = this.$route
-        const updatedQuery = { ...currentRoute.query }
-        if (event !== null && (!Array.isArray(event) || event.length !== 0)) {
-          let refineValue
-          if (Array.isArray(event)) {
-            refineValue = event[event.length - 1]
-          } else {
-            refineValue = event
-          }
-          updatedQuery[queryParamName] = event
-          this.$router.push({
-            path: currentRoute.path,
-            query: updatedQuery
-          })
-          refineFunction(refineValue)
-        }
+        this.performSearch(event, refineFunction, queryParamName)
       }, 1000
       ),
 
@@ -367,7 +347,31 @@ export default {
         } else {
           refineValue = event
         }
+        // update page to 1 to return to start
+        this.paginationToStart(updatedQuery)
+
         updatedQuery[queryParamName] = event
+        // update query params
+        this.$router.push({
+          path: currentRoute.path,
+          query: updatedQuery
+        })
+        refineFunction(refineValue)
+      }
+    },
+
+    paginationToStart (updatedQuery) {
+      updatedQuery.p = 1
+      this.currentPage = 1
+    },
+
+    performPagination (page, refineFunction) {
+      const queryParamName = 'p'
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      if (page !== null) {
+        const refineValue = page - 1
+        updatedQuery[queryParamName] = page
         this.$router.push({
           path: currentRoute.path,
           query: updatedQuery
@@ -381,6 +385,8 @@ export default {
       const currentRoute = this.$route
       const updatedQuery = { ...currentRoute.query }
       delete updatedQuery[queryParamName]
+      // bring pagination to start
+      this.paginationToStart(updatedQuery)
       this.$router.push({
         path: currentRoute.path,
         query: updatedQuery

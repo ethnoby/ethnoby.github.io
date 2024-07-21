@@ -24,11 +24,11 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action v-if="!currentUser">
-            <v-icon color="grey" title="Залагіньцеся каб пабачыць змест раздзела">
-              mdi-lock
-            </v-icon>
-          </v-list-item-action>
+          <!--          <v-list-item-action v-if="!currentUser">-->
+          <!--            <v-icon color="grey" title="Залагіньцеся каб пабачыць змест раздзела">-->
+          <!--              mdi-lock-->
+          <!--            </v-icon>-->
+          <!--          </v-list-item-action>-->
         </v-list-item>
         <!--        <v-divider />
         <v-subheader>
@@ -162,6 +162,7 @@
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
       <v-btn @click="goBack">
+        <span>Назад</span>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
@@ -172,6 +173,7 @@
         router
         exact
       >
+        <span>Галоўная</span>
         <v-icon>mdi-home</v-icon>
       </v-btn>
 
