@@ -151,7 +151,6 @@
                 refine
               }"
             >
-              <!--               // typesense pagination start with 0; v-pagination starts with 1-->
               <v-pagination
                 v-if="nbHits"
                 v-model="currentPage"
@@ -229,7 +228,7 @@
                 v-model="currentPage"
                 :length="nbPages"
                 :total-visible="7"
-                @input="refine(currentPage-1)"
+                @input="performPagination(currentPage, refine)"
               />
             </template>
           </ais-pagination>
