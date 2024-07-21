@@ -302,7 +302,6 @@ export default {
       initialUiState: {
         songs: {
           query: this.$route.query.q,
-          // typesense pagination start with 0; v-pagination starts with 1
           page: this.$route.query.p ? parseInt(this.$route.query.p) : 0,
           refinementList: {
             ...(this.$route.query.tag && { tags: [this.$route.query.tag].flat() }),
@@ -422,21 +421,7 @@ export default {
       const highlighted = item.replace(re, '<span class="v-list-item__mask">$1</span>')
 
       return highlighted
-    },
-
-    geoToArray (geo) {
-      return geo
-    },
-
-    updateQuery (query) {
-      // this.$refs.searchbox.value = query
-      // console.log(this.$refs.searchbox)
-      // this.$refs.searchbox.keypress()
     }
-
-    // objectToValues (object) {
-    //   object
-    // }
 
   }
 
