@@ -29,29 +29,6 @@
  */
 
 
-/* @preserve
- * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
- * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
- */
-
-/*!
- * Vue YouTube Embed version 2.2.2
- * under MIT License copyright 2019 kaorun343
- */
-
-/*!
- * vue-client-only v0.0.0-semantic-release
- * (c) 2021-present egoist <0x142857@gmail.com>
- * Released under the MIT License.
- */
-
-/*!
- * vue-no-ssr v1.1.1
- * (c) 2018-present egoist <0x142857@gmail.com>
- * Released under the MIT License.
- */
-
-
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 
@@ -87,6 +64,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
+
+
+/* @preserve
+ * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
+ * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
+ */
+
+/*!
+ * Vue YouTube Embed version 2.2.2
+ * under MIT License copyright 2019 kaorun343
+ */
+
+/*!
+ * vue-client-only v0.0.0-semantic-release
+ * (c) 2021-present egoist <0x142857@gmail.com>
+ * Released under the MIT License.
+ */
+
+/*!
+ * vue-no-ssr v1.1.1
+ * (c) 2018-present egoist <0x142857@gmail.com>
+ * Released under the MIT License.
  */
 
 
