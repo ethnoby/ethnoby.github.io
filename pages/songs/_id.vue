@@ -1,14 +1,12 @@
 <template>
   <v-container>
-    <nuxt-link :to="`/${section.slug}`">
+    <nuxt-link :to="{ path: `/${section.slug}`}" class="mb-1">
       {{ section.caption }}
     </nuxt-link>
     &nbsp;/&nbsp;
     <span>
       {{ item.name }}
     </span>
-
-    <!-- <p>Path: {{ $route.path }}</p> -->
 
     <v-row>
       <v-col cols="12" sm="6" order="3" order-sm="2">
@@ -138,8 +136,11 @@
           :height="embedHeight"
           v-html="embedCode"
         />
-        <div v-if="item.video_url && $store.state.user">
-          <youtube :video-id="item.video_id" />
+        <div
+          v-if="item.video_url && $store.state.user"
+          class="mt-4"
+        >
+          <youtube :video-id="videoId" player-width="100%" />
         </div>
 
       <!-- eslint-enable vue/no-v-html -->
@@ -158,6 +159,7 @@
   </v-container>
 </template>
 <script>
+import { getIdFromURL } from 'vue-youtube-embed'
 import client from '~/components/search/client.js'
 export default {
   async asyncData ({ params, redirect }) {
@@ -207,6 +209,9 @@ export default {
       }
     },
 
+    videoId () {
+      return getIdFromURL(this.item.video_url)
+    },
     embedHeight () {
       return this.isMobile ? 20 : 120
     },
