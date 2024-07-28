@@ -215,7 +215,7 @@ export default {
         {
           icon: 'mdi-playlist-music',
           title: 'Песні',
-          to: '/',
+          to: '/songs',
           disabled: false
         },
 

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <nuxt-link :to="{ path: `/${section.slug}`}" class="mb-1">
+    <nuxt-link :to="{ path: `/${section.slug}`}" class="mb-1 link-pointer">
       {{ section.caption }}
     </nuxt-link>
     &nbsp;/&nbsp;
@@ -228,3 +228,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.link-pointer {
+  padding: 1px;
+  display: inline-block;
+}
+</style>
