@@ -14,34 +14,34 @@ export default {
     title: 'Актуальныя катэгорыі',
     cards: [
       {
-        title: 'Гуканне Вясны',
-        src: require('@/assets/img/category/gukanne.png'),
+        title: 'Касарскія',
+        src: require('@/assets/img/category/kasarskia.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні гукальныя', 'гуканне вясны', 'загуканні'], t: 'Гуканне Вясны' } }
+        toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
 
       },
       {
-        title: 'Вялікдзень',
-        src: require('@/assets/img/category/vyalikden.png'),
+        title: 'Жніўныя',
+        src: require('@/assets/img/category/zhniuniya.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['вялікдзень', 'валачобнікі'], t: 'Вялікдзень' } }
+        toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
 
       },
       {
-        title: 'Юр\'я',
-        src: require('@/assets/img/category/yurya.png'),
+        title: 'Восеньскія',
+        src: require('@/assets/img/category/vosenskiya.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['Юр\'я'], t: 'Юр\'я' } }
+        toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
       },
       {
-        title: 'Купалле',
-        src: require('@/assets/img/category/kupalle.png'),
+        title: 'Радзінныя/хрэсбінныя',
+        src: require('@/assets/img/category/radzini.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['купалле'], t: 'Купалле' } }
+        toLink: { path: '/search', query: { tags: ['песні радзінныя/хрэсбінныя'], t: 'Радзінныя/хрэсбінныя' } }
       },
       {
         title: 'Вяселле',
@@ -82,12 +82,12 @@ export default {
         tags: ['песні лірычныя']
       },
       {
-        title: 'Сіроцкія',
-        src: require('@/assets/img/category/sirota.png'),
+        title: 'Рэкруцкія',
+        src: require('@/assets/img/category/recrut.png'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні сіроцкія'], t: 'Сіроцкія' } },
-        tags: ['песні сіроцкія']
+        toLink: { path: '/search', query: { tags: ['песні рэкруцкія', 'песні салдацкія'], t: 'Рэкруцкія' } },
+        tags: ['песні рэкруцкія']
       }
 
     ],
