@@ -1,5 +1,36 @@
 <template>
   <v-container fluid>
+    <div>
+      <div>
+        <v-text-field v-model="text" />
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['песні калядныя', 'калядоўшчыкі']} }"
+        >
+          Калядныя
+        </nuxt-link>
+      </div>
+      <div>
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['песні жніўныя']} }"
+        >
+          Жніво
+        </nuxt-link>
+      </div>
+      <div>
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['купалле']} }"
+        >
+          Купалле
+        </nuxt-link>
+      </div>
+      <div>
+        <nuxt-link
+          :to="{ path: '/search', query: { q: text, tag: ['playlist_kalyna-malyna']} }"
+        >
+          Калына-малына
+        </nuxt-link>
+      </div>
+    </div>
     <song-list
       :song-list="itemsJSON"
 
@@ -38,7 +69,8 @@ export default {
     items: [],
     jsonl: '',
     count: 67,
-    title: 'Абрадывая песні'
+    title: 'Абрадывая песні',
+    text: ''
     // itemsJSON: [],
   }),
 

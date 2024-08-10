@@ -8,29 +8,15 @@
       app
     >
       <v-img contain max-height="60" src="https://ethno.by/assets/images/ethno.by-logo-c-tr.png" alt="" />
+
       <v-list>
-        <!--        <v-list-item
-          to="/"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Галоўная</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>-->
-        <!--        <v-divider />
-        <v-subheader>
-          Абраныя раздзелы
-        </v-subheader>-->
         <v-list-item
           v-for="(item, i) in favoriteItems"
           :key="i"
           :to="item.to"
           router
           exact
+          :disabled="item.disabled"
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -38,11 +24,11 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action v-if="!currentUser">
-            <v-icon color="grey" title="Залагіньцеся каб пабачыць змест раздзела">
-              mdi-lock
-            </v-icon>
-          </v-list-item-action>
+          <!--          <v-list-item-action v-if="!currentUser">-->
+          <!--            <v-icon color="grey" title="Залагіньцеся каб пабачыць змест раздзела">-->
+          <!--              mdi-lock-->
+          <!--            </v-icon>-->
+          <!--          </v-list-item-action>-->
         </v-list-item>
         <!--        <v-divider />
         <v-subheader>
@@ -76,6 +62,16 @@
       <v-spacer />
       <v-btn
         v-if="!$vuetify.breakpoint.mobile"
+        class="ml-3"
+        icon
+        to="/"
+        router
+        exact
+      >
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+      <v-btn
+        v-if="!$vuetify.breakpoint.mobile"
         icon
         to="/search"
       >
@@ -87,13 +83,6 @@
       >
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
-      <!--      <v-btn-->
-      <!--        v-if="!$vuetify.breakpoint.mobile"-->
-      <!--        icon-->
-      <!--        @click.stop="rightDrawer = !rightDrawer"-->
-      <!--      >-->
-      <!--        <v-icon>mdi-heart-outline</v-icon>-->
-      <!--      </v-btn>-->
       <v-menu v-if="!$vuetify.breakpoint.mobile" offset-y>
         <template #activator="{ on }">
           <v-btn
@@ -132,20 +121,7 @@
               <v-list-item-subtitle>{{ currentUser.email }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <!--          <v-list-item to="/">-->
-          <!--            <v-list-item-icon>-->
-          <!--              <v-icon>mdi-notebook-heart-outline</v-icon>-->
-          <!--            </v-list-item-icon>-->
-          <!--            <v-list-item-title>Упадабанае</v-list-item-title>-->
-          <!--          </v-list-item>-->
-          <!--          <v-list-item to="/">-->
-          <!--            <v-list-item-icon>-->
-          <!--              <v-icon>mdi-bookmark-box-multiple</v-icon>-->
-          <!--            </v-list-item-icon>-->
-          <!--            <v-list-item-title>Мае калекцыі</v-list-item-title>-->
-          <!--          </v-list-item>-->
-          <v-divider />
-          <!-- <v-subheader>SETTINGS</v-subheader> -->
+
           <v-list-item @click.prevent="signOut">
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
@@ -185,23 +161,20 @@
     </v-navigation-drawer>
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
-      <!--      <v-btn to="/songs">-->
-      <!--        <span>Песні</span>-->
-
-      <!--        <v-icon>mdi-playlist-music</v-icon>-->
-      <!--      </v-btn>-->
-
-      <v-btn to="/songs/ceremony">
-        <span style="word-break: normal !important;">Песні</span>
-        <span style="word-break: normal !important;">Абрадавыя</span>
-        <v-icon>mdi-playlist-music</v-icon>
+      <v-btn @click="goBack">
+        <span>Назад</span>
+        <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-btn to="/songs/non_ceremony">
-        <span style="word-break: normal !important;">Песні</span>
-        <span style="word-break: normal !important;">Пазаабрадавыя</span>
-
-        <v-icon>mdi-playlist-music</v-icon>
+      <v-btn
+        class="ml-3"
+        icon
+        to="/"
+        router
+        exact
+      >
+        <span>Галоўная</span>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
 
       <v-btn to="/search">
@@ -209,12 +182,6 @@
 
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-
-      <!-- <v-btn @click.stop="rightDrawer = !rightDrawer">
-        <span>Абранае</span>
-
-        <v-icon>mdi-heart</v-icon>
-      </v-btn> -->
 
       <v-btn to="/signin">
         <span>Профіль</span>
@@ -233,12 +200,6 @@
         </v-icon>
       </v-btn>
     </v-bottom-navigation>
-
-    <!-- <v-footer
-      app
-    >
-      <span>&copy; Ethno.by {{ new Date().getFullYear() }}</span>
-    </v-footer> -->
   </v-app>
 </template>
 
@@ -254,30 +215,23 @@ export default {
         {
           icon: 'mdi-playlist-music',
           title: 'Песні',
-          to: '/songs'
+          to: '/songs',
+          disabled: false
+        },
+
+        {
+          icon: 'mdi-violin',
+          title: 'Найгрышы',
+          to: '/nopage',
+          disabled: true
         },
         {
-          icon: 'mdi-playlist-music',
-          title: 'Абрадавыя Песні',
-          to: '/songs/ceremony'
-        },
-        {
-          icon: 'mdi-playlist-music',
-          title: 'Пазаабрадавыя Песні',
-          to: '/songs/non_ceremony'
+          // icon: 'mdi-dance-ballroom',
+          icon: 'mdi-shoe-print',
+          title: 'Танцы',
+          to: '/nopage',
+          disabled: true
         }
-        // ,
-        // {
-        //   icon: 'mdi-violin',
-        //   title: 'Найгрышы',
-        //   to: '/tunes'
-        // },
-        // {
-        //   // icon: 'mdi-dance-ballroom',
-        //   icon: 'mdi-shoe-print',
-        //   title: 'Танцы',
-        //   to: '/tunes'
-        // }
       ],
       allItems: [
         {
@@ -323,6 +277,9 @@ export default {
     signOut () {
       this.$fire.auth.signOut()
       window.location = '/signin'
+    },
+    goBack () {
+      this.$router.go(-1)
     }
   }
 }

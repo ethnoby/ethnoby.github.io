@@ -2,10 +2,15 @@
   <ais-instant-search
     :search-client="searchClient"
     :index-name="collection"
+    :initial-ui-state="initialUiState"
   >
-    <v-container fluid>
+    <v-container fluid class="ma-0 pa-0">
+      <h1 v-if="title">
+        {{ title }}
+      </h1>
+
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" class="pb-0 pa-0 pl-3 pr-3">
           <ais-search-box>
             <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
               <v-text-field
@@ -15,13 +20,13 @@
                 clearable
                 prepend-icon="mdi-text-search"
                 :value="currentRefinement"
-                @input="refine($event)"
+                @input="debouncedSearch($event, refine, 'q')"
+                @click:clear="clearSearch('', refine,'q')"
               />
               <template v-if="isSearchStalled">
                 <v-skeleton-loader
                   v-for="i in hitsPerPage"
                   :key="i"
-                  class="ma-2"
                   type="article"
                 />
               </template>
@@ -29,10 +34,11 @@
           </ais-search-box>
         </v-col>
 
-        <v-col cols="12" sm="6" md="4">
+        <v-col cols="12" sm="6" md="4" class="pb-0 pa-0 pl-3 pr-3">
           <ais-refinement-list
-            class="mb-2"
             attribute="tags"
+            :limit="300"
+            :transform-items="excludeCustomPlaylist"
             :class-names="{
               'ais-RefinementList-item' : 'text--secondary',
               'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
@@ -41,10 +47,11 @@
             <template
               #default="{
                 items,
-                refine,
+                refine
               }"
             >
               <v-select
+                v-model="selectedTags"
                 :items="items"
                 label="Жанры"
                 multiple
@@ -53,7 +60,8 @@
                 clearable
                 deletable-chips
                 prepend-icon="mdi-playlist-music"
-                @change="refine($event)"
+                @change="performSearch($event, refine, 'tags')"
+                @click:clear="toggleAll(items, refine, 'tags')"
               >
                 <template #item="{ item }">
                   {{ item.value }}
@@ -72,39 +80,58 @@
           </ais-refinement-list>
         </v-col>
 
-        <v-col cols="12" sm="6" md="4">
-          <ais-hierarchical-menu
-            :attributes="['country', 'region', 'district']"
+        <v-col cols="12" sm="6" md="4" class="pb-0 pa-0 pl-3 pr-3">
+          <ais-refinement-list
+            attribute="location_uni"
+            :limit="300"
+            :searchable="true"
             :class-names="{
-              // 'ais-HierarchicalMenu-link': 'text--secondary',
-              'ais-HierarchicalMenu-link--selected': 'text--secondary',
-              'ais-HierarchicalMenu-list': 'mb-2'
+              'ais-RefinementList-item' : 'text--secondary',
+              'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
             }"
           >
             <template
               #default="{
                 items,
-                refine,
+                refine
+
               }"
             >
-              <v-select
+              <v-autocomplete
+                v-model="selectedLoc"
                 :items="items"
+                :search-input.sync="locationSearchInput"
                 label="Лакацыі"
-                multiple
+                no-data-text="Лакацыі не знойдзена"
+                item-text="label"
+                item-value="label"
+                clearable
                 chips
                 dense
-                clearable
                 deletable-chips
                 prepend-icon="mdi-map-marker"
-                @select.prevent="refine(item.value)"
-              />
+                @change="performSearch($event, refine, 'loc')"
+                @click:clear="clearSearch(selectedLoc, refine, 'loc' )"
+              >
+                <template #item="{ item }">
+                  <span v-html="highlightSearchTerm(item.label)" />
+                  <v-chip x-small>
+                    {{ item.count }}
+                  </v-chip>
+                </template>
+                <template #selection="{ item }">
+                  <v-chip>
+                    <span>{{ item.value }}</span>
+                  </v-chip>
+                </template>
+              </v-autocomplete>
             </template>
-          </ais-hierarchical-menu>
+          </ais-refinement-list>
         </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="8" class="pb-0 pa-0 pl-3 pr-3">
           <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
             <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
               <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
@@ -112,20 +139,10 @@
             </template>
           </ais-stats>
         </v-col>
-        <v-col cols="12" md="4">
-          <ais-hits-per-page
-            :items="[
-              { label: '10 hits per page', value: 10, default: true },
-              { label: '25 hits per page', value: 25 },
-              { label: '50 hits per page', value: 50 },
-              { label: '100 hits per page', value: 100 },
-            ]"
-          />
-        </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12" md="6">
+      <v-row class="ma-0">
+        <v-col cols="12" md="6" class="pb-0 pa-0 pl-3 pr-3">
           <ais-pagination class="mb-2">
             <template
               #default="{
@@ -139,7 +156,7 @@
                 v-model="currentPage"
                 :length="nbPages"
                 :total-visible="7"
-                @input="refine(currentPage-1)"
+                @input="performPagination(currentPage, refine)"
               />
               <v-banner
                 v-else
@@ -155,17 +172,17 @@
             <template #default="{ items }">
               <div v-for="item in items" :key="item.objectID">
                 <v-expansion-panels>
-                  <v-expansion-panel v-if="item.content" flat accordion>
-                    <v-expansion-panel-header>
+                  <v-expansion-panel v-if="item.content" flat accordion class="rounded-0">
+                    <v-expansion-panel-header class="pa-1">
                       <v-img
                         v-if="item.thumbnail_url"
                         :src="item.thumbnail_url"
-                        class="mr-6"
-                        max-width="60px"
+                        class="fixed-size-img mr-5 ml-1"
                       />
+                      <div v-else class="placeholder fixed-size-img mr-5 ml-1" />
                       <div class="text-left">
                         <div class="d-flex text-left" @click.stop>
-                          <nuxt-link :to="`songs/${item.id}/`" class="text--secondary">
+                          <nuxt-link :to="`songs/${item.id}/`" class="text--secondary text-decoration-none">
                             <ais-highlight attribute="name" :hit="item" class="text-center text-body-1 text--primary" />
                           </nuxt-link>
                         </div>
@@ -175,9 +192,6 @@
                               item.location ? item.location[0] : item.document.location[0]
                             }}
                           </span>
-                        </div>
-                        <div v-if="item._highlightResult.content_nohtml.matchedWords.length">
-                          {{ item._highlightResult.content_nohtml.matchedWords }}
                         </div>
                         <div v-if="item.content && searchQuery && item.content_nohtml.includes(item._highlightResult.content_nohtml.matchedWords[0])" class="caption mt-3">
                           <strong class="text--secondary">Знойдзена ў тэксце:</strong>
@@ -201,7 +215,7 @@
             </template>
           </ais-hits>
 
-          <ais-pagination class="mt-6">
+          <ais-pagination class="mt-4">
             <template
               #default="{
                 nbPages,
@@ -214,35 +228,35 @@
                 v-model="currentPage"
                 :length="nbPages"
                 :total-visible="7"
-                @input="refine(currentPage-1)"
+                @input="performPagination(currentPage, refine)"
               />
             </template>
           </ais-pagination>
         </v-col>
 
-        <v-col cols="12" md="6">
-          <v-responsive height="75vh">
-            <client-only>
-              <l-map :zoom="6" :center="[53.893009, 27.567444]">
-                <l-tile-layer
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                  attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-                />
-                <ais-hits :escape-h-t-m-l="false">
-                  <template #default="{ items }">
-                    <template v-for="item in items">
-                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="geoToArray(item.geo)">
-                        <l-popup>
-                          {{ item.location ? item.location[0] : item.document.location[0] }}
-                        </l-popup>
-                      </l-marker>
-                    </template>
-                  </template>
-                </ais-hits>
-              </l-map>
-            </client-only>
-          </v-responsive>
-        </v-col>
+        <!--        <v-col cols="12" md="6">-->
+        <!--          <v-responsive height="75vh">-->
+        <!--            <client-only>-->
+        <!--              <l-map :zoom="6" :center="[53.893009, 27.567444]">-->
+        <!--                <l-tile-layer-->
+        <!--                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"-->
+        <!--                  attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"-->
+        <!--                />-->
+        <!--                <ais-hits :escape-h-t-m-l="false">-->
+        <!--                  <template #default="{ items }">-->
+        <!--                    <template v-for="item in items">-->
+        <!--                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="item.geo">-->
+        <!--                        <l-popup>-->
+        <!--                          {{ item.location ? item.location[0] : item.document.location[0] }}-->
+        <!--                        </l-popup>-->
+        <!--                      </l-marker>-->
+        <!--                    </template>-->
+        <!--                  </template>-->
+        <!--                </ais-hits>-->
+        <!--              </l-map>-->
+        <!--            </client-only>-->
+        <!--          </v-responsive>-->
+        <!--        </v-col>-->
       </v-row>
     </v-container>
   </ais-instant-search>
@@ -250,24 +264,23 @@
 
 <script>
 import {
-  AisHierarchicalMenu,
+  // AisHierarchicalMenu,
   AisHighlight,
   AisHits,
-  AisHitsPerPage,
   AisInstantSearch,
   AisPagination, AisRefinementList,
   AisSearchBox,
   AisSnippet,
   AisStats
 } from 'vue-instantsearch'
+import { debounce } from 'lodash'
 import typesenseInstantsearchAdapter from './typesense'
 
 export default {
   components: {
-    AisHierarchicalMenu,
+    // AisHierarchicalMenu,
     AisHighlight,
     AisHits,
-    AisHitsPerPage,
     AisInstantSearch,
     AisPagination,
     AisRefinementList,
@@ -283,8 +296,22 @@ export default {
 
   data () {
     return {
-      currentPage: 1,
-      searchClient: typesenseInstantsearchAdapter.searchClient
+      currentPage: this.$route.query.p ? parseInt(this.$route.query.p) : 1,
+      searchClient: typesenseInstantsearchAdapter.searchClient,
+      initialUiState: {
+        songs: {
+          query: this.$route.query.q,
+          page: this.$route.query.p ? parseInt(this.$route.query.p) : 0,
+          refinementList: {
+            ...(this.$route.query.tags && { tags: [this.$route.query.tags].flat() }),
+            ...(this.$route.query.loc && { location_uni: [this.$route.query.loc].flat() })
+          }
+        }
+      },
+      selectedTags: this.$route.query.tags,
+      selectedLoc: this.$route.query.loc,
+      locationSearchInput: this.$route.query.loc,
+      title: this.$route.query.t
     }
   },
 
@@ -292,7 +319,6 @@ export default {
 
     searchQuery () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.currentPage = 1
       return this.$refs.searchbox.value
     },
 
@@ -303,21 +329,117 @@ export default {
   },
 
   methods: {
-    geoToArray (geo) {
-      return geo.split(',')
+    debouncedSearch:
+      debounce(function (event, refineFunction, queryParamName) {
+        this.performSearch(event, refineFunction, queryParamName)
+      }, 1000
+      ),
+
+    performSearch (event, refineFunction, queryParamName) {
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      if (event !== null && (!Array.isArray(event) || event.length !== 0)) {
+        let refineValue
+        if (Array.isArray(event)) {
+          refineValue = event[event.length - 1]
+        } else {
+          refineValue = event
+        }
+        // update page to 1 to return to start
+        this.paginationToStart(updatedQuery)
+
+        updatedQuery[queryParamName] = event
+        // update query params
+        this.$router.push({
+          path: currentRoute.path,
+          query: updatedQuery
+        })
+        refineFunction(refineValue)
+      }
     },
 
-    updateQuery (query) {
-      // this.$refs.searchbox.value = query
-      // console.log(this.$refs.searchbox)
-      // this.$refs.searchbox.keypress()
-    }
+    paginationToStart (updatedQuery) {
+      updatedQuery.p = 1
+      this.currentPage = 1
+    },
 
-    // objectToValues (object) {
-    //   object
-    // }
+    performPagination (page, refineFunction) {
+      const queryParamName = 'p'
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      if (page !== null) {
+        const refineValue = page - 1
+        updatedQuery[queryParamName] = page
+        this.$router.push({
+          path: currentRoute.path,
+          query: updatedQuery
+        })
+        refineFunction(refineValue)
+      }
+    },
+
+    clearSearch (valueToClearRefine, refineFunction, queryParamName) {
+      // remove query param
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      delete updatedQuery[queryParamName]
+      // bring pagination to start
+      this.paginationToStart(updatedQuery)
+      this.$router.push({
+        path: currentRoute.path,
+        query: updatedQuery
+      })
+
+      // clear refinement
+      refineFunction(valueToClearRefine)
+    },
+
+    toggleAll (items, refine, queryParamName) {
+      const currentRoute = this.$route
+      const updatedQuery = { ...currentRoute.query }
+      delete updatedQuery[queryParamName]
+      this.$router.push({
+        path: currentRoute.path,
+        query: updatedQuery
+      })
+      items.forEach((item) => {
+        if (item.isRefined) {
+          refine(item.value)
+        }
+      })
+    },
+
+    excludeCustomPlaylist (items) {
+      return items.filter(item => !item.label.match(/^playlist*/))
+    },
+
+    highlightSearchTerm (item) {
+      if (!this.locationSearchInput) { return item }
+
+      const re = new RegExp(`(${this.locationSearchInput})`, 'gi')
+      const highlighted = item.replace(re, '<span class="v-list-item__mask">$1</span>')
+
+      return highlighted
+    }
 
   }
 
 }
 </script>
+
+<style scoped>
+.fixed-size-img {
+  max-width: 60px;
+  max-height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.placeholder {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

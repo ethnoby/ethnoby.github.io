@@ -1,82 +1,147 @@
 <template>
   <v-container fluid>
-    <song-list
-      :song-list="itemsJSON"
-      :title="title"
-    />
+    <category-grid :title="title" :cards="cards" />
+    <category-grid :title="locationTitle" :cards="locationCards" />
   </v-container>
 </template>
 
 <script>
-import client from '~/components/search/client.js'
-import songList from '~/components/SongList'
-
+import categoryGrid from '@/components/CategoryGrid.vue'
 export default {
-  name: 'IndexPage',
-  components: {
-    songList
-  },
-  // middleware: 'auth',
-
-  async asyncData () {
-    return {
-      itemsJSON: await client.collections('songs')
-        .documents()
-        .export({
-          include_fields: 'name, id, location, content, performer'
-        })
-        .then((res) => {
-          return JSON.parse(`[${res}]`.replace(/\n/g, ','))
-        })
-    }
-  },
+  components: categoryGrid,
 
   data: () => ({
-    model: 0,
-    items: [],
-    jsonl: '',
-    count: 67,
-    title: 'Песні'
-    // itemsJSON: [],
-  }),
+    title: 'Актуальныя катэгорыі',
+    cards: [
+      {
+        title: 'Касарскія',
+        src: require('@/assets/img/category/kasarskia.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
 
-  // async fetch () {
-  //   const searchParameters = {
-  //     q: '*',
-  //     // sort_by: 'name:desc',
-  //     query_by: 'name'
-  //   }
-  //   await client.collections('songs')
-  //     .documents()
-  //     .search(searchParameters)
-  //     .then((results) => {
-  //       this.items = results.hits
-  //     })
-  //     .catch((error) => {
-  //       // eslint-disable-next-line no-console
-  //       console.log(error)
-  //     })
+      },
+      {
+        title: 'Жніўныя',
+        src: require('@/assets/img/category/zhniuniya.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
 
-  //   this.jsonl = await client.collections('songs')
-  //     .documents()
-  //     .export({
-  //       include_fields: 'name, id, location'
-  //     })
+      },
+      {
+        title: 'Восеньскія',
+        src: require('@/assets/img/category/vosenskiya.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
+      },
+      {
+        title: 'Радзінныя/хрэсбінныя',
+        src: require('@/assets/img/category/radzini.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні радзінныя/хрэсбінныя'], t: 'Радзінныя/хрэсбінныя' } }
+      },
+      {
+        title: 'Вяселле',
+        src: require('@/assets/img/category/vyaselle.png'),
+        lg: 6,
+        toLink: { path: '/search', query: { tags: ['песні вясельныя'], t: 'Вяселле' } },
+        height: '400px'
+      },
+      {
+        title: 'Пазаабрадавыя песні',
+        src: require('@/assets/img/category/pazaabrad.png'),
+        lg: 6,
+        toLink: { path: '/search', query: { tags: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },
+        height: '400px'
+      },
+      {
+        title: 'Жартоўныя',
+        src: require('@/assets/img/category/zhart.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні жартоўныя'], t: 'Жартоўныя' } },
+        tags: ['песні жартоўныя']
+      },
+      {
+        title: 'Калына-малына',
+        src: require('@/assets/img/category/kalyna_malyna.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['playlist_kalyna-malyna'], t: 'Калына-малына' } },
+        tags: ['playlist_kalyna-malyna']
+      },
+      {
+        title: 'Лірычныя',
+        src: require('@/assets/img/category/lirica.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні лірычныя'], t: 'Лірычныя' } },
+        tags: ['песні лірычныя']
+      },
+      {
+        title: 'Рэкруцкія',
+        src: require('@/assets/img/category/recrut.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні рэкруцкія', 'песні салдацкія'], t: 'Рэкруцкія' } },
+        tags: ['песні рэкруцкія']
+      }
 
-  //   this.jsonl = `[${this.jsonl}]`.replace(/\n/g, ',') // add brackets and commas
-  //   this.itemsJSON = JSON.parse(this.jsonl)
-  // },
-
-  computed: {
-    // items () {
-    //   console.log(this.itemsString)
-    //   return JSON.parse(this.itemsString)
-    // }
-  }
-
-  // mounted () {
-  //   console.log('mounted!!!')
-  //   this.items = client.collections('songs').documents().export()
-  // }
+    ],
+    locationTitle: 'Выбраныя лакацыі',
+    locationCards: [
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/zhitkavitski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Жыткавіцкі раён', t: 'Жыткавіцкі раён' } },
+        text: 'Жыткавіцкі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/lelchistki.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Лельчыцкі раён', t: 'Лельчыцкі раён' } },
+        text: 'Лельчыцкі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/pinski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Пінскі раён', t: 'Пінскі раён' } },
+        text: 'Пінскі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/smargon.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Смаргонскі раён', t: 'Смаргонскі раён' } },
+        text: 'Смаргонскі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/garadotski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Гарадоцкі раён', t: 'Гарадоцкі раён' } },
+        text: 'Гарадоцкі раён'
+      },
+      {
+        title: '',
+        src: require('@/assets/img/category/locations/krasnapolski.png'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { loc: 'Краснапольскі раён', t: 'Краснапольскі раён' } },
+        text: 'Краснапольскі раён'
+      }
+    ]
+  })
 }
 </script>
