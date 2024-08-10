@@ -26,7 +26,7 @@ export default {
 
   router: {
     prefetchLinks: true,
-    base: '/ethnoby-app/'
+    base: '/'
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
