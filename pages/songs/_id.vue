@@ -24,20 +24,28 @@
 
         <v-card class="mt-4">
           <v-card-text
-            v-if="item.albums"
             class="text--secondary"
           >
             <div>Жанры / тэгі</div>
-            <v-chip v-for="(tag, index) in item.tags" :key="index" small class="ma-1">
-              {{ tag }}
-            </v-chip>
+            <nuxt-link
+              v-for="(tag, index) in item.tags"
+              :key="index"
+              :to="{
+                path: '/search',
+                query: { tags: [tag] /*, t: tag*/ }
+              }"
+            >
+              <v-chip small class="ma-1 cursor-pointer">
+                {{ tag }}
+              </v-chip>
+            </nuxt-link>
           </v-card-text>
 
           <v-card-text
             v-if="item.band.length"
           >
             <div class="text--secondary">
-              Гурт
+              Калектывы
             </div>
             <div v-for="(band) in item.band" :key="band" class="text--primary">
               {{ band }}
@@ -64,7 +72,7 @@
             v-if="item.record_date"
             class="text--secondary"
           >
-            <div>Дата запісу (пры адсутнасці - год першага релізу)</div>
+            <div>Год запісу ці першага релізу</div>
             <div class="text--primary">
               {{ item.record_date }}
             </div>
@@ -221,7 +229,6 @@ export default {
     },
 
     checkGeoArray () {
-      console.log(this.item.geo)
       return this.item.geo !== null && ![0, 0].every(v => this.item.geo.includes(v))
     }
 
@@ -229,6 +236,10 @@ export default {
 }
 </script>
 <style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .link-pointer {
   padding: 1px;
   display: inline-block;
