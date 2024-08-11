@@ -22,7 +22,7 @@
           </v-card-text>
         </v-card>
 
-        <v-card class="mt-4">
+        <v-card class="mt-4 mb-4">
           <v-card-text
             class="text--secondary"
           >
@@ -87,12 +87,6 @@
             </div>
           </v-card-text>
 
-          <v-card-text v-if="item.location && !item.geo" class="text--secondary">
-            <div>Месца паходжання</div>
-            <div class="text--primary">
-              {{ item.location[0] }}
-            </div>
-          </v-card-text>
         </v-card>
 
         <location-card
@@ -120,9 +114,8 @@
       </v-col>
 
       <v-col cols="12" sm="6" order="1" order-sm="3">
-        <v-card class="mb-4">
+        <v-card v-if="item.thumbnail_url" class="mb-4">
           <v-img
-            v-if="item.thumbnail_url"
             :src="item.thumbnail_url"
             aspect-ratio="1"
           />
