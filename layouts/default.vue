@@ -55,6 +55,7 @@
       fixed
       app
       :clipped-left="clipped"
+      class="z-index-top"
     >
       <!-- :color="$vuetify.breakpoint.mobile ? '#8d1802' : false"
       :dark="$vuetify.breakpoint.mobile"
@@ -178,14 +179,13 @@
       </v-list>
     </v-navigation-drawer>
     -->
-    <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app class="bottom-nav">
+    <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app class="bottom-navigation z-index-top">
       <v-btn @click="goBack">
         <span>Назад</span>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
       <v-btn
-        class="ml-3"
         icon
         to="/"
         router
@@ -315,8 +315,15 @@ export default {
 }
 </script>
 
-<style scoped>
-.bottom-nav {
-  z-index: 400;
+<style lang="scss" scoped>
+.z-index-top {
+  z-index: 1000; // to be shown above leaflet maps
+}
+
+.bottom-navigation {
+  .v-btn {
+    background-color: transparent;
+    height: inherit;
+  }
 }
 </style>
