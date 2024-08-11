@@ -1,19 +1,22 @@
 <template>
   <v-container>
-    <nuxt-link :to="{ path: `/${section.slug}`}" class="mb-1 link-pointer">
+    <!-- <nuxt-link :to="{ path: `/${section.slug}`}" class="mb-1 link-pointer">
       {{ section.caption }}
     </nuxt-link>
     &nbsp;/&nbsp;
     <span>
       {{ item.name }}
-    </span>
+    </span> -->
+    <h1 class="text-h4 text-lg-h2 mb-2">
+      {{ item.name }}
+    </h1>
 
     <v-row>
       <v-col cols="12" sm="6" order="3" order-sm="2">
         <v-card>
-          <v-card-title>
+          <!-- <v-card-title>
             {{ item.name }}
-          </v-card-title>
+          </v-card-title> -->
 
           <v-card-text>
             <!-- eslint-disable vue/no-v-html -->
@@ -86,7 +89,6 @@
               {{ album }}
             </div>
           </v-card-text>
-
         </v-card>
 
         <location-card
@@ -99,7 +101,7 @@
         <!-- eslint-disable vue/no-v-html -->
         <div
           v-if="item.audio_url && $store.state.user"
-          class="audio-player mt-4"
+          class="audio-player"
           :height="embedHeight"
           v-html="embedCode"
         />
@@ -189,7 +191,7 @@ export default {
       return getIdFromURL(this.item.video_url)
     },
     embedHeight () {
-      return this.isMobile ? 20 : 120
+      return this.isMobile ? 120 : 120
     },
 
     isMobile () {

@@ -51,7 +51,7 @@ export default {
         height: '400px'
       },
       {
-        title: 'Пазаабрадавыя песні',
+        title: 'Пазаабрадавыя',
         src: require('@/assets/img/category/pazaabrad.jpg'),
         lg: 6,
         toLink: { path: '/search', query: { tags: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },

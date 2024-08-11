@@ -122,11 +122,11 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      name: 'Ethnoby App',
+      name: 'Ethnoby.org',
       display: 'standalone',
-      lang: 'en',
+      lang: 'be',
       theme_color: '#8d1802',
-      background_color: '#121212'
+      background_color: '#fff'
     }
   },
 
@@ -137,7 +137,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.red.darken2,

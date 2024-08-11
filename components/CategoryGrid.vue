@@ -6,7 +6,13 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex || card.lg" :lg="card.lg" class="pa-1 pb-1">
+      <v-col
+        v-for="card in cards"
+        :key="card.title"
+        :cols="card.flex || card.lg"
+        :lg="2 || card.lg"
+        class="pa-1 pb-1"
+      >
         <v-card :to="card.toLink">
           <v-img
             :src="card.src"
@@ -16,15 +22,26 @@
             cover
           >
             <v-card-title
-              class="white--text"
+              class="white--text text-subtitle-1 text-md-h5 text-lg-h5"
             >
               {{ card.title }}
             </v-card-title>
+            <template #placeholder>
+              <v-row
+                class="fill-height ma-0"
+                align="center"
+                justify="center"
+              >
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                />
+              </v-row>
+            </template>
           </v-img>
-          <v-card-text v-if="card.text" class="subtitle-1 fill-height text-no-wrap">
+          <v-card-text v-if="card.text" class="text-subtitle-1 fill-height text-no-wrap">
             {{ card.text }}
           </v-card-text>
-
         </v-card>
       </v-col>
     </v-row>

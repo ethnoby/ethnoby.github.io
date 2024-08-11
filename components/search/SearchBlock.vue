@@ -4,145 +4,193 @@
     :index-name="collection"
     :initial-ui-state="initialUiState"
   >
-    <v-container fluid class="ma-0 pa-0">
-      <h1 v-if="title">
+    <ais-configure :hits-per-page.camel="15" />
+    <v-container fluid class="pa-0">
+      <!-- <h1 v-if="title">
         {{ title }}
-      </h1>
-
+      </h1> -->
       <v-row>
-        <v-col cols="12" md="4" class="pb-0 pa-0 pl-3 pr-3">
-          <ais-search-box>
-            <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
-              <v-text-field
-                ref="searchbox"
-                placeholder="Які шукаем тэкст?"
-                type="search"
-                clearable
-                prepend-icon="mdi-text-search"
-                :value="currentRefinement"
-                @input="debouncedSearch($event, refine, 'q')"
-                @click:clear="clearSearch('', refine,'q')"
-              />
-              <template v-if="isSearchStalled">
-                <v-skeleton-loader
-                  v-for="i in hitsPerPage"
-                  :key="i"
-                  type="article"
-                />
-              </template>
-            </template>
-          </ais-search-box>
+        <v-col cols="12" md="4">
+          <v-card class="mb-4">
+            <v-card-title v-if="!isMobile" class="text-subtitle-1">
+              Фільтры
+            </v-card-title>
+            <v-card-text>
+              <v-row>
+                <!-- Tags search -->
+                <v-col cols="12">
+                  <ais-refinement-list
+                    attribute="tags"
+                    :limit="300"
+                    :transform-items="excludeCustomPlaylist"
+                    :class-names="{
+                      'ais-RefinementList-item' : 'text--secondary',
+                      'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
+                    }"
+                  >
+                    <template
+                      #default="{
+                        items,
+                        refine
+                      }"
+                    >
+                      <v-select
+                        v-model="selectedTags"
+                        :items="items"
+                        label="Жанры"
+                        multiple
+                        chips
+                        dense
+                        clearable
+                        deletable-chips
+                        prepend-icon="mdi-playlist-music"
+                        @change="performSearch($event, refine, 'tags')"
+                        @click:clear="toggleAll(items, refine, 'tags')"
+                      >
+                        <template #item="{ item }">
+                          {{ item.value }}
+                          <v-chip x-small>
+                            {{ item.count }}
+                          </v-chip>
+                        </template>
+
+                        <template #selection="{ item }">
+                          <v-chip>
+                            <span>{{ item.value }}</span>
+                          </v-chip>
+                        </template>
+                      </v-select>
+                    </template>
+                  </ais-refinement-list>
+                </v-col>
+
+                <!-- Locations search -->
+                <v-col cols="12">
+                  <ais-refinement-list
+                    attribute="location_uni"
+                    :limit="300"
+                    :searchable="true"
+                    :class-names="{
+                      'ais-RefinementList-item' : 'text--secondary',
+                      'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
+                    }"
+                  >
+                    <template
+                      #default="{
+                        items,
+                        refine
+
+                      }"
+                    >
+                      <v-autocomplete
+                        v-model="selectedLoc"
+                        :items="items"
+                        :search-input.sync="locationSearchInput"
+                        label="Лакацыі"
+                        no-data-text="Лакацый не знойдзена"
+                        item-text="label"
+                        item-value="label"
+                        clearable
+                        chips
+                        dense
+                        deletable-chips
+                        prepend-icon="mdi-map-marker"
+                        @change="performSearch($event, refine, 'loc')"
+                        @click:clear="clearSearch(selectedLoc, refine, 'loc' )"
+                      >
+                        <template #item="{ item }">
+                          <!-- eslint-disable-next-line vue/no-v-html -->
+                          <span v-html="highlightSearchTerm(item.label)" />
+                          <v-chip x-small>
+                            {{ item.count }}
+                          </v-chip>
+                        </template>
+                        <template #selection="{ item }">
+                          <v-chip>
+                            <span>{{ item.value }}</span>
+                          </v-chip>
+                        </template>
+                      </v-autocomplete>
+                    </template>
+                  </ais-refinement-list>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card class="mb-4">
+            <v-card-title v-if="!isMobile" class="text-subtitle-1">
+              Тэкставы пошук
+            </v-card-title>
+            <v-card-text>
+              <v-row>
+                <!-- Text search -->
+                <v-col cols="12">
+                  <ais-search-box>
+                    <template #default="{ currentRefinement, hitsPerPage, isSearchStalled, refine }">
+                      <v-text-field
+                        ref="searchbox"
+                        label="Тэкст"
+                        placeholder="Які шукаем тэкст?"
+                        type="search"
+                        clearable
+                        prepend-icon="mdi-text-search"
+                        :value="currentRefinement"
+                        @input="debouncedSearch($event, refine, 'q')"
+                        @click:clear="clearSearch('', refine,'q')"
+                      />
+                      <template v-if="isSearchStalled">
+                        <v-skeleton-loader
+                          v-for="i in hitsPerPage"
+                          :key="i"
+                          type="article"
+                        />
+                      </template>
+                    </template>
+                  </ais-search-box>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card v-if="!isMobile">
+            <v-card-title class="text-subtitle-1">
+              Лакацыі паказаных на старонцы запісаў
+            </v-card-title>
+            <v-card-text>
+              <v-responsive aspect-ratio="1">
+                <client-only>
+                  <l-map :zoom="6" :center="[53.893009, 27.567444]">
+                    <l-tile-layer
+                      url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                      attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+                    />
+                    <ais-hits :escape-h-t-m-l="false">
+                      <template #default="{ items }">
+                        <template v-for="item in items">
+                          <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="item.geo">
+                            <l-popup>
+                              {{ item.location ? item.location[0] : item.document.location[0] }}
+                            </l-popup>
+                          </l-marker>
+                        </template>
+                      </template>
+                    </ais-hits>
+                  </l-map>
+                </client-only>
+              </v-responsive>
+            </v-card-text>
+          </v-card>
         </v-col>
 
-        <v-col cols="12" sm="6" md="4" class="pb-0 pa-0 pl-3 pr-3">
-          <ais-refinement-list
-            attribute="tags"
-            :limit="300"
-            :transform-items="excludeCustomPlaylist"
-            :class-names="{
-              'ais-RefinementList-item' : 'text--secondary',
-              'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
-            }"
-          >
-            <template
-              #default="{
-                items,
-                refine
-              }"
-            >
-              <v-select
-                v-model="selectedTags"
-                :items="items"
-                label="Жанры"
-                multiple
-                chips
-                dense
-                clearable
-                deletable-chips
-                prepend-icon="mdi-playlist-music"
-                @change="performSearch($event, refine, 'tags')"
-                @click:clear="toggleAll(items, refine, 'tags')"
-              >
-                <template #item="{ item }">
-                  {{ item.value }}
-                  <v-chip x-small>
-                    {{ item.count }}
-                  </v-chip>
-                </template>
-
-                <template #selection="{ item }">
-                  <v-chip>
-                    <span>{{ item.value }}</span>
-                  </v-chip>
-                </template>
-              </v-select>
-            </template>
-          </ais-refinement-list>
-        </v-col>
-
-        <v-col cols="12" sm="6" md="4" class="pb-0 pa-0 pl-3 pr-3">
-          <ais-refinement-list
-            attribute="location_uni"
-            :limit="300"
-            :searchable="true"
-            :class-names="{
-              'ais-RefinementList-item' : 'text--secondary',
-              'ais-RefinementList-showMore' : 'pl-5 mt-3 text-decoration-underline'
-            }"
-          >
-            <template
-              #default="{
-                items,
-                refine
-
-              }"
-            >
-              <v-autocomplete
-                v-model="selectedLoc"
-                :items="items"
-                :search-input.sync="locationSearchInput"
-                label="Лакацыі"
-                no-data-text="Лакацыі не знойдзена"
-                item-text="label"
-                item-value="label"
-                clearable
-                chips
-                dense
-                deletable-chips
-                prepend-icon="mdi-map-marker"
-                @change="performSearch($event, refine, 'loc')"
-                @click:clear="clearSearch(selectedLoc, refine, 'loc' )"
-              >
-                <template #item="{ item }">
-                  <span v-html="highlightSearchTerm(item.label)" />
-                  <v-chip x-small>
-                    {{ item.count }}
-                  </v-chip>
-                </template>
-                <template #selection="{ item }">
-                  <v-chip>
-                    <span>{{ item.value }}</span>
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </template>
-          </ais-refinement-list>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col cols="12" md="8" class="pb-0 pa-0 pl-3 pr-3">
+        <v-col cols="12" md="8">
           <ais-stats class="v-messages text--secondary text-left mt-1 mb-6">
-            <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
-              <strong>{{ nbHits }} вынікаў</strong> знойдзена для <q>{{ query }}</q> за {{ processingTimeMS }} мс.
+            <template #default="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS }">
+              <strong>{{ nbHits }} вынікаў</strong> знойдзена за {{ processingTimeMS }} мс.
               Старонка {{ page + 1 }}/{{ nbPages }}, па {{ hitsPerPage }} .
             </template>
           </ais-stats>
-        </v-col>
-      </v-row>
 
-      <v-row class="ma-0">
-        <v-col cols="12" md="6" class="pb-0 pa-0 pl-3 pr-3">
           <ais-pagination class="mb-2">
             <template
               #default="{
@@ -215,7 +263,7 @@
             </template>
           </ais-hits>
 
-          <ais-pagination class="mt-4">
+          <ais-pagination v-if="nbHits" class="mt-4">
             <template
               #default="{
                 nbPages,
@@ -233,30 +281,6 @@
             </template>
           </ais-pagination>
         </v-col>
-
-        <!--        <v-col cols="12" md="6">-->
-        <!--          <v-responsive height="75vh">-->
-        <!--            <client-only>-->
-        <!--              <l-map :zoom="6" :center="[53.893009, 27.567444]">-->
-        <!--                <l-tile-layer-->
-        <!--                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"-->
-        <!--                  attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"-->
-        <!--                />-->
-        <!--                <ais-hits :escape-h-t-m-l="false">-->
-        <!--                  <template #default="{ items }">-->
-        <!--                    <template v-for="item in items">-->
-        <!--                      <l-marker v-if="item.geo" :key="item.objectID" :lat-lng="item.geo">-->
-        <!--                        <l-popup>-->
-        <!--                          {{ item.location ? item.location[0] : item.document.location[0] }}-->
-        <!--                        </l-popup>-->
-        <!--                      </l-marker>-->
-        <!--                    </template>-->
-        <!--                  </template>-->
-        <!--                </ais-hits>-->
-        <!--              </l-map>-->
-        <!--            </client-only>-->
-        <!--          </v-responsive>-->
-        <!--        </v-col>-->
       </v-row>
     </v-container>
   </ais-instant-search>
@@ -265,6 +289,7 @@
 <script>
 import {
   // AisHierarchicalMenu,
+  AisConfigure,
   AisHighlight,
   AisHits,
   AisInstantSearch,
@@ -279,6 +304,7 @@ import typesenseInstantsearchAdapter from './typesense'
 export default {
   components: {
     // AisHierarchicalMenu,
+    AisConfigure,
     AisHighlight,
     AisHits,
     AisInstantSearch,
@@ -309,6 +335,7 @@ export default {
         }
       },
       selectedTags: this.$route.query.tags,
+      tagsSearchInput: this.$route.query.tags,
       selectedLoc: this.$route.query.loc,
       locationSearchInput: this.$route.query.loc,
       title: this.$route.query.t
@@ -316,6 +343,9 @@ export default {
   },
 
   computed: {
+    isMobile () {
+      return this.$vuetify.breakpoint.mobile
+    },
 
     searchQuery () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -332,7 +362,7 @@ export default {
     debouncedSearch:
       debounce(function (event, refineFunction, queryParamName) {
         this.performSearch(event, refineFunction, queryParamName)
-      }, 1000
+      }, 500
       ),
 
     performSearch (event, refineFunction, queryParamName) {

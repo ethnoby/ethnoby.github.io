@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <!--
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -7,8 +8,6 @@
       fixed
       app
     >
-      <v-img contain max-height="60" src="https://ethno.by/assets/images/ethno.by-logo-c-tr.png" alt="" />
-
       <v-list>
         <v-list-item
           v-for="(item, i) in favoriteItems"
@@ -19,46 +18,64 @@
           :disabled="item.disabled"
         >
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon :disabled="item.disabled">
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
-          <!--          <v-list-item-action v-if="!currentUser">-->
-          <!--            <v-icon color="grey" title="Залагіньцеся каб пабачыць змест раздзела">-->
-          <!--              mdi-lock-->
-          <!--            </v-icon>-->
-          <!--          </v-list-item-action>-->
         </v-list-item>
-        <!--        <v-divider />
+        <v-divider />
         <v-subheader>
           Усе раздзелы
-        </v-subheader>-->
-        <!--        <v-list-item
+        </v-subheader>
+        <v-list-item
           v-for="(item, i) in allItems"
           :key="20+i"
           :to="item.to"
           router
           exact
+          disabled
         >
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon disabled>
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>-->
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    -->
+
     <v-app-bar
       fixed
       app
       :clipped-left="clipped"
-      :color="$vuetify.breakpoint.mobile ? '#8d1802' : false"
-      :dark="$vuetify.breakpoint.mobile"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <!-- :color="$vuetify.breakpoint.mobile ? '#8d1802' : false"
+      :dark="$vuetify.breakpoint.mobile"
+    > -->
+      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
+
+      <nuxt-link
+        to="/"
+      >
+        <v-img
+          class="mx-0"
+          src="https://ethnoby.org/assets/images/ethnoby-logo-c.png"
+          alt="Ethnoby"
+          max-height="60"
+          max-width="240"
+          contain
+        />
+      </nuxt-link>
+      <v-toolbar-title>
+        {{ title }}
+      </v-toolbar-title>
       <v-spacer />
       <v-btn
         v-if="!$vuetify.breakpoint.mobile"
@@ -142,6 +159,7 @@
     <v-main>
       <Nuxt />
     </v-main>
+    <!--
     <v-navigation-drawer
       v-model="rightDrawer"
       :right="right"
@@ -159,8 +177,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
-    <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app>
+    -->
+    <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" fixed app class="bottom-nav">
       <v-btn @click="goBack">
         <span>Назад</span>
         <v-icon>mdi-arrow-left</v-icon>
@@ -200,17 +218,28 @@
         </v-icon>
       </v-btn>
     </v-bottom-navigation>
+    <app-footer v-if="showFooter" />
   </v-app>
 </template>
 
 <script>
+import AppFooter from '~/components/AppFooter'
 export default {
   name: 'DefaultLayout',
+  components: {
+    AppFooter
+  },
+
   data () {
     return {
-      clipped: false,
-      drawer: true,
+      title: 'Песні',
+      clipped: true,
+      drawer: false,
       fixed: false,
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      showFooter: false,
       favoriteItems: [
         {
           icon: 'mdi-playlist-music',
@@ -258,12 +287,13 @@ export default {
           icon: 'mdi-newspaper-variant-multiple',
           title: 'Прэса',
           to: '/press'
+        },
+        {
+          icon: 'mdi-tshirt-crew',
+          title: 'Прадметы',
+          to: '/press'
         }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Ethnoby'
+      ]
     }
   },
 
@@ -284,3 +314,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.bottom-nav {
+  z-index: 400;
+}
+</style>
