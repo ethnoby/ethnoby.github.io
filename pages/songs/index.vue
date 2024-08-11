@@ -11,11 +11,11 @@ export default {
   components: categoryGrid,
 
   data: () => ({
-    title: 'Актуальныя катэгорыі',
+    // title: 'Актуальныя жанры',
     cards: [
       {
         title: 'Касарскія',
-        src: require('@/assets/img/category/kasarskia.png'),
+        src: require('@/assets/img/category/kasarskia.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
@@ -23,7 +23,7 @@ export default {
       },
       {
         title: 'Жніўныя',
-        src: require('@/assets/img/category/zhniuniya.png'),
+        src: require('@/assets/img/category/zhniuniya.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
@@ -31,35 +31,35 @@ export default {
       },
       {
         title: 'Восеньскія',
-        src: require('@/assets/img/category/vosenskiya.png'),
+        src: require('@/assets/img/category/vosenskiya.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
       },
       {
-        title: 'Радзінныя/хрэсбінныя',
-        src: require('@/assets/img/category/radzini.png'),
+        title: 'Хрэсбінныя',
+        src: require('@/assets/img/category/radzini.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні радзінныя/хрэсбінныя'], t: 'Радзінныя/хрэсбінныя' } }
       },
       {
         title: 'Вяселле',
-        src: require('@/assets/img/category/vyaselle.png'),
+        src: require('@/assets/img/category/vyaselle.jpg'),
         lg: 6,
         toLink: { path: '/search', query: { tags: ['песні вясельныя'], t: 'Вяселле' } },
         height: '400px'
       },
       {
         title: 'Пазаабрадавыя песні',
-        src: require('@/assets/img/category/pazaabrad.png'),
+        src: require('@/assets/img/category/pazaabrad.jpg'),
         lg: 6,
         toLink: { path: '/search', query: { tags: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },
         height: '400px'
       },
       {
         title: 'Жартоўныя',
-        src: require('@/assets/img/category/zhart.png'),
+        src: require('@/assets/img/category/zhart.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні жартоўныя'], t: 'Жартоўныя' } },
@@ -67,7 +67,7 @@ export default {
       },
       {
         title: 'Калына-малына',
-        src: require('@/assets/img/category/kalyna_malyna.png'),
+        src: require('@/assets/img/category/kalyna_malyna.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['playlist_kalyna-malyna'], t: 'Калына-малына' } },
@@ -75,7 +75,7 @@ export default {
       },
       {
         title: 'Лірычныя',
-        src: require('@/assets/img/category/lirica.png'),
+        src: require('@/assets/img/category/lirica.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні лірычныя'], t: 'Лірычныя' } },
@@ -83,7 +83,7 @@ export default {
       },
       {
         title: 'Рэкруцкія',
-        src: require('@/assets/img/category/recrut.png'),
+        src: require('@/assets/img/category/recrut.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні рэкруцкія', 'песні салдацкія'], t: 'Рэкруцкія' } },
@@ -91,11 +91,11 @@ export default {
       }
 
     ],
-    locationTitle: 'Выбраныя лакацыі',
+    locationTitle: 'Абраныя лакацыі',
     locationCards: [
       {
         title: '',
-        src: require('@/assets/img/category/locations/zhitkavitski.png'),
+        src: require('@/assets/img/category/locations/zhitkavitski.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { loc: 'Жыткавіцкі раён', t: 'Жыткавіцкі раён' } },
@@ -103,7 +103,7 @@ export default {
       },
       {
         title: '',
-        src: require('@/assets/img/category/locations/lelchistki.png'),
+        src: require('@/assets/img/category/locations/lelchistki.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { loc: 'Лельчыцкі раён', t: 'Лельчыцкі раён' } },
@@ -111,7 +111,7 @@ export default {
       },
       {
         title: '',
-        src: require('@/assets/img/category/locations/pinski.png'),
+        src: require('@/assets/img/category/locations/pinski.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { loc: 'Пінскі раён', t: 'Пінскі раён' } },
@@ -119,7 +119,7 @@ export default {
       },
       {
         title: '',
-        src: require('@/assets/img/category/locations/smargon.png'),
+        src: require('@/assets/img/category/locations/smargon.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { loc: 'Смаргонскі раён', t: 'Смаргонскі раён' } },
@@ -127,7 +127,7 @@ export default {
       },
       {
         title: '',
-        src: require('@/assets/img/category/locations/garadotski.png'),
+        src: require('@/assets/img/category/locations/garadotski.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { loc: 'Гарадоцкі раён', t: 'Гарадоцкі раён' } },
@@ -135,7 +135,7 @@ export default {
       },
       {
         title: '',
-        src: require('@/assets/img/category/locations/krasnapolski.png'),
+        src: require('@/assets/img/category/locations/krasnapolski.jpg'),
         flex: 6,
         lg: 3,
         toLink: { path: '/search', query: { loc: 'Краснапольскі раён', t: 'Краснапольскі раён' } },
