@@ -106,10 +106,10 @@
           v-html="embedCode"
         />
         <div
-          v-if="item.video_url && $store.state.user"
-          class="mt-4"
+          v-if="item.video_url && videoId && $store.state.user"
+          class="video-player mt-4"
         >
-          <youtube :video-id="videoId" player-width="100%" />
+          <youtube :video-id="videoId" player-width="100%" player-height="100%" />
         </div>
 
       <!-- eslint-enable vue/no-v-html -->
@@ -201,7 +201,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss">
 .cursor-pointer {
   cursor: pointer;
 }
@@ -209,5 +209,18 @@ export default {
 .link-pointer {
   padding: 1px;
   display: inline-block;
+}
+
+.video-player {
+  position: relative;
+  padding-bottom: 56.25%;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 }
 </style>
