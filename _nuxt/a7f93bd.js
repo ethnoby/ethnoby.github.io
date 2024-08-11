@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{820:function(n,e,t){"use strict";t.r(e);var c={fetch:function(n){return(0,n.redirect)("/songs")}},d=t(96),component=Object(d.a)(c,undefined,undefined,!1,null,null,null);e.default=component.exports}}]);
