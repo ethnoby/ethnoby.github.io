@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <SearchBlock
-      collection="songs"
+      collection="songs_test_type"
     />
   </v-container>
 </template>

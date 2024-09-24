@@ -220,7 +220,8 @@
             <template #default="{ items }">
               <div v-for="item in items" :key="item.objectID">
                 <v-expansion-panels>
-                  <v-expansion-panel v-if="item.content" flat accordion class="rounded-0">
+                  <!--                  v-if="item.content"-->
+                  <v-expansion-panel flat accordion class="rounded-0">
                     <v-expansion-panel-header class="pa-1">
                       <v-img
                         v-if="item.thumbnail_url"
