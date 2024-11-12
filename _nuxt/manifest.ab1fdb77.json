@@ -1,7 +1,7 @@
 {
   "name": "Ethnoby.org",
   "short_name": "ethnoby",
-  "description": "## Build Setup",
+  "description": "A web-app catalog of traditional Belarusian songs with texts, mapping of origins and instant text search. It is a subproject of [Ethnoby.org](https://ethnoby.org) - a knowledge base and multimedia library on Belarusian ethnography.",
   "icons": [
     {
       "src": "/_nuxt/icons/icon_64x64.6bd789.png",
