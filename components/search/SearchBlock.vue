@@ -362,7 +362,7 @@ export default {
     debouncedSearch:
       debounce(function (event, refineFunction, queryParamName) {
         this.performSearch(event, refineFunction, queryParamName)
-      }, 500
+      }, 1000
       ),
 
     performSearch (event, refineFunction, queryParamName) {
