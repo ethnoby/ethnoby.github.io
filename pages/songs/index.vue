@@ -88,8 +88,23 @@ export default {
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні рэкруцкія', 'песні салдацкія'], t: 'Рэкруцкія' } },
         tags: ['песні рэкруцкія']
+      },
+      {
+        title: 'Калядныя',
+        src: require('@/assets/img/category/kalyadi.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні калядныя', 'абрады і святы зімовыя', 'каляды', 'калядоўшчыкі'], t: 'Калядныя' } },
+        tags: ['песні калядныя', 'абрады і святы зімовыя', 'каляды', 'калядоўшчыкі']
+      },
+      {
+        title: 'Масленічныя',
+        src: require('@/assets/img/category/maslenka.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['масленіца'], t: 'Масленічныя' } },
+        tags: ['масленіца']
       }
-
     ],
     locationTitle: 'Абраныя лакацыі',
     locationCards: [
