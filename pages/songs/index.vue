@@ -13,28 +13,51 @@ export default {
   data: () => ({
     // title: 'Актуальныя жанры',
     cards: [
+      // {
+      //   title: 'Касарскія',
+      //   src: require('@/assets/img/category/kasarskia.jpg'),
+      //   flex: 6,
+      //   lg: 3,
+      //   toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
+      //
+      // },
+      // {
+      //   title: 'Жніўныя',
+      //   src: require('@/assets/img/category/zhniuniya.jpg'),
+      //   flex: 6,
+      //   lg: 3,
+      //   toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
+      //
+      // },
+      // {
+      //   title: 'Восеньскія',
+      //   src: require('@/assets/img/category/vosenskiya.jpg'),
+      //   flex: 6,
+      //   lg: 3,
+      //   toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
+      // },
       {
-        title: 'Касарскія',
-        src: require('@/assets/img/category/kasarskia.jpg'),
+        title: 'Гуканне Вясны',
+        src: require('@/assets/img/category/gukanne.jpg'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
+        toLink: { path: '/search', query: { tags: ['песні гукальныя', 'гуканне вясны', 'загуканні'], t: 'Гуканне Вясны' } }
 
       },
       {
-        title: 'Жніўныя',
-        src: require('@/assets/img/category/zhniuniya.jpg'),
+        title: 'Вялікдзень',
+        src: require('@/assets/img/category/vyalikden.jpg'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
+        toLink: { path: '/search', query: { tags: ['вялікдзень', 'валачобнікі'], t: 'Вялікдзень' } }
 
       },
       {
-        title: 'Восеньскія',
-        src: require('@/assets/img/category/vosenskiya.jpg'),
+        title: 'Юр\'я',
+        src: require('@/assets/img/category/yurya.jpg'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
+        toLink: { path: '/search', query: { tags: ['Юр\'я'], t: 'Юр\'я' } }
       },
       {
         title: 'Хрэсбінныя',
