@@ -263,7 +263,7 @@
             </template>
           </ais-hits>
 
-          <ais-pagination v-if="nbHits" class="mt-4">
+          <ais-pagination class="mt-2">
             <template
               #default="{
                 nbPages,
