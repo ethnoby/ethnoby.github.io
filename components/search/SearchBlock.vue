@@ -22,6 +22,7 @@
                   <ais-refinement-list
                     attribute="tags"
                     :limit="300"
+                    :searchable="true"
                     :transform-items="excludeCustomPlaylist"
                     :class-names="{
                       'ais-RefinementList-item' : 'text--secondary',
@@ -34,16 +35,21 @@
                         refine
                       }"
                     >
-                      <v-select
+                      <v-autocomplete
                         v-model="selectedTags"
                         :items="items"
-                        label="Жанры"
+
+                        label="Жанры, тэмы"
+                        placeholder="Пачніце набіраць тэкст..."
+                        no-data-text="Такіх тэгаў не знойдзена"
                         multiple
                         chips
                         dense
                         clearable
                         deletable-chips
                         prepend-icon="mdi-playlist-music"
+                        item-text="label"
+                        item-value="label"
                         @change="performSearch($event, refine, 'tags')"
                         @click:clear="toggleAll(items, refine, 'tags')"
                       >
@@ -59,7 +65,7 @@
                             <span>{{ item.value }}</span>
                           </v-chip>
                         </template>
-                      </v-select>
+                      </v-autocomplete>
                     </template>
                   </ais-refinement-list>
                 </v-col>
@@ -87,6 +93,7 @@
                         :items="items"
                         :search-input.sync="locationSearchInput"
                         label="Лакацыі"
+                        placeholder="Пачніце набіраць тэкст..."
                         no-data-text="Лакацый не знойдзена"
                         item-text="label"
                         item-value="label"
@@ -211,7 +218,7 @@
                 icon="mdi-magnify-expand"
                 icon-color="error"
               >
-                Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас ніц няма, спрабуйце іначай
+                Па запыце <strong><q>{{ searchQuery }}</q></strong> у нас нічога няма, спрабуйце іначай
               </v-banner>
             </template>
           </ais-pagination>
@@ -278,6 +285,7 @@
                 :total-visible="7"
                 @input="performPagination(currentPage, refine)"
               />
+              <div v-else />
             </template>
           </ais-pagination>
         </v-col>
