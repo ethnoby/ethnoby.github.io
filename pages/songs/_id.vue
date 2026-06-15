@@ -116,7 +116,7 @@
       </v-col>
 
       <v-col cols="12" sm="6" order="1" order-sm="3">
-        <v-card v-if="item.thumbnail_url" class="mb-4">
+        <v-card v-if="item.thumbnail_url && item.thumbnail_url != 'https://soundcloud.com/images/fb_placeholder.png'" class="mb-4">
           <v-img
             :src="item.thumbnail_url"
             aspect-ratio="1"
