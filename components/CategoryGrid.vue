@@ -22,7 +22,7 @@
             cover
           >
             <v-card-title
-              class="white--text text-subtitle-1 text-md-h5 text-lg-h5"
+              class="word-break white--text text-subtitle-1 text-md-h5 text-lg-h5"
             >
               {{ card.title }}
             </v-card-title>
@@ -67,3 +67,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.word-break {
+  word-break: break-word;
+}
+</style>

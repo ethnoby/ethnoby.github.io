@@ -13,29 +13,51 @@ export default {
   data: () => ({
     // title: 'Актуальныя жанры',
     cards: [
-      // {
-      //   title: 'Касарскія',
-      //   src: require('@/assets/img/category/kasarskia.jpg'),
-      //   flex: 6,
-      //   lg: 3,
-      //   toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
-      //
-      // },
-      // {
-      //   title: 'Жніўныя',
-      //   src: require('@/assets/img/category/zhniuniya.jpg'),
-      //   flex: 6,
-      //   lg: 3,
-      //   toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
-      //
-      // },
-      // {
-      //   title: 'Восеньскія',
-      //   src: require('@/assets/img/category/vosenskiya.jpg'),
-      //   flex: 6,
-      //   lg: 3,
-      //   toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
-      // },
+      {
+        title: 'Купальскія',
+        src: require('@/assets/img/category/kupalle.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні купальскія', 'песні пятроўскія'], t: 'Купальскія і пятроўскія' } }
+      },
+      {
+        title: 'Касарскія',
+        src: require('@/assets/img/category/kasarskia.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні сенакосныя / касарскія / пакосныя'], t: 'Касарскія' } }
+      },
+      {
+        title: 'Жніўныя',
+        src: require('@/assets/img/category/zhniuniya.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні жніўныя', 'жніво'], t: 'Жніўныя' } }
+      },
+      {
+        title: 'Восеньскія',
+        src: require('@/assets/img/category/vosenskiya.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні восеньскія'], t: 'Восеньскія' } }
+      },
+      {
+        title: 'Калядныя',
+        src: require('@/assets/img/category/kalyadi.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні калядныя', 'абрады і святы зімовыя', 'каляды', 'калядоўшчыкі'], t: 'Калядныя' } },
+        tags: ['песні калядныя', 'абрады і святы зімовыя', 'каляды', 'калядоўшчыкі']
+      },
+      /*
+      {
+        title: 'Масленічныя',
+        src: require('@/assets/img/category/maslenka.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['масленіца'], t: 'Масленічныя' } },
+        tags: ['масленіца']
+      },
       {
         title: 'Гуканне Вясны',
         src: require('@/assets/img/category/gukanne.jpg'),
@@ -59,12 +81,13 @@ export default {
         lg: 3,
         toLink: { path: '/search', query: { tags: ['Юр\'я'], t: 'Юр\'я' } }
       },
+      */
       {
-        title: 'Хрэсбінныя',
-        src: require('@/assets/img/category/radzini.jpg'),
-        flex: 6,
-        lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні радзінныя/хрэсбінныя'], t: 'Радзінныя/хрэсбінныя' } }
+        title: 'Пазаабрадавыя',
+        src: require('@/assets/img/category/pazaabrad.jpg'),
+        lg: 6,
+        toLink: { path: '/search', query: { tags: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },
+        height: '400px'
       },
       {
         title: 'Вяселле',
@@ -74,11 +97,11 @@ export default {
         height: '400px'
       },
       {
-        title: 'Пазаабрадавыя',
-        src: require('@/assets/img/category/pazaabrad.jpg'),
-        lg: 6,
-        toLink: { path: '/search', query: { tags: ['песні пазаабрадавыя'], t: 'Пазаабрадавыя песні' } },
-        height: '400px'
+        title: 'Хрэсбінныя',
+        src: require('@/assets/img/category/radzini.jpg'),
+        flex: 6,
+        lg: 3,
+        toLink: { path: '/search', query: { tags: ['песні радзінныя/хрэсбінныя'], t: 'Радзінныя/хрэсбінныя' } }
       },
       {
         title: 'Жартоўныя',
@@ -87,14 +110,6 @@ export default {
         lg: 3,
         toLink: { path: '/search', query: { tags: ['песні жартоўныя'], t: 'Жартоўныя' } },
         tags: ['песні жартоўныя']
-      },
-      {
-        title: 'Калына-малына',
-        src: require('@/assets/img/category/kalyna_malyna.jpg'),
-        flex: 6,
-        lg: 3,
-        toLink: { path: '/search', query: { tags: ['playlist_kalyna-malyna'], t: 'Калына-малына' } },
-        tags: ['playlist_kalyna-malyna']
       },
       {
         title: 'Лірычныя',
@@ -113,20 +128,12 @@ export default {
         tags: ['песні рэкруцкія']
       },
       {
-        title: 'Калядныя',
-        src: require('@/assets/img/category/kalyadi.jpg'),
+        title: 'Калына-малына (плэйліст)',
+        src: require('@/assets/img/category/kalyna_malyna.jpg'),
         flex: 6,
         lg: 3,
-        toLink: { path: '/search', query: { tags: ['песні калядныя', 'абрады і святы зімовыя', 'каляды', 'калядоўшчыкі'], t: 'Калядныя' } },
-        tags: ['песні калядныя', 'абрады і святы зімовыя', 'каляды', 'калядоўшчыкі']
-      },
-      {
-        title: 'Масленічныя',
-        src: require('@/assets/img/category/maslenka.jpg'),
-        flex: 6,
-        lg: 3,
-        toLink: { path: '/search', query: { tags: ['масленіца'], t: 'Масленічныя' } },
-        tags: ['масленіца']
+        toLink: { path: '/search', query: { tags: ['playlist_kalyna-malyna'], t: 'Калына-малына' } },
+        tags: ['playlist_kalyna-malyna']
       }
     ],
     locationTitle: 'Абраныя лакацыі',
